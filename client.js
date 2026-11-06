@@ -232,6 +232,7 @@ window.__ModuleLoader__.load({
       'plaza.refresh': '刷新目录',
       'plaza.loadMore': '再显示 50 个（还剩 {n}）',
       'plaza.fileCount': '共 {n} 个文件',
+      'plaza.shuffle': '换一批',
       'plaza.prevPage': '上一页',
       'plaza.nextPage': '下一页',
       'plaza.loading': '读取中…',
@@ -575,6 +576,7 @@ window.__ModuleLoader__.load({
       'plaza.refresh': 'Refresh',
       'plaza.loadMore': 'Show 50 more ({n} left)',
       'plaza.fileCount': '{n} files',
+      'plaza.shuffle': 'Shuffle',
       'plaza.prevPage': 'Previous page',
       'plaza.nextPage': 'Next page',
       'plaza.loading': 'Loading…',
@@ -921,6 +923,10 @@ window.__ModuleLoader__.load({
       '.pb-modal-add{display:flex;gap:8px;align-items:center}',
       '.pb-modal h3{margin:0 0 6px;font-size:15px;font-weight:600}',
       '.pb-modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}',
+      '.pb-skel-row{display:flex;align-items:center;gap:14px;padding:9px 0}',
+      '.pb-skel-cover{width:44px;height:59px;border-radius:4px;flex:none;height:59px}',
+      '.pb-skel-line{flex:1;height:14px;border-radius:4px}',
+      '.pb-hintrow{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:2px 0 6px}',
       '.pb-pager{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--dsw-alias-label-secondary)}',
       '.pb-pagebtn{width:24px;height:24px;border-radius:6px;border:1px solid var(--pb-line-strong);background:none;',
       'color:var(--dsw-alias-label-secondary);font:inherit;line-height:1;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}',
@@ -3274,7 +3280,15 @@ window.__ModuleLoader__.load({
             ),
           ),
         ),
-        status === 'loading' ? h('p', { className: 'pb-repo-empty' }, t('plaza.loading')) : null,
+        status === 'loading'
+          ? h(
+              'ul',
+              { className: 'pb-list pb-plaza-list' },
+              [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((index) =>
+                h('li', { key: 'sk' + index, className: 'pb-skel-row' }, h('span', { className: 'pb-skel pb-skel-cover' }), h('span', { className: 'pb-skel pb-skel-line' })),
+              ),
+            )
+          : null,
         status === 'error' ? h('p', { className: 'pb-repo-empty' }, t('plaza.filesError') + error) : null,
         status === 'ready' && shown.length === 0 ? h('p', { className: 'pb-repo-empty' }, t('plaza.noFiles')) : null,
         status === 'ready' && shown.length > 0
@@ -3285,7 +3299,15 @@ window.__ModuleLoader__.load({
                 h(
                   'li',
                   { className: 'pb-item', key: file.path },
-                  h('span', { className: 'pb-kind' }, String(file.kind || '').toUpperCase()),
+                  h(
+                    'span',
+                    { className: 'pb-mini-cover' },
+                    h(Cover, {
+                      book: { title: (file.name || file.path || '').replace(/\.[^.]+$/, ''), author: String(file.kind || '').toUpperCase() },
+                      t,
+                      size: 'xs',
+                    }),
+                  ),
                   h(
                     'div',
                     { className: 'pb-item-main' },
@@ -3352,6 +3374,7 @@ window.__ModuleLoader__.load({
         if (repos === null) loadRepos();
       }, [repos, loadRepos]);
 
+      const [shuffleSeed, setShuffleSeed] = useState(0);
       const [browse, setBrowse] = useState([]);
       const [browseStatus, setBrowseStatus] = useState('idle');
       const [browseError, setBrowseError] = useState('');
@@ -3427,7 +3450,8 @@ window.__ModuleLoader__.load({
         }
       };
 
-      const shownBooks = status === 'ready' || status === 'loading' ? results : browse;
+      const catalogue = status === 'ready' || status === 'loading' ? results : browse;
+      const shownBooks = status === 'ready' || status === 'loading' ? catalogue : catalogue.slice(shuffleSeed * 10, shuffleSeed * 10 + 10);
 
       const weread = h(
         'div',
@@ -3451,9 +3475,31 @@ window.__ModuleLoader__.load({
           ),
           h('button', { type: 'button', className: 'pb-btn pb-btn-primary', onClick: search }, t('plaza.search')),
         ),
-        h('p', { className: 'pb-hint' }, t('plaza.wereadHint')),
+        h(
+          'div',
+          { className: 'pb-hintrow' },
+          h('p', { className: 'pb-hint', style: { margin: 0 } }, t('plaza.wereadHint')),
+          h(
+            'button',
+            {
+              type: 'button',
+              className: 'pb-textlink',
+              onClick: () => setShuffleSeed((n) => (n + 1) * 10 >= browse.length ? 0 : n + 1),
+              disabled: status === 'ready' || browse.length <= 10,
+            },
+            t('plaza.shuffle'),
+          ),
+        ),
         error ? h('p', { className: 'pb-repo-empty' }, t('plaza.error') + error) : null,
-        browseStatus === 'loading' ? h('p', { className: 'pb-repo-empty' }, t('plaza.loading')) : null,
+        browseStatus === 'loading'
+          ? h(
+              'ul',
+              { className: 'pb-list pb-plaza-list' },
+              [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((index) =>
+                h('li', { key: 'sk' + index, className: 'pb-skel-row' }, h('span', { className: 'pb-skel pb-skel-cover' }), h('span', { className: 'pb-skel pb-skel-line' })),
+              ),
+            )
+          : null,
         browseStatus === 'error' ? h('p', { className: 'pb-repo-empty' }, t('plaza.error') + browseError) : null,
         status === 'ready' && results.length === 0 ? h('p', { className: 'pb-repo-empty' }, t('plaza.noResult')) : null,
         status === 'loading' ? h('p', { className: 'pb-repo-empty' }, t('plaza.searching')) : null,
@@ -3503,7 +3549,15 @@ window.__ModuleLoader__.load({
           ),
         ),
         repoError ? h('p', { className: 'pb-repo-empty' }, repoError) : null,
-        repoStatus === 'loading' ? h('p', { className: 'pb-repo-empty' }, t('plaza.loading')) : null,
+        repoStatus === 'loading'
+          ? h(
+              'ul',
+              { className: 'pb-list pb-plaza-list' },
+              [0, 1, 2, 3, 4].map((index) =>
+                h('li', { key: 'skr' + index, className: 'pb-skel-row' }, h('span', { className: 'pb-skel pb-skel-cover' }), h('span', { className: 'pb-skel pb-skel-line' })),
+              ),
+            )
+          : null,
         repoStatus === 'ready' && (repos || []).length === 0
           ? h('p', { className: 'pb-repo-empty' }, t('plaza.noRepo'))
           : (repos || [])
