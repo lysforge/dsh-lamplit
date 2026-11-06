@@ -4,6 +4,15 @@
 <meta charset="utf-8">
 <title>灯下 · 页面设计</title>
 <style>
+  .srcbar.flat{display:flex;flex-wrap:wrap;gap:8px}
+  .filerow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:4px 0 10px;border-bottom:1px solid var(--line);margin:2px 0 4px}
+  .filerow-right{display:flex;align-items:center;gap:14px}
+  .pager{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--ink3)}
+  .pager i{width:22px;height:22px;border:1px solid var(--line2);border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-style:normal}
+  .pager b{font-weight:500;color:var(--ink2)}
+  .hintrow{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:2px 0 8px}
+  .c-xs{width:44px;height:59px;flex:none;border-radius:4px}
+
   :root{
     --bg:#141210; --panel:#1b1815; --panel2:#221e1a; --line:rgba(255,255,255,.09);
     --ink:#f4efe6; --ink2:#b9b1a4; --ink3:#7d766c;
@@ -316,7 +325,6 @@ const views = {
     <div class="toolbar">
       <button class="chip" data-on>全部来源 <i>76</i></button>
       <button class="chip"><span class="dot"></span>微信读书 <i>74</i></button>
-      <button class="chip"><span class="dot" style="background:var(--ink3)"></span>番茄 <i>0</i></button>
       <button class="chip">本地 <i>2</i></button>
       <span class="spacer"></span>
       <button class="chip" data-on>在读 <i>3</i></button>
@@ -332,7 +340,7 @@ const views = {
           <div class="meta"><em>${b.a}</em><b>${b.p}%</b></div>
         </div>`).join('')}
     </div>
-    <p class="foot">76 本 · 微信读书 74 · 本地 2 · 番茄 0</p>
+    <p class="foot">76 本 · 微信读书 74 · 本地 2</p>
   `,
 
   empty: () => `
@@ -350,7 +358,7 @@ const views = {
         <button class="btn">连接微信读书</button>
         <button class="btn quiet">去广场看看</button>
       </div>
-      <p class="tiny">也可以去「广场」搜公版书，古登堡与维基文库里的书能直接下载到本地。</p>
+      <p class="tiny">也可以在「广场」里搜索微信读书书城，或浏览你添加的 GitHub 书库。</p>
     </div>
   `,
 
@@ -379,21 +387,9 @@ const views = {
           <div class="mark">GH</div>
           <div class="main">
             <b>GitHub 书库</b>
-            <p>填仓库地址，就能在广场里浏览它里面的 PDF / EPUB / TXT</p>
-            <div style="margin-top:10px">
-              <div class="repo"><code>mozilla/pdf.js</code><span>已添加 · 浏览</span></div>
-              <div class="repo"><code>chinapub/opensource-books</code><span>已添加 · 浏览</span></div>
-              <div style="display:flex;gap:8px;margin-top:10px">
-                <div class="field wide">owner/repo 或 owner/repo#子目录，例如 mozilla/pdf.js</div>
-                <button class="btn">添加</button>
-              </div>
-              <p style="margin:6px 0 0;font-size:12px;color:var(--ink3)">示例：填 <code style="font-family:ui-monospace,Menlo,monospace">mozilla/pdf.js</code> 可以立刻看到 1000+ 个测试 PDF，用来验证通路；真书请填你自己的仓库。</p>
-              <div style="display:flex;gap:8px;margin-top:8px;align-items:center">
-                <div class="field wide">GitHub token（可选，把读取限额从 60 次/时提到 5000）</div>
-                <button class="btn quiet">保存</button>
-              </div>
-            </div>
+            <p>1 个仓库 · 未配 token</p>
           </div>
+          <div class="ctl"><button class="btn">管理</button></div>
         </div>
       </section>
 
@@ -450,7 +446,7 @@ const views = {
       <section class="sect">
         <h2>关于</h2>
         <div class="srow">
-          <div class="lbl"><b>版本 0.1.3</b><span>MIT · github.com/lysforge/lamplit</span></div>
+          <div class="lbl"><b>版本 0.2.0</b><span>MIT · github.com/lysforge/dsh-lamplit</span></div>
           <div class="ctl"><button class="btn">检查更新</button></div>
         </div>
       </section>
@@ -459,78 +455,91 @@ const views = {
 
   plaza: () => {
     const src = new URLSearchParams(location.search).get('src') || 'weread';
-    const tabs = [['weread','微信读书'],['github','GitHub 书库']];
-    const bar = `<div class="srcbar">${tabs.map(([k,l])=>`<button class="chip" ${k===src?'data-on':''}>${l}</button>`).join('')}</div>`;
-    if (src === 'fanqie') {
-      const picks = ['部族荣光','莫若凌霄','高手下山，我有九个无敌师父！','惊鸿','玄幻，我顿悟了混沌体','武碎星河'];
-      return `
-        <h1 style="display:none">广场</h1>
-        ${bar}
-        <div class="srch">
-          <div class="field"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="6"/><path d="M15.6 15.6 20 20"/></svg>粘贴番茄书籍链接，例如 fanqienovel.com/page/7143…</div>
-          <button class="btn primary">添加</button>
-        </div>
-        <p class="hint">番茄没有公开的搜索接口（带滑块验证），所以这里不搜索：贴一条链接就能加，目录会同步过来。</p>
-        <div class="sec"><h2>番茄精选</h2><a class="link">换一批 ↻</a></div>
-        <div class="grid" style="grid-template-columns:repeat(6,1fr);gap:24px 20px">
-          ${picks.map((t,i)=>`
-            <div class="book">
-              ${cover(['linear-gradient(150deg,#7c3a3a,#3a1a1a)','linear-gradient(150deg,#2f4a5e,#16232c)','linear-gradient(150deg,#5a4a2a,#2a2112)','linear-gradient(150deg,#4a3a5e,#221a2c)','linear-gradient(150deg,#2e5a4a,#152a22)','linear-gradient(150deg,#5e3a2a,#2c1a12)'][i],'c-grid','番茄',t)}
-              <h4>${t}</h4>
-              <div class="meta"><em>番茄小说</em><b>加入</b></div>
-            </div>`).join('')}
-        </div>
-        <p class="hint" style="margin-top:26px">番茄的公开正文做了字体混淆，多数章节只能读目录；导入到本地之后能看的部分我会如实标出来。</p>
-      `;
-    }
-    if (src === 'github') {
+    const bar = `<div class="srcbar flat">
+      <button class="chip" ${src==='weread'?'data-on':''}>微信读书</button>
+      <button class="chip" ${src==='github'?'data-on':''}>GitHub · Dujltqzv / Some-Many-Books</button>
+      <button class="chip" ${src==='github2'?'data-on':''}>GitHub · mozilla / pdf.js</button>
+    </div>`;
+
+    if (src === 'github' || src === 'github2') {
+      const files = src === 'github'
+        ? [
+            ['PDF-file/algorithms/算法（第4版）.pdf','85.9 MB'],
+            ['PDF-file/algorithms/算法导论（第2版）.pdf','48.5 MB'],
+            ['PDF-file/algorithms/数据结构与算法分析：C语言描述（第2版）.pdf','38.9 MB'],
+            ['PDF-file/algorithms/数据结构与算法分析：Java语言描述.pdf','36.9 MB'],
+            ['PDF-file/algorithms/剑指offer名企面试官精讲典型编程题.pdf','21.5 MB'],
+            ['PDF-file/computer/深入理解计算机系统（第3版）.pdf','62.1 MB'],
+            ['PDF-file/computer/计算机网络：自顶向下方法.pdf','44.8 MB'],
+            ['PDF-file/computer/操作系统导论.pdf','18.2 MB'],
+            ['PDF-file/computer/数据库系统概念.pdf','39.4 MB'],
+            ['PDF-file/computer/编译原理.pdf','51.0 MB']
+          ]
+        : [
+            ['examples/learning/helloworld.pdf','678 B'],
+            ['test/pdfs/160F-2019.pdf','320 KB'],
+            ['web/compressed.tracemonkey-pldi-09.pdf','993 KB'],
+            ['test/pdfs/issue6721_reduced.pdf','1.2 MB'],
+            ['test/pdfs/alphatrans.pdf','48 KB'],
+            ['test/pdfs/annotation-tx.pdf','96 KB'],
+            ['test/pdfs/background-clip-text.pdf','212 KB'],
+            ['test/pdfs/basicapi.pdf','12 KB'],
+            ['test/pdfs/bug1020226.pdf','184 KB'],
+            ['test/pdfs/cmykjpeg.pdf','1.6 MB']
+          ];
       return `
         <h1 style="display:none">广场</h1>
         ${bar}
         <div class="srch">
           <div class="field"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="6"/><path d="M15.6 15.6 20 20"/></svg>在已添加的仓库里搜文件名</div>
-          <button class="btn primary">搜索</button>
-          <button class="btn">添加仓库</button>
         </div>
-        <p class="hint">GitHub 书库只做通路：你填仓库，我列它里面的 PDF / EPUB / TXT，点一下下载到本地书架。内容与授权由你确认。</p>
-        <div class="sec"><h2>mozilla / pdf.js</h2><a class="link">刷新目录</a></div>
+        <div class="filerow">
+          <span class="tiny">共 ${src === 'github' ? 110 : 29} 个文件</span>
+          <span class="filerow-right"><a class="link">刷新目录</a><span class="pager"><i>‹</i><b>1 / ${src === 'github' ? 11 : 3}</b><i>›</i></span></span>
+        </div>
         <ul class="list">
-          ${[
-            ['examples/learning/helloworld.pdf','678 B','PDF'],
-            ['test/pdfs/160F-2019.pdf','320 KB','PDF'],
-            ['web/compressed.tracemonkey-pldi-09.pdf','993 KB','PDF']
-          ].map(([f,size,kind])=>`
+          ${files.map(([f,size],i)=>`
             <li class="item">
-              <div class="mark" style="width:32px;height:32px;border-radius:6px;background:var(--panel2);display:grid;place-items:center;font-size:10px;color:var(--ink3)">${kind}</div>
-              <div class="item-main"><p class="item-title">${f}</p><p class="item-sub">${size} · 点下载会转成可读的书籍</p></div>
+              ${cover(['linear-gradient(150deg,#6b6152,#2b2823)','linear-gradient(150deg,#59626b,#22262b)','linear-gradient(150deg,#6b5a52,#2b2320)','linear-gradient(150deg,#526b5f,#202b26)','linear-gradient(150deg,#5a526b,#23202b)'][i%5],'c-xs','PDF','')}
+              <div class="item-main"><p class="item-title">${f.split('/').pop()}</p><p class="item-sub">${f} · ${size}</p></div>
               <button class="btn">下载</button>
             </li>`).join('')}
         </ul>
-        <p class="hint" style="margin-top:24px">支持子目录：填 <code style="font-family:ui-monospace,Menlo,monospace">owner/repo#books</code> 就只列 books/ 下面的文件。私有仓库需要在设置里填 token。</p>
       `;
     }
+
+    const picks = [
+      ['不要灵魂不朽，只要走遍地球','猴面包的树','精品小说 · 纪实小说'],
+      ['致流浪的母亲：坐上火车去新疆','李娟','文学 · 散文杂著'],
+      ['马驹桥的时间：清华博士的日结手记','丛瑞安','文学 · 纪实文学'],
+      ['太阳的阴影','[波] 雷沙德·卡普希钦斯基','社会文化 · 文化'],
+      ['心理咨询师沈秋色：她所见过的婚姻','鱼翘','精品小说 · 女性小说'],
+      ['中国哲学简史','冯友兰','哲学 · 中国哲学'],
+      ['置身事内','兰小欢','经济 · 中国经济'],
+      ['我们仨','杨绛','文学 · 散文'],
+      ['人类简史','[以] 尤瓦尔·赫拉利','历史 · 世界史'],
+      ['被讨厌的勇气','[日] 岸见一郎','心理学 · 通俗读物']
+    ];
     return `
-    <h1 style="display:none">广场</h1>
-    ${bar}
-    <div class="srch">
-      <div class="field"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="6"/><path d="M15.6 15.6 20 20"/></svg>搜书名、作者、关键词</div>
-      <button class="btn primary">搜索</button>
-    </div>
-    <p class="hint">微信读书书城 · 用你登录的账号搜索，搜到的加进书架就能读</p>
-    <ul class="list">
-      ${[
-        {t:'乌合之众：群体心理研究', a:'[法] 古斯塔夫·勒庞', s:'社会学 · 12.4 万字', go:'加入书架'},
-        {t:'社会性动物（第 12 版）', a:'[美] 埃利奥特·阿伦森', s:'心理学 · 38.1 万字', go:'加入书架'},
-        {t:'狂热分子', a:'[美] 埃里克·霍弗', s:'社会学 · 9.8 万字', go:'加入书架'}
-      ].map((b,i)=>`
-        <li class="item">
-          ${cover(BOOKS[i].c,'c-sm','',b.t)}
-          <div class="item-main"><p class="item-title">${b.t}</p><p class="item-sub">${b.a} · ${b.s}</p></div>
-          <button class="btn">${b.go}</button>
-        </li>`).join('')}
-    </ul>
-    <p class="hint" style="margin-top:28px">换个书源看看：古登堡与维基文库是公版书，能直接下载到本地；GitHub 书库填仓库地址即可浏览其中的 PDF / EPUB。</p>
-  `;
+      <h1 style="display:none">广场</h1>
+      ${bar}
+      <div class="srch">
+        <div class="field"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="6"/><path d="M15.6 15.6 20 20"/></svg>搜书名、作者，例如 基督山伯爵</div>
+        <button class="btn primary">搜索</button>
+      </div>
+      <div class="hintrow">
+        <p class="hint" style="margin:0">搜微信读书书城；搜到的点「加入书架」就能读。没搜的时候下面是分类页里的书。</p>
+        <a class="link">换一批</a>
+      </div>
+      <ul class="list">
+        ${picks.map(([t,a,c],i)=>`
+          <li class="item">
+            ${cover(['linear-gradient(150deg,#6b5f4a,#2b2419)','linear-gradient(150deg,#4a5f6b,#19242b)','linear-gradient(150deg,#5f4a5f,#241924)','linear-gradient(150deg,#4a6b57,#192b21)','linear-gradient(150deg,#6b4a4a,#2b1919)'][i%5],'c-xs','',t)}
+            <div class="item-main"><p class="item-title">${t}</p><p class="item-sub">${a} · ${c}</p></div>
+            <button class="btn">加入书架</button>
+          </li>`).join('')}
+      </ul>
+    `;
   }
 };
 

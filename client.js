@@ -3314,7 +3314,10 @@ window.__ModuleLoader__.load({
                     'span',
                     { className: 'pb-mini-cover' },
                     h(Cover, {
-                      book: { title: (file.name || file.path || '').replace(/\.[^.]+$/, ''), author: String(file.kind || '').toUpperCase() },
+                      book: {
+                        title: String(file.name || file.path || '').replace(/\.[^.]+$/, '').slice(0, 2),
+                        author: String(file.kind || '').toUpperCase(),
+                      },
                       t,
                       size: 'xs',
                     }),
