@@ -923,7 +923,8 @@ window.__ModuleLoader__.load({
       '.pb-modal-add{display:flex;gap:8px;align-items:center}',
       '.pb-modal h3{margin:0 0 6px;font-size:15px;font-weight:600}',
       '.pb-modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}',
-      '.pb-skel-row{display:flex;align-items:center;gap:14px;padding:9px 0}',
+      '.pb-skel-row{display:flex;align-items:center;gap:14px;padding:9px 0;animation:pb-breathe 1.4s ease-in-out infinite}',
+      '@keyframes pb-breathe{0%,100%{opacity:.55}50%{opacity:1}}',
       '.pb-skel-cover{width:44px;height:59px;border-radius:4px;flex:none;height:59px}',
       '.pb-skel-line{flex:1;height:14px;border-radius:4px}',
       '.pb-hintrow{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:2px 0 6px}',
@@ -3224,11 +3225,21 @@ window.__ModuleLoader__.load({
       const PAGE_SIZE = 10;
 
       const load = useCallback(async () => {
+        const key = repo.spec + '#' + (repo.path || '');
+        const hit = plazaCache.files.get(key);
+        if (hit && Date.now() - hit.at < PLAZA_TTL) {
+          setFiles(hit.files);
+          setPage(1);
+          setStatus('ready');
+          return;
+        }
         setStatus('loading');
         setError('');
         try {
           const res = await call('/discover/github/files?repo=' + encodeURIComponent(repo.spec) + '&path=' + encodeURIComponent(repo.path || ''));
-          setFiles(Array.isArray(res.files) ? res.files : []);
+          const list = Array.isArray(res.files) ? res.files : [];
+          plazaCache.files.set(key, { at: Date.now(), files: list });
+          setFiles(list);
           setPage(1);
           setStatus('ready');
         } catch (err) {
@@ -3327,6 +3338,10 @@ window.__ModuleLoader__.load({
       );
     }
 
+    /** 广场的会话级缓存：切走再回来是瞬间的，过期才回源。 */
+    const plazaCache = { browse: null, browseAt: 0, repos: null, reposAt: 0, files: new Map() };
+    const PLAZA_TTL = 5 * 60 * 1000;
+
     function activeRepoLabel(repos, spec) {
       const repo = (repos || []).find((item) => item.spec === spec) || (repos || [])[0];
       if (!repo) return 'GitHub';
@@ -3359,8 +3374,13 @@ window.__ModuleLoader__.load({
         setRepoStatus('loading');
         setRepoError('');
         try {
-          const res = await call('/discover/github/repos');
+          const res =
+            plazaCache.repos && Date.now() - plazaCache.reposAt < PLAZA_TTL
+              ? { repos: plazaCache.repos }
+              : await call('/discover/github/repos');
           const list = Array.isArray(res.repos) ? res.repos : [];
+          plazaCache.repos = list;
+          plazaCache.reposAt = Date.now();
           setRepos(list);
           setActiveRepo((current) => current || (list[0] ? list[0].spec : ''));
           setRepoStatus('ready');
@@ -3380,17 +3400,25 @@ window.__ModuleLoader__.load({
       const [browseError, setBrowseError] = useState('');
 
       const loadBrowse = useCallback(async () => {
-        setBrowseStatus('loading');
+        if (plazaCache.browse && Date.now() - plazaCache.browseAt < PLAZA_TTL) {
+          setBrowse(plazaCache.browse);
+          setBrowseStatus('ready');
+          return;
+        }
+        setBrowseStatus(browse.length > 0 ? 'ready' : 'loading');
         setBrowseError('');
         try {
           const res = await call('/provider/weread/browse');
-          setBrowse(Array.isArray(res.books) ? res.books : []);
+          const books = Array.isArray(res.books) ? res.books : [];
+          plazaCache.browse = books;
+          plazaCache.browseAt = Date.now();
+          setBrowse(books);
           setBrowseStatus('ready');
         } catch (err) {
           setBrowseError(errorText(err));
           setBrowseStatus('error');
         }
-      }, []);
+      }, [browse.length]);
 
       useEffect(() => {
         if (source === 'weread' && browseStatus === 'idle') loadBrowse();
