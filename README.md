@@ -4,8 +4,9 @@
 
 **One quiet shelf for WeChat Reading, Fanqie Novel and your own books — inside [DeepSeek Harness](https://github.com/deepseek-ai).**
 
-![license](https://img.shields.io/badge/license-MIT-f2c987)
-![npm](https://img.shields.io/npm/v/dsh-lamplit?color=c9603c)
+[![npm](https://img.shields.io/npm/v/dsh-lamplit?color=c9603c)](https://www.npmjs.com/package/dsh-lamplit)
+[![test](https://github.com/lysforge/lamplit/actions/workflows/test.yml/badge.svg)](https://github.com/lysforge/lamplit/actions/workflows/test.yml)
+[![license](https://img.shields.io/badge/license-MIT-f2c987)](LICENSE)
 ![node](https://img.shields.io/badge/node-%3E%3D22-5b8f4e)
 
 灯下是 DeepSeek Harness 的一个读书插件：一个书架、一个沉浸式阅读器，把你散在三个地方的阅读收进同一盏灯下。
@@ -61,10 +62,16 @@ Harness 里已经有聊天、有终端、有文件系统。读书这事缺的从
 插件（Plugins）→ 安装 → 输入 dsh-lamplit
 ```
 
-或者命令行：
+或者命令行（npm 上是 `dsh-lamplit@0.1.1`，带 SLSA provenance）：
 
 ```bash
 dsh plugin --profile desktop add dsh-lamplit
+```
+
+**装不上 npm 时用 Release 附件**
+
+```bash
+dsh plugin --profile <profile> add https://github.com/lysforge/lamplit/releases/download/v0.1.1/dsh-lamplit-0.1.1.tgz
 ```
 
 **从源码装**
