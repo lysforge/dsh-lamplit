@@ -5,7 +5,7 @@
 **One quiet shelf for WeChat Reading, GitHub book repos and your own files — inside [DeepSeek Harness](https://github.com/deepseek-ai).**
 
 [![npm](https://img.shields.io/npm/v/dsh-lamplit?color=c9603c)](https://www.npmjs.com/package/dsh-lamplit)
-[![test](https://github.com/lysforge/lamplit/actions/workflows/test.yml/badge.svg)](https://github.com/lysforge/lamplit/actions/workflows/test.yml)
+[![test](https://github.com/lysforge/dsh-lamplit/actions/workflows/test.yml/badge.svg)](https://github.com/lysforge/dsh-lamplit/actions/workflows/test.yml)
 [![license](https://img.shields.io/badge/license-MIT-f2c987)](LICENSE)
 ![node](https://img.shields.io/badge/node-%3E%3D22-5b8f4e)
 
@@ -94,13 +94,13 @@ dsh plugin --profile <profile> add dsh-lamplit
 **装不上 npm 时用 Release 附件**
 
 ```bash
-dsh plugin --profile <profile> add https://github.com/lysforge/lamplit/releases/download/v0.1.3/dsh-lamplit-0.1.3.tgz
+dsh plugin --profile <profile> add https://github.com/lysforge/dsh-lamplit/releases/download/v0.1.3/dsh-lamplit-0.1.3.tgz
 ```
 
 **从源码装**（开发用）
 
 ```bash
-git clone https://github.com/lysforge/lamplit.git
+git clone https://github.com/lysforge/dsh-lamplit.git
 cd lamplit
 node --test test/*.test.mjs      # 32 项
 ```
@@ -198,4 +198,4 @@ MIT © lysforge
 dsh plugin --profile <profile> add dsh-lamplit
 ```
 
-MIT licensed. Built in the open at [lysforge/lamplit](https://github.com/lysforge/lamplit).
+MIT licensed. Built in the open at [lysforge/dsh-lamplit](https://github.com/lysforge/dsh-lamplit).

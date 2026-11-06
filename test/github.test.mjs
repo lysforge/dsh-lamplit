@@ -7,7 +7,7 @@ import { isLfsPointer, listFiles, parseSpec, specOf } from '../lib/sources/githu
 test('spec 解析：owner/repo、#子目录、github URL 都能吃', () => {
   assert.deepEqual(parseSpec('mozilla/pdf.js'), { owner: 'mozilla', repo: 'pdf.js', path: '' })
   assert.deepEqual(parseSpec('owner/repo#books/2020'), { owner: 'owner', repo: 'repo', path: 'books/2020' })
-  assert.deepEqual(parseSpec('https://github.com/lysforge/lamplit.git'), { owner: 'lysforge', repo: 'lamplit', path: '' })
+  assert.deepEqual(parseSpec('https://github.com/lysforge/dsh-lamplit.git'), { owner: 'lysforge', repo: 'dsh-lamplit', path: '' })
   assert.throws(() => parseSpec('nope'), /owner\/repo/)
   assert.equal(specOf({ owner: 'a', repo: 'b', path: 'c' }), 'a/b#c')
 })

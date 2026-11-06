@@ -21,13 +21,13 @@
     "阅读器",
     "书架"
   ],
-  "homepage": "https://github.com/lysforge/lamplit#readme",
+  "homepage": "https://github.com/lysforge/dsh-lamplit#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lysforge/lamplit.git"
+    "url": "git+https://github.com/lysforge/dsh-lamplit.git"
   },
   "bugs": {
-    "url": "https://github.com/lysforge/lamplit/issues"
+    "url": "https://github.com/lysforge/dsh-lamplit/issues"
   },
   "type": "module",
   "engines": {

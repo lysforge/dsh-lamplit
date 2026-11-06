@@ -10,7 +10,7 @@
 set -euo pipefail
 
 OWNER=lysforge
-REPO=lamplit
+REPO=dsh-lamplit
 UPSTREAM=awesome-dsh-plugin/awesome-dsh-plugin
 FILE="data/plugins/${OWNER}__${REPO}.yml"
 SRC="$(cd "$(dirname "$0")/.." && pwd)/market/${OWNER}__${REPO}.yml"
