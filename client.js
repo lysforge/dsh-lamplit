@@ -247,7 +247,10 @@ window.__ModuleLoader__.load({
       'settings.github': 'GitHub 书库',
       'settings.githubDesc': '填仓库地址，就能在广场里浏览它里面的 PDF / EPUB / TXT。',
       'settings.removeRepo': '移除',
-      'settings.addRepo': '添加',
+      'settings.addRepo': '添加仓库',
+      'settings.addRepoTitle': '添加 GitHub 仓库',
+      'settings.addRepoHint': '写 owner/repo，或 owner/repo#子目录。仓库必须是公开的，私有仓库要填 token。',
+      'settings.cancel': '取消',
       'settings.tokenSet': 'GitHub token 已保存（留空则不改）',
       'settings.tokenPlaceholder': 'GitHub token（可选，把读取限额从 60 次/时提到 5000）',
       'settings.saveToken': '保存',
@@ -577,7 +580,10 @@ window.__ModuleLoader__.load({
       'settings.github': 'GitHub library',
       'settings.githubDesc': 'Add a repo and browse its PDF / EPUB / TXT from the plaza.',
       'settings.removeRepo': 'Remove',
-      'settings.addRepo': 'Add',
+      'settings.addRepo': 'Add repo',
+      'settings.addRepoTitle': 'Add a GitHub repo',
+      'settings.addRepoHint': 'Use owner/repo, or owner/repo#subfolder. Public repos work out of the box; private ones need a token.',
+      'settings.cancel': 'Cancel',
       'settings.tokenSet': 'Token saved (leave blank to keep it)',
       'settings.tokenPlaceholder': 'GitHub token (optional, 60 → 5000 requests/hour)',
       'settings.saveToken': 'Save',
@@ -884,6 +890,13 @@ window.__ModuleLoader__.load({
 
       /* ---------- 广场 ---------- */
       '.pb-srcbar{display:flex;gap:4px;margin:0 0 16px}',
+      '.pb-modal{position:fixed;left:50%;top:22%;transform:translateX(-50%);width:min(480px,calc(100vw - 48px));',
+      'background:var(--dsw-alias-bg-layer-1);border:1px solid var(--pb-line-strong);border-radius:12px;padding:20px;',
+      'box-shadow:var(--dsw-elevation-panel);z-index:40}',
+      '.pb-modal h3{margin:0 0 6px;font-size:15px;font-weight:600}',
+      '.pb-modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}',
+      '.pb-filerow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:4px 0 10px;border-bottom:1px solid var(--pb-line);margin-bottom:6px}',
+      '.pb-filerow-actions{display:flex;gap:14px;align-items:center}',
       '.pb-srcbtn{height:34px;padding:0 12px;border-radius:8px;border:1px solid var(--pb-line-strong);background:var(--panel2);',
       'color:var(--dsw-alias-label-primary);font:inherit;font-size:13px;display:inline-flex;align-items:center;gap:8px;cursor:pointer;max-width:420px}',
       '.pb-srcbtn:hover{background:var(--dsw-alias-interactive-bg-hover)}',
@@ -3213,20 +3226,20 @@ window.__ModuleLoader__.load({
         { className: 'pb-repo-block' },
         h(
           'div',
-          { className: 'pb-sec' },
-          h('p', { className: 'pb-hint', style: { margin: 0 } }, t('plaza.fileCount', { n: fmtNumber(files.length) })),
-          h('button', { type: 'button', className: 'pb-link', onClick: load }, t('plaza.refresh')),
+          { className: 'pb-filerow' },
+          h('span', { className: 'pb-hint', style: { margin: 0 } }, t('plaza.fileCount', { n: fmtNumber(files.length) })),
+          h(
+            'div',
+            { className: 'pb-filerow-actions' },
+            more > 0
+              ? h('button', { type: 'button', className: 'pb-textlink', onClick: () => setVisible((n) => n + 50) }, t('plaza.loadMore', { n: fmtNumber(more) }))
+              : null,
+            h('button', { type: 'button', className: 'pb-textlink', onClick: load }, t('plaza.refresh')),
+          ),
         ),
         status === 'loading' ? h('p', { className: 'pb-repo-empty' }, t('plaza.loading')) : null,
         status === 'error' ? h('p', { className: 'pb-repo-empty' }, t('plaza.filesError') + error) : null,
         status === 'ready' && shown.length === 0 ? h('p', { className: 'pb-repo-empty' }, t('plaza.noFiles')) : null,
-        more > 0
-          ? h(
-              'button',
-              { type: 'button', className: 'pb-btn pb-btn-quiet', style: { marginTop: 8 }, onClick: () => setVisible((n) => n + 50) },
-              t('plaza.loadMore', { n: fmtNumber(more) }),
-            )
-          : null,
         status === 'ready' && shown.length > 0
           ? h(
               'ul',
@@ -3280,6 +3293,7 @@ window.__ModuleLoader__.load({
       const [filter, setFilter] = useState('');
       const [addOpen, setAddOpen] = useState(false);
       const [spec, setSpec] = useState('');
+      const [repoModal, setRepoModal] = useState(false);
       const [adding, setAdding] = useState(false);
 
       const loadRepos = useCallback(async () => {
@@ -3368,6 +3382,7 @@ window.__ModuleLoader__.load({
           setRepos(Array.isArray(res.repos) ? res.repos : []);
           setSpec('');
           setAddOpen(false);
+          setRepoModal(false);
         } catch (err) {
           setRepoError(errorText(err));
         } finally {
@@ -3449,30 +3464,7 @@ window.__ModuleLoader__.load({
               onChange: (event) => setFilter(event.target.value),
             }),
           ),
-          h('button', { type: 'button', className: 'pb-btn', onClick: () => setAddOpen((open) => !open) }, t('plaza.addRepo')),
         ),
-        addOpen
-          ? h(
-              'div',
-              { className: 'pb-srch' },
-              h(
-                'label',
-                { className: 'pb-field' },
-                h(IconFolder, { size: 14 }),
-                h('input', {
-                  value: spec,
-                  placeholder: t('plaza.repoPlaceholder'),
-                  'aria-label': t('plaza.repoPlaceholder'),
-                  onChange: (event) => setSpec(event.target.value),
-                  onKeyDown: (event) => {
-                    if (event.key === 'Enter') addRepo();
-                  },
-                }),
-              ),
-              h('button', { type: 'button', className: 'pb-btn pb-btn-primary', onClick: addRepo, disabled: adding }, adding ? t('plaza.adding') : t('plaza.add')),
-            )
-          : null,
-        h('p', { className: 'pb-hint' }, t('plaza.githubHint')),
         repoError ? h('p', { className: 'pb-repo-empty' }, repoError) : null,
         repoStatus === 'loading' ? h('p', { className: 'pb-repo-empty' }, t('plaza.loading')) : null,
         repoStatus === 'ready' && (repos || []).length === 0
@@ -3533,18 +3525,6 @@ window.__ModuleLoader__.load({
                     'GitHub · ' + repo.owner + ' / ' + repo.repo,
                   ),
                 ),
-                h(
-                  'button',
-                  {
-                    type: 'button',
-                    className: 'pb-srcchip pb-srcchip-add',
-                    onClick: () => {
-                      setSource('github');
-                      setAddOpen(true);
-                    },
-                  },
-                  '＋ ' + t('plaza.addRepo'),
-                ),
               ),
               source === 'weread' ? weread : github,
             ),
@@ -3565,6 +3545,7 @@ window.__ModuleLoader__.load({
       const [repos, setRepos] = useState(null);
       const [repoError, setRepoError] = useState('');
       const [spec, setSpec] = useState('');
+      const [repoModal, setRepoModal] = useState(false);
       const [adding, setAdding] = useState(false);
       const [token, setToken] = useState('');
       const [hasToken, setHasToken] = useState(false);
@@ -3599,6 +3580,7 @@ window.__ModuleLoader__.load({
           const res = await post('/discover/github/repos', { spec: value });
           setRepos(Array.isArray(res.repos) ? res.repos : []);
           setSpec('');
+          setRepoModal(false);
         } catch (err) {
           setRepoError(errorText(err));
         } finally {
@@ -3731,20 +3713,44 @@ window.__ModuleLoader__.load({
                     ),
                     h(
                       'div',
-                      { style: { display: 'flex', gap: 8, marginTop: 10, flexWrap: 'wrap' } },
-                      h('input', {
-                        className: 'pb-input',
-                        style: { minWidth: 240, flex: 1 },
-                        value: spec,
-                        placeholder: t('plaza.repoPlaceholder'),
-                        'aria-label': t('plaza.repoPlaceholder'),
-                        onChange: (event) => setSpec(event.target.value),
-                        onKeyDown: (event) => {
-                          if (event.key === 'Enter') addRepo();
-                        },
-                      }),
-                      h('button', { type: 'button', className: 'pb-btn', onClick: addRepo, disabled: adding }, adding ? t('plaza.adding') : t('settings.addRepo')),
+                      { style: { marginTop: 10 } },
+                      h('button', { type: 'button', className: 'pb-btn', onClick: () => setRepoModal(true) }, '＋ ' + t('settings.addRepo')),
                     ),
+                    repoModal
+                      ? h(
+                          'div',
+                          {
+                            className: 'pb-scrim',
+                            onClick: () => (adding ? null : setRepoModal(false)),
+                          },
+                          h(
+                            'div',
+                            { className: 'pb-modal', onClick: (event) => event.stopPropagation(), role: 'dialog', 'aria-modal': 'true' },
+                            h('h3', null, t('settings.addRepoTitle')),
+                            h('p', { className: 'pb-hint' }, t('settings.addRepoHint')),
+                            h('input', {
+                              className: 'pb-input',
+                              style: { width: '100%', marginTop: 4 },
+                              value: spec,
+                              autoFocus: true,
+                              placeholder: t('plaza.repoPlaceholder'),
+                              'aria-label': t('plaza.repoPlaceholder'),
+                              onChange: (event) => setSpec(event.target.value),
+                              onKeyDown: (event) => {
+                                if (event.key === 'Enter') addRepo();
+                                if (event.key === 'Escape') setRepoModal(false);
+                              },
+                            }),
+                            repoError ? h('p', { className: 'pb-note-msg' }, repoError) : null,
+                            h(
+                              'div',
+                              { className: 'pb-modal-actions' },
+                              h('button', { type: 'button', className: 'pb-btn pb-btn-quiet', onClick: () => setRepoModal(false), disabled: adding }, t('settings.cancel')),
+                              h('button', { type: 'button', className: 'pb-btn pb-btn-primary', onClick: addRepo, disabled: adding }, adding ? t('plaza.adding') : t('settings.addRepo')),
+                            ),
+                          ),
+                        )
+                      : null,
                     h(
                       'div',
                       { style: { display: 'flex', gap: 8, marginTop: 8, flexWrap: 'wrap', alignItems: 'center' } },
