@@ -956,7 +956,7 @@ window.__ModuleLoader__.load({
       '.pb-item-sub{margin:0;font-size:12px;color:var(--pb-mute);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}',
       '.pb-kind{width:32px;height:32px;border-radius:6px;background:var(--pb-panel2);display:grid;place-items:center;',
       'font-size:10px;color:var(--pb-mute);flex:none;letter-spacing:.02em}',
-      '.pb-plaza-list .pb-mini-cover{width:44px;height:59px;flex:none;border-radius:4px;overflow:hidden;position:relative;box-shadow:var(--pb-cover-shadow)}',
+      '.pb-mini-cover{display:block;width:44px;height:59px;flex:none;border-radius:4px;overflow:hidden;position:relative;box-shadow:var(--pb-cover-shadow)}',
       '.pb-repo-block{margin:0 0 26px}',
       '.pb-plaza-start{margin-top:6px}',
       '.pb-chips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 22px}',
