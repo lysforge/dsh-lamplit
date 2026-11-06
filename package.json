@@ -1,0 +1,70 @@
+{
+  "name": "dsh-lamplit",
+  "version": "0.1.0",
+  "description": "灯下 Lamplit —— 把微信读书、番茄小说和你自己的 PDF / EPUB 收进同一个书架，用沉浸式阅读器慢慢读。",
+  "license": "MIT",
+  "author": "lysforge",
+  "keywords": [
+    "dsh-plugin",
+    "dsh",
+    "deepseek-harness",
+    "reader",
+    "ebook",
+    "weread",
+    "wechat-reading",
+    "fanqie",
+    "epub",
+    "pdf",
+    "markdown",
+    "微信读书",
+    "番茄小说",
+    "阅读器",
+    "书架"
+  ],
+  "homepage": "https://github.com/lysforge/lamplit#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lysforge/lamplit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lysforge/lamplit/issues"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "lib",
+    "locale/*.json",
+    "icon.svg",
+    "LICENSE",
+    "NOTICE.md",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.mjs"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true
+    }
+  }
+}

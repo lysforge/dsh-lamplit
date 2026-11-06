@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="灯下 Lamplit">
+  <defs>
+    <linearGradient id="glow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f2c987" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#f2c987" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="64" height="64" rx="14" fill="#16120f"/>
+  <path d="M32 10v7" stroke="#e8c07a" stroke-width="2" stroke-linecap="round"/>
+  <path d="M21 17h22l-4 8H25z" fill="#e8c07a"/>
+  <path d="M26 27h12l7 17H19z" fill="url(#glow)"/>
+  <path d="M19 45c4.4-2.4 8.8-2.4 13 0 4.2-2.4 8.6-2.4 13 0v7c-4.4-2.4-8.8-2.4-13 0-4.2-2.4-8.6-2.4-13 0z" fill="#f4e8d2"/>
+  <path d="M32 45v7" stroke="#c9603c" stroke-width="1.6" stroke-linecap="round"/>
+</svg>

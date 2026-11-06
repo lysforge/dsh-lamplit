@@ -1,0 +1,4 @@
+- insert:
+    - id: lamplit
+      name: 'dsh-lamplit'
+      config: {}

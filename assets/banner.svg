@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 320" width="1200" height="320" role="img" aria-label="灯下 Lamplit">
+  <defs>
+    <linearGradient id="night" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#16120f"/>
+      <stop offset="0.55" stop-color="#1d1712"/>
+      <stop offset="1" stop-color="#241a13"/>
+    </linearGradient>
+    <radialGradient id="lamp" cx="0.5" cy="0" r="0.9">
+      <stop offset="0" stop-color="#f2c987" stop-opacity="0.55"/>
+      <stop offset="0.45" stop-color="#f2c987" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#f2c987" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="cone" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f2c987" stop-opacity="0.34"/>
+      <stop offset="1" stop-color="#f2c987" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="320" fill="url(#night)"/>
+  <rect x="0" y="0" width="1200" height="320" fill="url(#lamp)"/>
+
+  <!-- lamp -->
+  <g transform="translate(880 40)">
+    <path d="M120 0v34" stroke="#e8c07a" stroke-width="3" stroke-linecap="round"/>
+    <path d="M70 34h100l-18 34H88z" fill="#e8c07a" opacity="0.92"/>
+    <path d="M96 68h48l52 168H44z" fill="url(#cone)"/>
+  </g>
+
+  <!-- book -->
+  <g transform="translate(760 236)">
+    <path d="M40 22c34-16 68-16 100 0 32-16 66-16 100 0v46c-34-16-68-16-100 0-32-16-66-16-100 0z" fill="#f4e8d2" opacity="0.94"/>
+    <path d="M140 24v44" stroke="#c9603c" stroke-width="2.4" stroke-linecap="round" opacity="0.85"/>
+  </g>
+
+  <!-- wordmark -->
+  <text x="88" y="150" font-family="Songti SC, Noto Serif SC, Source Han Serif SC, serif" font-size="76"
+        letter-spacing="10" fill="#f4e8d2">灯下</text>
+  <text x="92" y="200" font-family="Iowan Old Style, Palatino, Georgia, serif" font-size="30"
+        letter-spacing="9" fill="#c9a06a">LAMPLIT</text>
+  <path d="M92 232h180" stroke="#c9a06a" stroke-width="1.4" opacity="0.55"/>
+  <text x="92" y="266" font-family="PingFang SC, Helvetica Neue, sans-serif" font-size="19"
+        fill="#8d8478">把书摊开在灯下，一页一页读完。</text>
+</svg>
