@@ -3302,6 +3302,8 @@ window.__ModuleLoader__.load({
         }
       };
 
+      const search = () => runSearch(query);
+
       const add = async (item) => {
         const id = item.bookId || item.id;
         setBusy(String(id));
