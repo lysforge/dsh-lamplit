@@ -31,7 +31,7 @@ git -c user.name="$OWNER" -c user.email="$(gh api user --jq .email 2>/dev/null |
 git push -u origin "add-${OWNER}-${REPO}"
 gh pr create --repo "$UPSTREAM" \
   --title "Add ${OWNER}/${REPO}" \
-  --body "Adds \`${OWNER}/${REPO}\` — 灯下 Lamplit, a reading plugin: one shelf for WeChat Reading / Fanqie Novel / local EPUB·PDF·Markdown, with an immersive reader and AI notes.
+  --body "Adds \`${OWNER}/${REPO}\` — 灯下 Lamplit, a reading plugin: one shelf for WeChat Reading, GitHub book repos and your own EPUB/PDF/Markdown, with an immersive reader and AI notes.
 
 Repo: https://github.com/${OWNER}/${REPO}
 Declares \`dsh.bundle\` in package.json; ships Host + Client halves (browser UI via slots)."
