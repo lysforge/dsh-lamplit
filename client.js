@@ -232,6 +232,8 @@ window.__ModuleLoader__.load({
       'plaza.refresh': '刷新目录',
       'plaza.loadMore': '再显示 50 个（还剩 {n}）',
       'plaza.fileCount': '共 {n} 个文件',
+      'plaza.prevPage': '上一页',
+      'plaza.nextPage': '下一页',
       'plaza.loading': '读取中…',
       'plaza.filesError': '目录没读出来：',
       'plaza.noFiles': '这个仓库里没有可读的 PDF / EPUB / TXT。',
@@ -247,7 +249,15 @@ window.__ModuleLoader__.load({
       'settings.github': 'GitHub 书库',
       'settings.githubDesc': '填仓库地址，就能在广场里浏览它里面的 PDF / EPUB / TXT。',
       'settings.removeRepo': '移除',
-      'settings.addRepo': '添加仓库',
+      'settings.addRepo': '添加',
+      'settings.manage': '管理',
+      'settings.repoModalTitle': 'GitHub 书库',
+      'settings.repoModalHint': '仓库里的 PDF / EPUB / TXT 会出现在广场；私有仓库要填 token。',
+      'settings.tokenDesc': 'GitHub token（可选）：把读取限额从 60 次/时提到 5000。',
+      'settings.close': '关闭',
+      'settings.githubSummary': '{n} 个仓库 · {token}',
+      'settings.tokenOn': 'token 已配置',
+      'settings.tokenOff': '未配 token',
       'settings.addRepoTitle': '添加 GitHub 仓库',
       'settings.addRepoHint': '写 owner/repo，或 owner/repo#子目录。仓库必须是公开的，私有仓库要填 token。',
       'settings.cancel': '取消',
@@ -565,6 +575,8 @@ window.__ModuleLoader__.load({
       'plaza.refresh': 'Refresh',
       'plaza.loadMore': 'Show 50 more ({n} left)',
       'plaza.fileCount': '{n} files',
+      'plaza.prevPage': 'Previous page',
+      'plaza.nextPage': 'Next page',
       'plaza.loading': 'Loading…',
       'plaza.filesError': 'Could not read the listing: ',
       'plaza.noFiles': 'No readable PDF / EPUB / TXT in this repo.',
@@ -580,7 +592,15 @@ window.__ModuleLoader__.load({
       'settings.github': 'GitHub library',
       'settings.githubDesc': 'Add a repo and browse its PDF / EPUB / TXT from the plaza.',
       'settings.removeRepo': 'Remove',
-      'settings.addRepo': 'Add repo',
+      'settings.addRepo': 'Add',
+      'settings.manage': 'Manage',
+      'settings.repoModalTitle': 'GitHub library',
+      'settings.repoModalHint': 'PDF / EPUB / TXT in these repos show up in the plaza. Private repos need a token.',
+      'settings.tokenDesc': 'GitHub token (optional): raises the API limit from 60 to 5000 per hour.',
+      'settings.close': 'Close',
+      'settings.githubSummary': '{n} repos · {token}',
+      'settings.tokenOn': 'token set',
+      'settings.tokenOff': 'no token',
       'settings.addRepoTitle': 'Add a GitHub repo',
       'settings.addRepoHint': 'Use owner/repo, or owner/repo#subfolder. Public repos work out of the box; private ones need a token.',
       'settings.cancel': 'Cancel',
@@ -893,8 +913,19 @@ window.__ModuleLoader__.load({
       '.pb-modal{position:fixed;left:50%;top:22%;transform:translateX(-50%);width:min(480px,calc(100vw - 48px));',
       'background:var(--dsw-alias-bg-layer-1);border:1px solid var(--pb-line-strong);border-radius:12px;padding:20px;',
       'box-shadow:var(--dsw-elevation-panel);z-index:40}',
+      '.pb-modal-list{display:flex;flex-direction:column;gap:2px;max-height:180px;overflow:auto;margin:6px 0 10px}',
+      '.pb-modal-row{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--pb-line);font-size:12px}',
+      '.pb-modal-row:last-child{border-bottom:0}',
+      '.pb-modal-row code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}',
+      '.pb-modal-row .pb-textlink{margin-left:auto}',
+      '.pb-modal-add{display:flex;gap:8px;align-items:center}',
       '.pb-modal h3{margin:0 0 6px;font-size:15px;font-weight:600}',
       '.pb-modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}',
+      '.pb-pager{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--dsw-alias-label-secondary)}',
+      '.pb-pagebtn{width:24px;height:24px;border-radius:6px;border:1px solid var(--pb-line-strong);background:none;',
+      'color:var(--dsw-alias-label-secondary);font:inherit;line-height:1;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}',
+      '.pb-pagebtn:hover:not(:disabled){background:var(--dsw-interactive-bg-hover,var(--dsw-alias-interactive-bg-hover));color:var(--dsw-alias-label-primary)}',
+      '.pb-pagebtn:disabled{opacity:.35;cursor:default}',
       '.pb-filerow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:4px 0 10px;border-bottom:1px solid var(--pb-line);margin-bottom:6px}',
       '.pb-filerow-actions{display:flex;gap:14px;align-items:center}',
       '.pb-srcbtn{height:34px;padding:0 12px;border-radius:8px;border:1px solid var(--pb-line-strong);background:var(--panel2);',
@@ -3183,7 +3214,8 @@ window.__ModuleLoader__.load({
       const [files, setFiles] = useState([]);
       const [error, setError] = useState('');
       const [busy, setBusy] = useState('');
-      const [visible, setVisible] = useState(50);
+      const [page, setPage] = useState(1);
+      const PAGE_SIZE = 10;
 
       const load = useCallback(async () => {
         setStatus('loading');
@@ -3191,7 +3223,7 @@ window.__ModuleLoader__.load({
         try {
           const res = await call('/discover/github/files?repo=' + encodeURIComponent(repo.spec) + '&path=' + encodeURIComponent(repo.path || ''));
           setFiles(Array.isArray(res.files) ? res.files : []);
-          setVisible(50);
+          setPage(1);
           setStatus('ready');
         } catch (err) {
           setError(errorText(err));
@@ -3218,8 +3250,9 @@ window.__ModuleLoader__.load({
 
       const keyword = String(props.filter || '').trim().toLowerCase();
       const matched = keyword === '' ? files : files.filter((file) => String(file.path || '').toLowerCase().indexOf(keyword) >= 0);
-      const shown = matched.slice(0, visible);
-      const more = matched.length - shown.length;
+      const totalPages = Math.max(1, Math.ceil(matched.length / PAGE_SIZE));
+      const current = Math.min(Math.max(page, 1), totalPages);
+      const shown = matched.slice((current - 1) * PAGE_SIZE, current * PAGE_SIZE);
 
       return h(
         'section',
@@ -3231,10 +3264,14 @@ window.__ModuleLoader__.load({
           h(
             'div',
             { className: 'pb-filerow-actions' },
-            more > 0
-              ? h('button', { type: 'button', className: 'pb-textlink', onClick: () => setVisible((n) => n + 50) }, t('plaza.loadMore', { n: fmtNumber(more) }))
-              : null,
             h('button', { type: 'button', className: 'pb-textlink', onClick: load }, t('plaza.refresh')),
+            h(
+              'div',
+              { className: 'pb-pager' },
+              h('button', { type: 'button', className: 'pb-pagebtn', disabled: current <= 1, onClick: () => setPage(current - 1), 'aria-label': t('plaza.prevPage') }, '‹'),
+              h('span', { className: 'pb-num' }, current + ' / ' + totalPages),
+              h('button', { type: 'button', className: 'pb-pagebtn', disabled: current >= totalPages, onClick: () => setPage(current + 1), 'aria-label': t('plaza.nextPage') }, '›'),
+            ),
           ),
         ),
         status === 'loading' ? h('p', { className: 'pb-repo-empty' }, t('plaza.loading')) : null,
@@ -3702,72 +3739,88 @@ window.__ModuleLoader__.load({
                     'div',
                     { className: 'pb-source-main' },
                     h('b', null, t('settings.github')),
-                    h('p', null, t('settings.githubDesc')),
-                    (repos || []).map((repo) =>
-                      h(
-                        'div',
-                        { className: 'pb-repo-row', key: repo.spec + (repo.path || '') },
-                        h('code', null, repo.spec + (repo.path ? '#' + repo.path : '')),
-                        h('button', { type: 'button', className: 'pb-textlink', style: { marginLeft: 'auto' }, onClick: () => removeRepo(repo) }, t('settings.removeRepo')),
-                      ),
-                    ),
+                    h('p', null, t('settings.githubSummary', { n: fmtNumber((repos || []).length), token: hasToken ? t('settings.tokenOn') : t('settings.tokenOff') })),
+                  ),
+                  h(
+                    'div',
+                    { className: 'pb-ctl' },
                     h(
-                      'div',
-                      { style: { marginTop: 10 } },
-                      h('button', { type: 'button', className: 'pb-btn', onClick: () => setRepoModal(true) }, '＋ ' + t('settings.addRepo')),
+                      'button',
+                      {
+                        type: 'button',
+                        className: 'pb-btn',
+                        onClick: () => {
+                          setRepoModal(true);
+                          if (repos === null) loadGithub();
+                        },
+                      },
+                      t('settings.manage'),
                     ),
-                    repoModal
-                      ? h(
+                  ),
+                  repoModal
+                    ? h(
+                        'div',
+                        { className: 'pb-scrim', onClick: () => (adding || savingToken ? null : setRepoModal(false)) },
+                        h(
                           'div',
-                          {
-                            className: 'pb-scrim',
-                            onClick: () => (adding ? null : setRepoModal(false)),
-                          },
+                          { className: 'pb-modal', onClick: (event) => event.stopPropagation(), role: 'dialog', 'aria-modal': 'true' },
+                          h('h3', null, t('settings.repoModalTitle')),
+                          h('p', { className: 'pb-hint' }, t('settings.repoModalHint')),
                           h(
                             'div',
-                            { className: 'pb-modal', onClick: (event) => event.stopPropagation(), role: 'dialog', 'aria-modal': 'true' },
-                            h('h3', null, t('settings.addRepoTitle')),
-                            h('p', { className: 'pb-hint' }, t('settings.addRepoHint')),
+                            { className: 'pb-modal-list' },
+                            (repos || []).length === 0
+                              ? h('p', { className: 'pb-hint' }, t('plaza.noRepo'))
+                              : (repos || []).map((repo) =>
+                                  h(
+                                    'div',
+                                    { className: 'pb-modal-row', key: repo.spec + (repo.path || '') },
+                                    h('code', null, repo.spec + (repo.path ? '#' + repo.path : '')),
+                                    h('button', { type: 'button', className: 'pb-textlink', onClick: () => removeRepo(repo) }, t('settings.removeRepo')),
+                                  ),
+                                ),
+                          ),
+                          h(
+                            'div',
+                            { className: 'pb-modal-add' },
                             h('input', {
                               className: 'pb-input',
-                              style: { width: '100%', marginTop: 4 },
+                              style: { flex: 1, minWidth: 0 },
                               value: spec,
-                              autoFocus: true,
                               placeholder: t('plaza.repoPlaceholder'),
                               'aria-label': t('plaza.repoPlaceholder'),
                               onChange: (event) => setSpec(event.target.value),
                               onKeyDown: (event) => {
                                 if (event.key === 'Enter') addRepo();
-                                if (event.key === 'Escape') setRepoModal(false);
                               },
                             }),
-                            repoError ? h('p', { className: 'pb-note-msg' }, repoError) : null,
-                            h(
-                              'div',
-                              { className: 'pb-modal-actions' },
-                              h('button', { type: 'button', className: 'pb-btn pb-btn-quiet', onClick: () => setRepoModal(false), disabled: adding }, t('settings.cancel')),
-                              h('button', { type: 'button', className: 'pb-btn pb-btn-primary', onClick: addRepo, disabled: adding }, adding ? t('plaza.adding') : t('settings.addRepo')),
-                            ),
+                            h('button', { type: 'button', className: 'pb-btn pb-btn-primary', onClick: addRepo, disabled: adding }, adding ? t('plaza.adding') : t('settings.addRepo')),
                           ),
-                        )
-                      : null,
-                    h(
-                      'div',
-                      { style: { display: 'flex', gap: 8, marginTop: 8, flexWrap: 'wrap', alignItems: 'center' } },
-                      h('input', {
-                        className: 'pb-input',
-                        type: 'password',
-                        autoComplete: 'off',
-                        style: { minWidth: 240, flex: 1 },
-                        value: token,
-                        placeholder: hasToken ? t('settings.tokenSet') : t('settings.tokenPlaceholder'),
-                        'aria-label': t('settings.tokenPlaceholder'),
-                        onChange: (event) => setToken(event.target.value),
-                      }),
-                      h('button', { type: 'button', className: 'pb-btn pb-btn-quiet', onClick: saveToken, disabled: savingToken }, t('settings.saveToken')),
-                    ),
-                    repoError ? h('p', { className: 'pb-note-msg' }, repoError) : null,
-                  ),
+                          h('p', { className: 'pb-hint', style: { margin: '14px 0 6px' } }, t('settings.tokenDesc')),
+                          h(
+                            'div',
+                            { className: 'pb-modal-add' },
+                            h('input', {
+                              className: 'pb-input',
+                              type: 'password',
+                              autoComplete: 'off',
+                              style: { flex: 1, minWidth: 0 },
+                              value: token,
+                              placeholder: hasToken ? t('settings.tokenSet') : t('settings.tokenPlaceholder'),
+                              'aria-label': t('settings.tokenPlaceholder'),
+                              onChange: (event) => setToken(event.target.value),
+                            }),
+                            h('button', { type: 'button', className: 'pb-btn', onClick: saveToken, disabled: savingToken }, t('settings.saveToken')),
+                          ),
+                          repoError ? h('p', { className: 'pb-note-msg' }, repoError) : null,
+                          h(
+                            'div',
+                            { className: 'pb-modal-actions' },
+                            h('button', { type: 'button', className: 'pb-btn pb-btn-quiet', onClick: () => setRepoModal(false) }, t('settings.close')),
+                          ),
+                        ),
+                      )
+                    : null,
                 ),
               ),
 
