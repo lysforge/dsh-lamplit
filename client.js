@@ -219,8 +219,24 @@ window.__ModuleLoader__.load({
       'stats.streakValue': '{n} 天',
       'stats.booksValue': '{n} 本',
       'stats.footer': '笔记 {n} 条 · 书架 {books} 本',
+      'stats.wechatTime': '微信读书累计 {time}',
+      'shelf.fromWechat': '进度来自微信读书',
 
       'view.shelf': '书架',
+      'view.discover': '发现',
+      'discover.placeholder': '搜微信读书书城：书名、作者',
+      'discover.empty': '搜一本书，看看微信读书里有什么。',
+      'discover.noResult': '没搜到，换个词试试。',
+      'discover.add': '加入书架',
+      'discover.added': '已加入',
+      'discover.error': '书城没打开：',
+      'discover.search': '搜索',
+      'discover.download': '下载到书架',
+      'discover.downloading': '下载中…',
+      'discover.gutenberg': '古登堡',
+      'discover.gutenbergNote': 'Project Gutenberg · 公版书，直接下 EPUB / 纯文本，不需要账号。',
+      'discover.wikisource': '维基文库',
+      'discover.wikisourceNote': '中文公版书与古籍，按条目下载成章节，不需要账号。',
       'view.notes': '笔记',
       'view.stats': '统计',
       'view.label': '视图',
@@ -449,8 +465,24 @@ window.__ModuleLoader__.load({
       'stats.streakValue': '{n} days',
       'stats.booksValue': '{n} books',
       'stats.footer': '{n} notes · {books} books',
+      'stats.wechatTime': 'WeChat Reading total {time}',
+      'shelf.fromWechat': 'Progress from WeChat Reading',
 
       'view.shelf': 'Shelf',
+      'view.discover': 'Discover',
+      'discover.placeholder': 'Search the WeRead store',
+      'discover.empty': 'Search WeRead to find something to read.',
+      'discover.noResult': 'Nothing found. Try another word.',
+      'discover.add': 'Add to shelf',
+      'discover.added': 'Added',
+      'discover.error': 'Store unavailable: ',
+      'discover.search': 'Search',
+      'discover.download': 'Download',
+      'discover.downloading': 'Downloading…',
+      'discover.gutenberg': 'Gutenberg',
+      'discover.gutenbergNote': 'Project Gutenberg: public-domain EPUB and plain text, no account needed.',
+      'discover.wikisource': 'Wikisource',
+      'discover.wikisourceNote': 'Chinese public-domain texts and classics, imported chapter by chapter.',
       'view.notes': 'Notes',
       'view.stats': 'Stats',
       'view.label': 'Views',
@@ -506,12 +538,11 @@ window.__ModuleLoader__.load({
       '.pb-root{position:relative;height:100%;min-height:0;display:flex;flex-direction:column;overflow:hidden;',
       'background:var(--dsw-alias-bg-base);color:var(--dsw-alias-label-primary);',
       'font-family:var(--dsw-font-family,-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif);',
-      'font-size:13px;line-height:1.5;box-sizing:border-box;padding-top:var(--pb-frame-pad,0px);',
+      'font-size:13px;line-height:1.5;box-sizing:border-box;',
       '--pb-line:var(--dsw-alias-border-l1);--pb-line-strong:var(--dsw-alias-border-l2);',
       '--pb-accent:var(--dsw-alias-brand-primary);--pb-mute:var(--dsw-alias-label-tertiary);',
       '--pb-cover-shadow:0 1px 3px rgba(0,0,0,.12);--pb-r-btn:8px;--pb-r-card:8px;--pb-r-chip:999px;',
       '-webkit-font-smoothing:antialiased}',
-      '[data-platform="darwin"] .pb-root{--pb-frame-pad:var(--dsh-frame-top-clearance,0px)}',
       '.pb-root *,.pb-root *::before,.pb-root *::after{box-sizing:border-box}',
       '.pb-num{font-variant-numeric:tabular-nums}',
 
@@ -609,6 +640,19 @@ window.__ModuleLoader__.load({
       '.pb-btn-wide{width:100%;justify-content:center}',
       '.pb-prov-linkrow{display:flex;gap:6px;align-items:center}',
       '.pb-prov-linkrow .pb-input{flex:1;min-width:0}',
+      '.pb-discover{padding-top:8px}',
+      '.pb-discover-search{display:flex;gap:8px;align-items:center;margin:0 0 18px}',
+      '.pb-discover-field{flex:1}',
+      '.pb-discover-field input{width:100%}',
+      '.pb-discover-hint{margin:40px 0;color:var(--pb-mute);font-size:13px;text-align:center}',
+      '.pb-discover-note{margin:0 0 14px;text-align:left;font-size:12px}',
+      '.pb-discover-list{display:flex;flex-direction:column;gap:2px;margin:0;padding:0;list-style:none}',
+      '.pb-discover-item{display:flex;align-items:center;gap:14px;padding:10px 8px;border-radius:8px}',
+      '.pb-discover-item:hover{background:var(--dsw-alias-interactive-bg-hover)}',
+      '.pb-discover-cover{position:relative;width:44px;height:59px;flex:none;border-radius:4px;overflow:hidden;box-shadow:var(--pb-cover-shadow)}',
+      '.pb-discover-main{flex:1;min-width:0}',
+      '.pb-discover-title{margin:0;font-size:14px;line-height:1.4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}',
+      '.pb-discover-author{margin:2px 0 0;font-size:12px;color:var(--pb-mute);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}',
       '.pb-sourcebar{display:flex;align-items:center;gap:2px;flex-wrap:wrap;margin:0 0 14px}',
       '.pb-srcchip{height:28px;padding:0 10px;border:0;border-radius:8px;background:none;color:var(--dsw-alias-label-secondary);',
       'font:inherit;font-size:12px;display:inline-flex;align-items:center;gap:6px;cursor:pointer;transition:background .15s ease,color .15s ease}',
@@ -730,6 +774,7 @@ window.__ModuleLoader__.load({
       '.pb-chart-day[data-zero="1"] .pb-chart-bar{background:var(--dsw-alias-bg-skeleton)}',
       '.pb-chart-label{font-size:12px;color:var(--pb-mute)}',
       '.pb-chart-day[data-today="1"] .pb-chart-label{color:var(--pb-accent);font-weight:600}',
+      '.pb-page-foot-sep{color:var(--pb-mute)}',
       '.pb-page-foot{margin:24px 0 0;font-size:12px;color:var(--pb-mute);font-variant-numeric:tabular-nums}',
 
       /* ---------- 空态 / 加载 / 错误 ---------- */
@@ -1066,7 +1111,19 @@ window.__ModuleLoader__.load({
       const index = clamp(progress.chapterIndex || 0, 0, total - 1);
       const raw = Number(progress.percent) || 0;
       const inner = raw > 1 ? 0 : raw;
-      return clamp(Math.round(((index + inner) / total) * 100), 0, 100);
+      const local = clamp(Math.round(((index + inner) / total) * 100), 0, 100);
+      if (local > 0) return local;
+      // 本地还没读过：直接显示微信读书那边的进度，不然一本读了半本的书看起来是 0%。
+      const remote = Number((book.remote && book.remote.percent) || 0);
+      return clamp(Math.round(remote), 0, 100);
+    }
+
+    /** 这本书显示的进度是不是来自微信读书云端。 */
+    function percentFromWechat(book) {
+      if (!book || book.finished) return false;
+      const progress = book.progress || {};
+      const local = (Number(progress.chapterIndex) || 0) + (Number(progress.percent) || 0);
+      return local === 0 && Number((book.remote && book.remote.percent) || 0) > 0;
     }
 
     function chapterInnerPercent(book) {
@@ -1489,7 +1546,14 @@ window.__ModuleLoader__.load({
         return () => window.removeEventListener('mousedown', onDown, true);
       }, [sortOpen, importOpen]);
 
-      const title = props.view === 'notes' ? t('view.notes') : props.view === 'stats' ? t('view.stats') : t('view.shelf');
+      const title =
+        props.view === 'notes'
+          ? t('view.notes')
+          : props.view === 'stats'
+            ? t('view.stats')
+            : props.view === 'discover'
+              ? t('view.discover')
+              : t('view.shelf');
 
       const shelfActions = [
         h(
@@ -1649,6 +1713,19 @@ window.__ModuleLoader__.load({
             : null,
         ),
       ];
+
+      shelfActions.unshift(
+        h(
+          'button',
+          {
+            key: 'discover',
+            type: 'button',
+            className: 'pb-btn pb-btn-quiet',
+            onClick: props.onDiscover,
+          },
+          t('view.discover'),
+        ),
+      );
 
       shelfActions.unshift(
         h(
@@ -1848,7 +1925,10 @@ window.__ModuleLoader__.load({
               h('em', null, subtitle),
               h(
                 'span',
-                { className: 'pb-book-pct pb-num' },
+                {
+                  className: 'pb-book-pct pb-num',
+                  title: percentFromWechat(book) ? t('shelf.fromWechat') : undefined,
+                },
                 book.finished ? t('shelf.finished') : t('shelf.percent', { n: percent }),
               ),
             ),
@@ -2261,6 +2341,9 @@ window.__ModuleLoader__.load({
                 'p',
                 { className: 'pb-page-foot' },
                 t('stats.footer', { notes: props.noteCount || 0, books: props.bookCount || 0 }),
+                props.wechatSeconds > 0
+                  ? h('span', { className: 'pb-page-foot-sep' }, ' · ', t('stats.wechatTime', { time: formatDuration(props.wechatSeconds, t) }))
+                  : null,
               ),
             ),
           ),
@@ -2663,6 +2746,187 @@ window.__ModuleLoader__.load({
         ),
       );
     }
+
+
+    /* ------------------------------------------------------------------ */
+    /* 发现（微信读书书城）                                                  */
+    /* ------------------------------------------------------------------ */
+
+    function DiscoverView(props) {
+      const { t } = props;
+      const sources = [
+        { id: 'weread', label: t('filter.weread'), note: '' },
+        { id: 'gutenberg', label: t('discover.gutenberg'), note: t('discover.gutenbergNote') },
+        { id: 'wikisource', label: t('discover.wikisource'), note: t('discover.wikisourceNote') },
+      ];
+      const [source, setSource] = useState('weread');
+      const [query, setQuery] = useState('');
+      const [status, setStatus] = useState('idle');
+      const [results, setResults] = useState([]);
+      const [error, setError] = useState('');
+      const [busy, setBusy] = useState('');
+      const [done, setDone] = useState({});
+
+      const active = sources.find((item) => item.id === source) || sources[0];
+
+      const search = async () => {
+        const value = query.trim();
+        if (value === '') return;
+        setStatus('loading');
+        setError('');
+        setResults([]);
+        try {
+          const path =
+            source === 'weread'
+              ? '/provider/weread/store?q=' + encodeURIComponent(value)
+              : '/discover/' + source + '?q=' + encodeURIComponent(value);
+          const res = await call(path);
+          setResults(res.results || []);
+          setStatus('ready');
+        } catch (err) {
+          setError(errorText(err));
+          setStatus('error');
+        }
+      };
+
+      const grab = async (item) => {
+        const id = item.bookId || item.id;
+        setBusy(id);
+        setError('');
+        try {
+          if (source === 'weread') {
+            await post('/provider/weread/open', { bookId: id });
+          } else {
+            await post('/discover/' + source + '/grab', { id: String(id) });
+          }
+          setDone((current) => Object.assign({}, current, { [id]: true }));
+          if (props.onRefresh) await props.onRefresh();
+        } catch (err) {
+          setError(errorText(err));
+        } finally {
+          setBusy('');
+        }
+      };
+
+      return h(
+        'section',
+        { className: 'pb-view' },
+        h(
+          'div',
+          { className: 'pb-scroll' },
+          h(
+            'div',
+            { className: 'pb-shell' },
+            h(
+              'div',
+              { className: 'pb-main pb-discover' },
+              h(
+                'div',
+                { className: 'pb-sourcebar' },
+                sources.map((item) =>
+                  h(
+                    'button',
+                    {
+                      key: item.id,
+                      type: 'button',
+                      className: 'pb-srcchip',
+                      'data-on': source === item.id ? '1' : '0',
+                      onClick: () => {
+                        setSource(item.id);
+                        setResults([]);
+                        setStatus('idle');
+                        setError('');
+                      },
+                    },
+                    item.label,
+                  ),
+                ),
+              ),
+              active.note ? h('p', { className: 'pb-discover-hint pb-discover-note' }, active.note) : null,
+              h(
+                'div',
+                { className: 'pb-discover-search' },
+                h(
+                  'div',
+                  { className: 'pb-search pb-discover-field' },
+                  h(IconSearch, { size: 14 }),
+                  h('input', {
+                    type: 'search',
+                    value: query,
+                    placeholder: t('discover.placeholder'),
+                    'aria-label': t('discover.placeholder'),
+                    onChange: (event) => setQuery(event.target.value),
+                    onKeyDown: (event) => {
+                      if (event.key === 'Enter') search();
+                    },
+                  }),
+                ),
+                h(
+                  'button',
+                  {
+                    type: 'button',
+                    className: 'pb-btn pb-btn-primary',
+                    disabled: status === 'loading' || query.trim() === '',
+                    onClick: search,
+                  },
+                  status === 'loading' ? t('reader.loading') : t('discover.search'),
+                ),
+              ),
+              status === 'idle' ? h('p', { className: 'pb-discover-hint' }, t('discover.empty')) : null,
+              status === 'ready' && results.length === 0
+                ? h('p', { className: 'pb-discover-hint' }, t('discover.noResult'))
+                : null,
+              status === 'error' ? h('p', { className: 'pb-note-msg' }, t('discover.error') + error) : null,
+              error !== '' && status !== 'error' ? h('p', { className: 'pb-note-msg' }, error) : null,
+              results.length > 0
+                ? h(
+                    'ul',
+                    { className: 'pb-discover-list' },
+                    results.map((item) => {
+                      const id = item.bookId || item.id;
+                      return h(
+                        'li',
+                        { className: 'pb-discover-item', key: String(id) },
+                        h(
+                          'div',
+                          { className: 'pb-discover-cover' },
+                          h(Cover, {
+                            book: { title: item.title, cover: item.cover, author: item.author },
+                            variant: 'grid',
+                          }),
+                        ),
+                        h(
+                          'div',
+                          { className: 'pb-discover-main' },
+                          h('p', { className: 'pb-discover-title' }, item.title || String(id)),
+                          h('p', { className: 'pb-discover-author' }, item.author || item.snippet || ''),
+                        ),
+                        h(
+                          'button',
+                          {
+                            type: 'button',
+                            className: 'pb-btn',
+                            disabled: busy === id || done[id] === true,
+                            onClick: () => grab(item),
+                          },
+                          done[id]
+                            ? t('discover.added')
+                            : busy === id
+                              ? t('discover.downloading')
+                              : source === 'weread'
+                                ? t('discover.add')
+                                : t('discover.download'),
+                        ),
+                      );
+                    }),
+                  )
+                : null,
+            ),
+          ),
+        ),
+      );
+    }
+
 
     /* ------------------------------------------------------------------ */
     /* 阅读器                                                              */
@@ -4563,6 +4827,15 @@ window.__ModuleLoader__.load({
           return counts;
         }, [shelf]);
 
+        const wechatSeconds = useMemo(
+          () =>
+            shelf.reduce((sum, book) => {
+              if (book.source !== 'weread') return sum;
+              return sum + (Number(book.remote && book.remote.readingTime) || 0);
+            }, 0),
+          [shelf],
+        );
+
         const filteredBooks = useMemo(() => {
           const needle = query.trim().toLowerCase();
           const list = shelf
@@ -4848,11 +5121,14 @@ window.__ModuleLoader__.load({
                 onOpenNotes: () => openNotesPage(null),
                 onOpenStats: () => setView('stats'),
                 onSources: () => setSheet(true),
+                onDiscover: () => setView('discover'),
               }),
           h(
             'div',
             { className: 'pb-stage' },
-            view === 'notes'
+            view === 'discover'
+              ? h(DiscoverView, { t: tr, onRefresh: loadState })
+              : view === 'notes'
               ? h(NotesPage, {
                   t: tr,
                   notes: pageNotes,
@@ -4876,6 +5152,7 @@ window.__ModuleLoader__.load({
                     finishedCount: counts.finished,
                     noteCount: counts.notes,
                     bookCount: counts.all,
+                    wechatSeconds,
                   })
                 : shelfView,
             session
