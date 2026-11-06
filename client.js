@@ -207,11 +207,12 @@ window.__ModuleLoader__.load({
 
       'plaza.weread': '微信读书',
       'plaza.github': 'GitHub 书库',
+      'plaza.open': '打开',
       'plaza.wereadPlaceholder': '搜书名、作者、关键词',
       'plaza.search': '搜索',
       'plaza.searching': '搜索中…',
       'plaza.wereadHint': '用你登录的微信读书账号搜索，搜到的加入书架就能读。',
-      'plaza.wereadIdle': '搜一本书，看看微信读书里有什么。',
+      'plaza.wereadIdle': '书架里还没有微信读书的书。',
       'plaza.pickKeyword': '没想好搜什么？试试这些：',
       'plaza.fromShelf': '或者从你书架里接着读：',
       'plaza.noResult': '没搜到，换个词试试。',
@@ -879,6 +880,9 @@ window.__ModuleLoader__.load({
 
       /* ---------- 广场 ---------- */
       '.pb-srcbar{display:flex;gap:4px;margin:0 0 16px}',
+      '.pb-srcbtn{height:34px;padding:0 12px;border-radius:8px;border:1px solid var(--pb-line-strong);background:var(--panel2);',
+      'color:var(--dsw-alias-label-primary);font:inherit;font-size:13px;display:inline-flex;align-items:center;gap:8px;cursor:pointer;max-width:420px}',
+      '.pb-srcbtn:hover{background:var(--dsw-alias-interactive-bg-hover)}',
       '.pb-srcchip{height:30px;padding:0 12px;border-radius:8px;border:1px solid transparent;background:none;color:var(--pb-ink2);',
       'font:inherit;font-size:13px;cursor:pointer}',
       '.pb-srcchip:hover{color:var(--dsw-alias-label-primary)}',
@@ -3236,6 +3240,12 @@ window.__ModuleLoader__.load({
       );
     }
 
+    function activeRepoLabel(repos, spec) {
+      const repo = (repos || []).find((item) => item.spec === spec) || (repos || [])[0];
+      if (!repo) return 'GitHub';
+      return repo.owner + ' / ' + repo.repo + (repo.path ? ' · ' + repo.path : '');
+    }
+
     function PlazaPage(props) {
       const { t } = props;
       const [source, setSource] = useState('weread');
@@ -3255,6 +3265,8 @@ window.__ModuleLoader__.load({
           .slice(0, 6);
       }, [props.shelf]);
 
+      const [menuOpen, setMenuOpen] = useState(false);
+      const [activeRepo, setActiveRepo] = useState('');
       const [repos, setRepos] = useState(null);
       const [repoStatus, setRepoStatus] = useState('idle');
       const [repoError, setRepoError] = useState('');
@@ -3268,7 +3280,9 @@ window.__ModuleLoader__.load({
         setRepoError('');
         try {
           const res = await call('/discover/github/repos');
-          setRepos(Array.isArray(res.repos) ? res.repos : []);
+          const list = Array.isArray(res.repos) ? res.repos : [];
+          setRepos(list);
+          setActiveRepo((current) => current || (list[0] ? list[0].spec : ''));
           setRepoStatus('ready');
         } catch (err) {
           setRepoError(errorText(err));
@@ -3285,21 +3299,15 @@ window.__ModuleLoader__.load({
         if (value === '') return;
         setStatus('loading');
         setError('');
-        setResults([]);
-        try {
-          let res;
-          try {
-            res = await call('/provider/weread/store?q=' + encodeURIComponent(value));
-          } catch (err) {
-            if (err && err.code === 'NOTFOUND') res = await call('/provider/weread/search?q=' + encodeURIComponent(value));
-            else throw err;
-          }
-          setResults(Array.isArray(res.results) ? res.results : []);
-          setStatus('ready');
-        } catch (err) {
-          setError(errorText(err));
-          setStatus('error');
-        }
+        const needle = value.toLowerCase();
+        const books = (Array.isArray(props.shelf) ? props.shelf : []).filter((book) => book.source === 'weread');
+        const hits = books.filter(
+          (book) =>
+            String(book.title || '').toLowerCase().indexOf(needle) >= 0 ||
+            String(book.author || '').toLowerCase().indexOf(needle) >= 0,
+        );
+        setResults(hits);
+        setStatus('ready');
       };
 
       const search = () => runSearch(query);
@@ -3364,26 +3372,6 @@ window.__ModuleLoader__.load({
           ? h(
               'div',
               { className: 'pb-plaza-start' },
-              h('p', { className: 'pb-hint' }, t('plaza.pickKeyword')),
-              h(
-                'div',
-                { className: 'pb-chips' },
-                ['小说', '历史', '心理学', '商业', '科普', '文学'].map((word) =>
-                  h(
-                    'button',
-                    {
-                      key: word,
-                      type: 'button',
-                      className: 'pb-chip',
-                      onClick: () => {
-                        setQuery(word);
-                        runSearch(word);
-                      },
-                    },
-                    word,
-                  ),
-                ),
-              ),
               shelfStart.length > 0
                 ? h(
                     'div',
@@ -3425,8 +3413,8 @@ window.__ModuleLoader__.load({
                   ),
                   h(
                     'button',
-                    { type: 'button', className: 'pb-btn', onClick: () => add(item), disabled: busy === id || done[id] },
-                    done[id] ? t('plaza.added') : busy === id ? t('plaza.downloading') : t('plaza.add'),
+                    { type: 'button', className: 'pb-btn', onClick: () => props.onOpen && props.onOpen(item) },
+                    t('plaza.open'),
                   ),
                 );
               }),
@@ -3479,7 +3467,9 @@ window.__ModuleLoader__.load({
         repoStatus === 'loading' ? h('p', { className: 'pb-repo-empty' }, t('plaza.loading')) : null,
         repoStatus === 'ready' && (repos || []).length === 0
           ? h('p', { className: 'pb-repo-empty' }, t('plaza.noRepo'))
-          : (repos || []).map((repo) =>
+          : (repos || [])
+              .filter((repo) => activeRepo === '' || repo.spec === activeRepo)
+              .map((repo) =>
               h(GithubFiles, {
                 key: repo.spec + (repo.path || ''),
                 t,
@@ -3506,15 +3496,73 @@ window.__ModuleLoader__.load({
               h(
                 'div',
                 { className: 'pb-srcbar' },
-                [
-                  ['weread', t('plaza.weread')],
-                  ['github', t('plaza.github')],
-                ].map(([key, label]) =>
+                h(
+                  'div',
+                  { className: 'pb-menu-anchor', style: { position: 'relative' } },
                   h(
                     'button',
-                    { key, type: 'button', className: 'pb-srcchip', 'data-on': source === key ? '1' : '0', onClick: () => setSource(key) },
-                    label,
+                    {
+                      type: 'button',
+                      className: 'pb-srcbtn',
+                      'aria-expanded': menuOpen ? 'true' : 'false',
+                      onClick: () => {
+                        setMenuOpen((open) => !open);
+                        if (repos === null) loadRepos();
+                      },
+                    },
+                    source === 'weread'
+                      ? t('plaza.weread')
+                      : t('plaza.github') + ' · ' + activeRepoLabel(repos, activeRepo),
+                    h(IconChevron, { size: 12 }),
                   ),
+                  menuOpen
+                    ? h(
+                        'div',
+                        { className: 'pb-pop', style: { left: 0, top: 36, minWidth: 240 } },
+                        h(
+                          'button',
+                          {
+                            type: 'button',
+                            className: 'pb-pop-item',
+                            'data-on': source === 'weread' ? '1' : '0',
+                            onClick: () => {
+                              setSource('weread');
+                              setMenuOpen(false);
+                            },
+                          },
+                          t('plaza.weread'),
+                        ),
+                        (repos || []).map((repo) =>
+                          h(
+                            'button',
+                            {
+                              key: repo.spec,
+                              type: 'button',
+                              className: 'pb-pop-item',
+                              onClick: () => {
+                                setActiveRepo(repo.spec);
+                                setSource('github');
+                                setMenuOpen(false);
+                              },
+                            },
+                            t('plaza.github') + ' · ' + repo.owner + ' / ' + repo.repo + (repo.path ? ' · ' + repo.path : ''),
+                          ),
+                        ),
+                        h(
+                          'button',
+                          {
+                            type: 'button',
+                            className: 'pb-pop-item',
+                            onClick: () => {
+                              setSource('github');
+                              setAddOpen(true);
+                              setMenuOpen(false);
+                            },
+                          },
+                          t('plaza.addRepo'),
+                        ),
+                      )
+                    : null,
                 ),
               ),
               source === 'weread' ? weread : github,
@@ -6023,7 +6071,7 @@ window.__ModuleLoader__.load({
                 dragging ? h('div', { className: 'pb-drop' }, h('strong', null, tr('shelf.dropTitle')), h('span', null, tr('shelf.dropHint'))) : null,
               )
             : view === 'plaza'
-              ? h(PlazaPage, { t: tr, onAdded: loadState, shelf: data.shelf })
+              ? h(PlazaPage, { t: tr, onAdded: loadState, shelf: data.shelf, onOpen: openBook })
               : view === 'settings'
                 ? h(SettingsPage, {
                     t: tr,
