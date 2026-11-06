@@ -75,7 +75,8 @@ test('state 一开始是空的，且带默认设置', async () => {
   assert.equal(data.shelf.length, 0)
   assert.equal(data.settings.fontSize, 19)
   assert.equal(data.settings.theme, 'paper')
-  assert.equal(data.providers.length, 2)
+  assert.equal(data.providers.length, 1)
+  assert.equal(data.providers[0].id, 'weread')
   assert.equal(data.providers[0].connected, false)
 })
 

@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>灯下 · 页面设计</title>
+<style>
+  :root{
+    --bg:#141210; --panel:#1b1815; --panel2:#221e1a; --line:rgba(255,255,255,.09);
+    --ink:#f4efe6; --ink2:#b9b1a4; --ink3:#7d766c;
+    --accent:#e0b878; --accent-ink:#20180e;
+    --serif:"Songti SC","Noto Serif SC","Source Han Serif SC",serif;
+    --sans:-apple-system,"PingFang SC","Helvetica Neue",Arial,sans-serif;
+    --cover:0 1px 3px rgba(0,0,0,.5);
+  }
+  html[data-theme="light"]{
+    --bg:#faf8f3; --panel:#fffdf8; --panel2:#f3efe6; --line:rgba(20,18,16,.10);
+    --ink:#1d1a16; --ink2:#6b6459; --ink3:#9a9287;
+    --accent:#b4632f; --accent-ink:#fff8ef;
+    --cover:0 1px 3px rgba(20,18,16,.18);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:13px/1.5 var(--sans);-webkit-font-smoothing:antialiased}
+  .app{height:100vh;display:flex;flex-direction:column;overflow:hidden}
+
+  /* ---------- 顶栏 ---------- */
+  .bar{flex:none;height:56px;display:flex;align-items:center;gap:20px;padding:0 32px;border-bottom:1px solid var(--line);background:var(--bg)}
+  .brand{font-family:var(--serif);font-size:13px;letter-spacing:.16em;color:var(--ink3);white-space:nowrap;flex:none}
+  .rule{width:1px;height:12px;background:var(--line)}
+  .tabs{display:flex;align-items:center;gap:22px;height:100%;flex:none}
+  .tab{position:relative;display:flex;align-items:center;gap:6px;height:100%;font-size:14px;color:var(--ink2);cursor:pointer;white-space:nowrap;flex:none}
+  .tab[data-on]{color:var(--accent);font-weight:600}
+  .tab[data-on]::after{content:"";position:absolute;left:0;right:0;bottom:15px;height:2px;border-radius:2px;background:var(--accent)}
+  .tab i{font-style:normal;font-size:12px;color:var(--ink3);font-weight:400}
+  .spacer{flex:1}
+  .search{width:200px;flex:none;height:32px;border-radius:8px;background:var(--panel2);display:flex;align-items:center;gap:8px;padding:0 10px;font-size:13px;color:var(--ink3)}
+  .icon{width:14px;height:14px;flex:none;opacity:.75}
+  .btn{flex:none;height:32px;padding:0 12px;border-radius:8px;border:1px solid var(--line);background:transparent;color:var(--ink);font:inherit;font-size:13px;display:inline-flex;align-items:center;gap:6px;cursor:pointer;white-space:nowrap}
+  .btn.primary{background:var(--accent);border-color:transparent;color:var(--accent-ink);font-weight:600}
+  .btn.quiet{border-color:transparent;color:var(--ink2)}
+
+  /* ---------- 布局 ---------- */
+  .scroll{flex:1;min-height:0;overflow:auto;padding:28px 0 48px}
+  .shell{max-width:1120px;margin:0 auto;padding:0 32px;display:flex;gap:32px;align-items:flex-start}
+  .main{flex:1;min-width:0}
+  h1{font-size:20px;font-weight:600;margin:0 0 20px;letter-spacing:.01em}
+  .eyebrow{font-size:12px;letter-spacing:.08em;color:var(--ink3);margin:0}
+
+  /* ---------- 继续阅读 ---------- */
+  .continue{display:flex;align-items:center;gap:24px;padding:18px 0 24px;border-bottom:1px solid var(--line);margin-bottom:24px}
+  .cover{position:relative;border-radius:4px;overflow:hidden;box-shadow:var(--cover);background:var(--panel2);flex:none}
+  .cover img{width:100%;height:100%;object-fit:cover;display:block}
+  .c-lg{width:88px;height:117px}
+  .c-sm{width:44px;height:59px}
+  .c-grid{width:100%;aspect-ratio:3/4}
+  .continue-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
+  .continue-title{font-family:var(--serif);font-size:22px;font-weight:600;margin:0;line-height:1.35}
+  .sub{font-size:13px;color:var(--ink2);margin:0}
+  .prog{display:flex;align-items:center;gap:12px;max-width:420px;margin-top:4px}
+  .track{flex:1;height:3px;border-radius:2px;background:var(--line);overflow:hidden}
+  .track i{display:block;height:100%;background:var(--accent)}
+  .num{font-variant-numeric:tabular-nums}
+
+  /* ---------- 首页卡片 ---------- */
+  .cards{display:grid;grid-template-columns:1.15fr 1fr .95fr;gap:20px;margin-bottom:32px}
+  .card{border:1px solid var(--line);border-radius:10px;padding:16px 18px;background:var(--panel)}
+  .card h3{margin:0 0 12px;font-size:12px;font-weight:400;letter-spacing:.06em;color:var(--ink3)}
+  .big{font-size:26px;font-weight:600;line-height:1.2;font-variant-numeric:tabular-nums}
+  .big small{font-size:13px;font-weight:400;color:var(--ink3);margin-left:4px}
+  .bars{display:flex;align-items:flex-end;gap:8px;height:56px;margin:14px 0 8px}
+  .wbar{width:10px;border-radius:2px 2px 0 0;background:color-mix(in srgb,var(--accent) 22%,transparent);min-height:3px}
+  .wbar[data-on]{background:var(--accent)}
+  .kv{display:flex;gap:22px;margin-top:2px}
+  .kv div{display:flex;flex-direction:column;gap:2px}
+  .kv b{font-size:15px;font-weight:600;font-variant-numeric:tabular-nums}
+  .kv span{font-size:12px;color:var(--ink3)}
+  .rowline{display:flex;justify-content:space-between;gap:12px;font-size:12px;color:var(--ink2);padding:3px 0}
+
+  /* ---------- 区块头 ---------- */
+  .sec{display:flex;align-items:baseline;justify-content:space-between;margin:0 0 14px}
+  .sec h2{margin:0;font-size:15px;font-weight:600}
+  .link{font-size:12px;color:var(--accent);text-decoration:none}
+
+  /* ---------- 横排书 */
+  .strip{display:flex;gap:20px;overflow:hidden;margin-bottom:32px}
+  .mini{width:76px;flex:none}
+  .mini p{margin:8px 0 0;font-size:12px;line-height:1.4;color:var(--ink2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+  /* ---------- 笔记 ---------- */
+  .note{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+  .note:last-child{border-bottom:0}
+  .note .line{width:2px;background:color-mix(in srgb,var(--accent) 40%,transparent);border-radius:2px;flex:none}
+  .note p{margin:0;font-size:13px;line-height:1.6}
+  .note .meta{font-size:12px;color:var(--ink3);margin-top:4px}
+
+  /* ---------- 书架 ---------- */
+  .toolbar{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:22px}
+  .chip{height:28px;padding:0 10px;border-radius:8px;border:0;background:none;color:var(--ink2);font:inherit;font-size:12px;display:inline-flex;align-items:center;gap:6px;cursor:pointer}
+  .chip[data-on]{background:var(--panel2);color:var(--ink);font-weight:600}
+  .chip i{font-style:normal;color:var(--ink3);font-weight:400;font-variant-numeric:tabular-nums}
+  .dot{width:5px;height:5px;border-radius:50%;background:var(--accent)}
+  .grid{display:grid;grid-template-columns:repeat(6,1fr);gap:28px 22px}
+  @media (max-width:1100px){.grid{grid-template-columns:repeat(4,1fr)}}
+  .book{display:flex;flex-direction:column;gap:8px;cursor:pointer}
+  .book:hover .cover{transform:translateY(-2px)}
+  .book .cover{transition:transform .18s ease}
+  .book h4{margin:0;font-size:13px;font-weight:400;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .book .meta{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink3)}
+  .book .meta em{font-style:normal;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .book .meta b{margin-left:auto;font-weight:400;font-variant-numeric:tabular-nums}
+  .cover-t{position:absolute;inset:12px 10px 22px;display:flex;align-items:center;justify-content:center;
+    font-family:var(--serif);font-size:12px;line-height:1.15;letter-spacing:.1em;color:rgba(255,255,255,.92);
+    writing-mode:vertical-rl;text-orientation:upright;max-height:100%;overflow:hidden}
+  .c-sm .cover-t{font-size:9px;inset:6px 6px 12px}
+  .cover-t[data-h="1"]{writing-mode:horizontal-tb;text-orientation:initial;letter-spacing:.01em;
+    font-size:10.5px;line-height:1.45;text-align:center;display:-webkit-box;-webkit-line-clamp:4;
+    -webkit-box-orient:vertical;overflow:hidden;padding:2px 2px 0;max-height:100%}
+  .c-sm .cover-t[data-h="1"]{font-size:8px}
+  .badge{position:absolute;bottom:6px;right:6px;font-size:10px;padding:1px 5px;border-radius:4px;background:rgba(0,0,0,.5);color:#fff;letter-spacing:.02em}
+
+  /* ---------- 广场 ---------- */
+  .srcbar{display:flex;gap:4px;margin-bottom:16px}
+  .srch{display:flex;gap:8px;margin-bottom:8px}
+  .srch .field{flex:1;height:36px;border-radius:8px;background:var(--panel2);display:flex;align-items:center;gap:8px;padding:0 12px;font-size:13px;color:var(--ink3)}
+  .hint{font-size:12px;color:var(--ink3);margin:10px 0 20px}
+  .list{margin:0;padding:0;list-style:none}
+  .item{display:flex;align-items:center;gap:16px;padding:10px 10px;border-radius:8px}
+  .item:hover{background:var(--panel2)}
+  .item-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+  .item-title{font-size:14px;margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .item-sub{font-size:12px;color:var(--ink3);margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .item-go{font-size:12px;color:var(--ink2);flex:none}
+
+  /* ---------- 右栏 ---------- */
+  .rail{width:260px;flex:none;position:sticky;top:0}
+  .rail .block{padding-bottom:18px;margin-bottom:18px;border-bottom:1px solid var(--line)}
+  .rail .block:last-child{border-bottom:0}
+  .foot{font-size:12px;color:var(--ink3);margin-top:26px}
+
+  /* ---------- 空态 ---------- */
+  .empty{min-height:60vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;padding:40px 0}
+  .empty h2{margin:6px 0 0;font-size:17px;font-weight:600}
+  .empty p{margin:0;max-width:420px;font-size:13px;line-height:1.7;color:var(--ink3)}
+  .empty-actions{display:flex;gap:8px;margin-top:12px}
+  .empty .tiny{margin-top:6px;font-size:12px;color:var(--ink3);opacity:.8}
+
+  /* ---------- 设置 ---------- */
+  .settings{max-width:760px}
+  .sect{margin:0 0 34px}
+  .sect > h2{margin:0 0 6px;font-size:13px;font-weight:600;letter-spacing:.04em}
+  .sect > .desc{margin:0 0 14px;font-size:12px;color:var(--ink3)}
+  .srow{display:flex;align-items:center;gap:16px;padding:12px 0;border-bottom:1px solid var(--line)}
+  .srow:last-child{border-bottom:0}
+  .srow .lbl{flex:1;min-width:0}
+  .srow .lbl b{display:block;font-size:13px;font-weight:400}
+  .srow .lbl span{display:block;font-size:12px;color:var(--ink3);margin-top:2px}
+  .srow .ctl{display:flex;align-items:center;gap:8px;flex:none}
+  .sw{width:34px;height:20px;border-radius:999px;background:var(--panel2);position:relative;cursor:pointer;flex:none}
+  .sw::after{content:"";position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:var(--ink3);transition:.15s}
+  .sw[data-on]{background:color-mix(in srgb,var(--accent) 45%,transparent)}
+  .sw[data-on]::after{left:17px;background:var(--accent)}
+  .prov{display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}
+  .prov:last-child{border-bottom:0}
+  .prov .mark{width:32px;height:32px;border-radius:8px;background:var(--panel2);display:grid;place-items:center;font-family:var(--serif);font-size:13px;color:var(--ink2);flex:none}
+  .prov .main{flex:1;min-width:0}
+  .prov .main b{font-size:13px;font-weight:400;display:flex;align-items:center;gap:8px}
+  .prov .main p{margin:2px 0 0;font-size:12px;color:var(--ink3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .state{font-size:11px;padding:1px 6px;border-radius:4px;background:var(--panel2);color:var(--ink3)}
+  .state[data-on]{background:color-mix(in srgb,var(--accent) 22%,transparent);color:var(--accent)}
+  .field{height:32px;border-radius:8px;background:var(--panel2);border:1px solid transparent;display:flex;align-items:center;padding:0 10px;font-size:12px;color:var(--ink3);min-width:180px}
+  .field.wide{min-width:260px}
+  .repo{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:12px}
+  .repo:last-child{border-bottom:0}
+  .repo code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:var(--ink2)}
+  .repo span{margin-left:auto;color:var(--ink3)}
+  .swatches{display:flex;gap:8px}
+  .swatch{width:56px;height:36px;border-radius:6px;border:1px solid var(--line);position:relative;cursor:pointer}
+  .swatch[data-on]{outline:2px solid var(--accent);outline-offset:2px}
+  .swatch em{position:absolute;left:0;right:0;bottom:3px;text-align:center;font-style:normal;font-size:10px;color:rgba(0,0,0,.55)}
+  .seg{display:flex;gap:2px;background:var(--panel2);border-radius:8px;padding:2px}
+  .seg b{font-weight:400;font-size:12px;padding:4px 10px;border-radius:6px;color:var(--ink3)}
+  .seg b[data-on]{background:var(--bg);color:var(--ink)}
+  .theme{position:fixed;right:20px;bottom:20px;z-index:9}
+  body[data-narrow="1"]{background:#0b0a09;padding:24px 0;display:flex;justify-content:center}
+  body[data-narrow="1"] .app{width:430px;height:860px;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+  body[data-narrow="1"] .bar{padding:0 16px;gap:12px}
+  body[data-narrow="1"] .search{display:none}
+  body[data-narrow="1"] .shell{padding:0 16px;flex-direction:column}
+  body[data-narrow="1"] .rail{width:100%;position:static}
+  body[data-narrow="1"] .cards{grid-template-columns:1fr}
+  body[data-narrow="1"] .grid{grid-template-columns:repeat(3,1fr);gap:20px 14px}
+  body[data-narrow="1"] .continue{flex-wrap:wrap}
+  body[data-narrow="1"] .theme{display:none}
+  body[data-tall="1"] .app{height:auto;overflow:visible}
+  body[data-clean="1"] .theme{display:none}
+  body[data-tall="1"] .scroll{overflow:visible}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="bar">
+    <span class="brand">灯下</span><span class="rule"></span>
+    <nav class="tabs" id="tabs"></nav>
+    <span class="spacer"></span>
+    <div class="search"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="6"/><path d="M15.6 15.6 20 20"/></svg>搜书名、作者</div>
+    <button class="btn primary">导入</button>
+
+  </header>
+  <div class="scroll"><div class="shell"><main class="main" id="main"></main></div></div>
+</div>
+<button class="btn quiet theme" onclick="toggleTheme()">切换深浅</button>
+
+<script>
+const BOOKS = [
+  {t:'乌合之众（译文经典）', a:'[法] 古斯塔夫·勒庞', p:18, c:'linear-gradient(150deg,#e2b04a,#b9602c)', badge:'微信'},
+  {t:'Kubernetes 权威指南：从 Docker 到 Kubernetes 实践全接触', a:'龚正 等', p:15, c:'linear-gradient(150deg,#a3242a,#5d1218)', badge:'微信'},
+  {t:'周易--中华经典藏书（三版）', a:'中华书局', p:11, c:'linear-gradient(150deg,#2f4a3a,#17251d)', badge:'微信'},
+  {t:'持续买入', a:'[美] 尼克·马吉乌利', p:18, c:'linear-gradient(150deg,#3c4a63,#1d2534)', badge:'微信'},
+  {t:'深度工作', a:'[美] 卡尔·纽波特', p:0, c:'linear-gradient(150deg,#5a4a3a,#2b211a)', badge:''},
+  {t:'山海经（全译插图典藏版）', a:'佚名', p:4, c:'linear-gradient(150deg,#3f5b4a,#1e2c24)', badge:'微信'},
+  {t:'古文三篇', a:'范仲淹 · 欧阳修 · 苏轼', p:33, c:'linear-gradient(150deg,#c9b48c,#8a7350)', badge:''},
+  {t:'Pride and Prejudice', a:'Jane Austen', p:0, c:'linear-gradient(150deg,#7d5b8e,#3b2a45)', badge:''},
+  {t:'紅樓夢', a:'曹雪芹', p:2, c:'linear-gradient(150deg,#8f3f3f,#4a1d1d)', badge:'维基'},
+  {t:'雪中悍刀行（全20册）', a:'烽火戏诸侯', p:6, c:'linear-gradient(150deg,#2c4a5a,#142530)', badge:'微信'},
+  {t:'置身事内：中国政府与经济发展', a:'兰小欢', p:9, c:'linear-gradient(150deg,#6a4a2a,#2f2113)', badge:'微信'},
+  {t:'三体全集', a:'刘慈欣', p:42, c:'linear-gradient(150deg,#1f3b52,#0c1822)', badge:'微信'}
+];
+const READS = [
+  {t:'乌合之众（译文经典）', p:18, c:BOOKS[0].c},
+  {t:'Kubernetes 权威指南', p:15, c:BOOKS[1].c},
+  {t:'周易', p:11, c:BOOKS[2].c},
+  {t:'持续买入', p:18, c:BOOKS[3].c},
+  {t:'山海经', p:4, c:BOOKS[5].c}
+];
+const NOTES = [
+  {q:'群体中的个人不再是他自己，他变成了一个不受自己意志支配的玩偶。', m:'乌合之众 · 第 3 章'},
+  {q:'不以物喜，不以己悲。', m:'古文三篇 · 岳阳楼记'},
+  {q:'先天下之忧而忧，后天下之乐而乐。', m:'古文三篇 · 岳阳楼记'}
+];
+
+const isLatin = (t) => {
+  const cjk = ((t||'').match(/[\u4e00-\u9fff]/g) || []).length;
+  const ascii = ((t||'').match(/[A-Za-z]/g) || []).length;
+  return !(cjk >= 3 && ascii <= 2);
+};
+const cover = (c, cls='', badge='', title='') => {
+  const latin = isLatin(title);
+  const label = title ? (latin ? title : Array.from(title).slice(0,7).join('')) : '';
+  return `<div class="cover ${cls}" style="background:${c}">
+     ${label?`<span class="cover-t" ${latin?'data-h="1"':''}>${label}</span>`:''}
+     ${badge?`<span class="badge">${badge}</span>`:''}
+   </div>`;
+};
+
+function tabs(view){
+  const items = [['home','首页'],['shelf','书架'],['plaza','广场'],['settings','设置']];
+  return items.map(([k,label]) => `<div class="tab" ${k===view?'data-on':''}>${label}</div>`).join('');
+}
+
+const views = {
+  home: () => `
+    <h1 style="display:none">首页</h1>
+    <section class="continue">
+      ${cover(BOOKS[0].c,'c-lg','微信',BOOKS[0].t)}
+      <div class="continue-body">
+        <p class="eyebrow">继续阅读</p>
+        <p class="continue-title">乌合之众（译文经典）</p>
+        <p class="sub">第 3 章 · 群体的感情与道德</p>
+        <div class="prog"><div class="track"><i style="width:18%"></i></div><span class="num sub">已读 18%</span></div>
+        <p class="sub" style="color:var(--ink3)">微信读书进度 18% · 累计 22 分钟</p>
+      </div>
+      <button class="btn primary">继续阅读</button>
+    </section>
+
+    <div class="cards">
+      <div class="card">
+        <h3>本周阅读</h3>
+        <p class="big">2 小时 14 分</p>
+        <div class="bars">
+          ${[22,36,14,48,30,8,52].map((h,i)=>`<div class="wbar" ${i===6?'data-on':''} style="height:${h}px"></div>`).join('')}
+        </div>
+        <div class="rowline"><span>一 二 三 四 五 六 日</span><span class="num">连续 4 天</span></div>
+      </div>
+      <div class="card">
+        <h3>书架</h3>
+        <div class="kv">
+          <div><b class="num">76</b><span>本</span></div>
+          <div><b class="num">3</b><span>在读</span></div>
+          <div><b class="num">2</b><span>读完</span></div>
+          <div><b class="num">12</b><span>笔记</span></div>
+        </div>
+        <div class="rowline" style="margin-top:14px"><span>微信读书</span><span class="num">74 本</span></div>
+        <div class="rowline"><span>本地</span><span class="num">2 本</span></div>
+      </div>
+      <div class="card">
+        <h3>微信读书</h3>
+        <div class="rowline"><span>账号</span><span class="num">453009…</span></div>
+        <div class="rowline"><span>上次同步</span><span class="num">今天 09:41</span></div>
+        <div class="rowline"><span>累计阅读</span><span class="num">126 小时</span></div>
+        <button class="btn" style="margin-top:12px;width:100%;justify-content:center">同步书架</button>
+      </div>
+    </div>
+
+    <div class="sec"><h2>最近在读</h2><a class="link">全部 →</a></div>
+    <div class="strip">
+      ${READS.map(b=>`<div class="mini">${cover(b.c,'c-grid','',b.t)}<p>${b.t}</p></div>`).join('')}
+    </div>
+
+    <div class="sec"><h2>最近笔记</h2><a class="link">全部笔记 →</a></div>
+    <div>
+      ${NOTES.map(n=>`<div class="note"><div class="line"></div><div><p>${n.q}</p><p class="meta">${n.m}</p></div></div>`).join('')}
+    </div>
+    <p class="foot">笔记 12 条 · 书架 76 本 · 微信读书累计 126 小时</p>
+  `,
+
+  shelf: () => `
+    <div class="toolbar">
+      <button class="chip" data-on>全部来源 <i>76</i></button>
+      <button class="chip"><span class="dot"></span>微信读书 <i>74</i></button>
+      <button class="chip"><span class="dot" style="background:var(--ink3)"></span>番茄 <i>0</i></button>
+      <button class="chip">本地 <i>2</i></button>
+      <span class="spacer"></span>
+      <button class="chip" data-on>在读 <i>3</i></button>
+      <button class="chip">读完 <i>2</i></button>
+      <button class="chip">最近阅读 ⌄</button>
+      <button class="btn quiet" style="height:28px">网格</button>
+    </div>
+    <div class="grid">
+      ${BOOKS.map(b=>`
+        <div class="book">
+          ${cover(b.c,'c-grid',b.badge,b.t)}
+          <h4>${b.t}</h4>
+          <div class="meta"><em>${b.a}</em><b>${b.p}%</b></div>
+        </div>`).join('')}
+    </div>
+    <p class="foot">76 本 · 微信读书 74 · 本地 2 · 番茄 0</p>
+  `,
+
+  empty: () => `
+    <div class="empty">
+      <svg width="96" height="96" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ink3);opacity:.55">
+        <path d="M20 26h22c4 0 7 3 7 7v38c-4-3-9-4-14-4H20z"/>
+        <path d="M76 26H54c-4 0-7 3-7 7v38c4-3 9-4 14-4h15z"/>
+        <path d="M47 33v30"/>
+        <path d="M26 38h12M26 47h12"/>
+      </svg>
+      <h2>书架还是空的</h2>
+      <p>导入你自己的文件，或者连上微信读书，把书架拉过来。<br>支持 Markdown / TXT / EPUB / PDF。</p>
+      <div class="empty-actions">
+        <button class="btn primary">导入文件</button>
+        <button class="btn">连接微信读书</button>
+        <button class="btn quiet">去广场看看</button>
+      </div>
+      <p class="tiny">也可以去「广场」搜公版书，古登堡与维基文库里的书能直接下载到本地。</p>
+    </div>
+  `,
+
+  settings: () => `
+    <div class="settings">
+      <h1 style="margin-bottom:24px">设置</h1>
+
+      <section class="sect">
+        <h2>来源</h2>
+        <p class="desc">账号只存在本机 ~/.dsh/lamplit，不上传。</p>
+
+        <div class="prov">
+          <div class="mark">微</div>
+          <div class="main">
+            <b>微信读书 <span class="state" data-on>已连接</span></b>
+            <p>账号 453009… · 上次同步 今天 09:41 · 书架 76 本</p>
+          </div>
+          <div class="ctl">
+            <button class="btn">同步</button>
+            <button class="btn quiet">重新扫码</button>
+            <button class="btn quiet">断开</button>
+          </div>
+        </div>
+
+        <div class="prov" style="align-items:flex-start">
+          <div class="mark">GH</div>
+          <div class="main">
+            <b>GitHub 书库</b>
+            <p>填仓库地址，就能在广场里浏览它里面的 PDF / EPUB / TXT</p>
+            <div style="margin-top:10px">
+              <div class="repo"><code>mozilla/pdf.js</code><span>已添加 · 浏览</span></div>
+              <div class="repo"><code>chinapub/opensource-books</code><span>已添加 · 浏览</span></div>
+              <div style="display:flex;gap:8px;margin-top:10px">
+                <div class="field wide">owner/repo 或 owner/repo#子目录，例如 mozilla/pdf.js</div>
+                <button class="btn">添加</button>
+              </div>
+              <p style="margin:6px 0 0;font-size:12px;color:var(--ink3)">示例：填 <code style="font-family:ui-monospace,Menlo,monospace">mozilla/pdf.js</code> 可以立刻看到 1000+ 个测试 PDF，用来验证通路；真书请填你自己的仓库。</p>
+              <div style="display:flex;gap:8px;margin-top:8px;align-items:center">
+                <div class="field wide">GitHub token（可选，把读取限额从 60 次/时提到 5000）</div>
+                <button class="btn quiet">保存</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="sect">
+        <h2>阅读</h2>
+        <p class="desc">这里是默认值，阅读器里改只影响当前这本书。</p>
+        <div class="srow">
+          <div class="lbl"><b>默认纸张</b><span>打开新书时用哪一套</span></div>
+          <div class="ctl swatches">
+            <div class="swatch" style="background:#fbfaf6"><em>纸白</em></div>
+            <div class="swatch" style="background:#f2e5cc"><em>米黄</em></div>
+            <div class="swatch" data-on style="background:#15171b"><em style="color:#cbc7bc">夜墨</em></div>
+            <div class="swatch" style="background:#e6ecdb"><em>护眼</em></div>
+          </div>
+        </div>
+        <div class="srow">
+          <div class="lbl"><b>字体</b><span>衬线适合长文，黑体适合屏幕</span></div>
+          <div class="ctl"><div class="seg"><b data-on>衬线</b><b>黑体</b></div></div>
+        </div>
+        <div class="srow">
+          <div class="lbl"><b>字号 · 行距 · 每行字数</b><span>19px · 1.9 · 34 字</span></div>
+          <div class="ctl"><button class="btn quiet">调整</button></div>
+        </div>
+        <div class="srow">
+          <div class="lbl"><b>翻页方式</b><span>分页像纸书，滚动更自由</span></div>
+          <div class="ctl"><div class="seg"><b data-on>分页</b><b>滚动</b></div></div>
+        </div>
+        <div class="srow">
+          <div class="lbl"><b>工具条自动隐藏</b><span>2.5 秒无操作后淡出</span></div>
+          <div class="ctl"><div class="sw" data-on></div></div>
+        </div>
+      </section>
+
+      <section class="sect">
+        <h2>数据</h2>
+        <div class="srow">
+          <div class="lbl"><b>书库目录</b><span>~/.dsh/lamplit · 376 KB</span></div>
+          <div class="ctl"><button class="btn quiet">复制路径</button><button class="btn quiet">在访达中打开</button></div>
+        </div>
+        <div class="srow">
+          <div class="lbl"><b>导出</b><span>书单与笔记都是 Markdown</span></div>
+          <div class="ctl"><button class="btn quiet">导出书单</button><button class="btn quiet">导出全部笔记</button></div>
+        </div>
+        <div class="srow">
+          <div class="lbl"><b>备份</b><span>书目 + 笔记 + 设置，不含正文缓存</span></div>
+          <div class="ctl"><button class="btn quiet">导出备份</button><button class="btn quiet">从备份恢复</button></div>
+        </div>
+        <div class="srow">
+          <div class="lbl"><b>清空章节缓存</b><span>在线书的正文缓存 12.4 MB</span></div>
+          <div class="ctl"><button class="btn quiet">清空</button></div>
+        </div>
+      </section>
+
+      <section class="sect">
+        <h2>关于</h2>
+        <div class="srow">
+          <div class="lbl"><b>版本 0.1.3</b><span>MIT · github.com/lysforge/lamplit</span></div>
+          <div class="ctl"><button class="btn">检查更新</button></div>
+        </div>
+      </section>
+    </div>
+  `,
+
+  plaza: () => {
+    const src = new URLSearchParams(location.search).get('src') || 'weread';
+    const tabs = [['weread','微信读书'],['github','GitHub 书库']];
+    const bar = `<div class="srcbar">${tabs.map(([k,l])=>`<button class="chip" ${k===src?'data-on':''}>${l}</button>`).join('')}</div>`;
+    if (src === 'fanqie') {
+      const picks = ['部族荣光','莫若凌霄','高手下山，我有九个无敌师父！','惊鸿','玄幻，我顿悟了混沌体','武碎星河'];
+      return `
+        <h1 style="display:none">广场</h1>
+        ${bar}
+        <div class="srch">
+          <div class="field"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="6"/><path d="M15.6 15.6 20 20"/></svg>粘贴番茄书籍链接，例如 fanqienovel.com/page/7143…</div>
+          <button class="btn primary">添加</button>
+        </div>
+        <p class="hint">番茄没有公开的搜索接口（带滑块验证），所以这里不搜索：贴一条链接就能加，目录会同步过来。</p>
+        <div class="sec"><h2>番茄精选</h2><a class="link">换一批 ↻</a></div>
+        <div class="grid" style="grid-template-columns:repeat(6,1fr);gap:24px 20px">
+          ${picks.map((t,i)=>`
+            <div class="book">
+              ${cover(['linear-gradient(150deg,#7c3a3a,#3a1a1a)','linear-gradient(150deg,#2f4a5e,#16232c)','linear-gradient(150deg,#5a4a2a,#2a2112)','linear-gradient(150deg,#4a3a5e,#221a2c)','linear-gradient(150deg,#2e5a4a,#152a22)','linear-gradient(150deg,#5e3a2a,#2c1a12)'][i],'c-grid','番茄',t)}
+              <h4>${t}</h4>
+              <div class="meta"><em>番茄小说</em><b>加入</b></div>
+            </div>`).join('')}
+        </div>
+        <p class="hint" style="margin-top:26px">番茄的公开正文做了字体混淆，多数章节只能读目录；导入到本地之后能看的部分我会如实标出来。</p>
+      `;
+    }
+    if (src === 'github') {
+      return `
+        <h1 style="display:none">广场</h1>
+        ${bar}
+        <div class="srch">
+          <div class="field"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="6"/><path d="M15.6 15.6 20 20"/></svg>在已添加的仓库里搜文件名</div>
+          <button class="btn primary">搜索</button>
+          <button class="btn">添加仓库</button>
+        </div>
+        <p class="hint">GitHub 书库只做通路：你填仓库，我列它里面的 PDF / EPUB / TXT，点一下下载到本地书架。内容与授权由你确认。</p>
+        <div class="sec"><h2>mozilla / pdf.js</h2><a class="link">刷新目录</a></div>
+        <ul class="list">
+          ${[
+            ['examples/learning/helloworld.pdf','678 B','PDF'],
+            ['test/pdfs/160F-2019.pdf','320 KB','PDF'],
+            ['web/compressed.tracemonkey-pldi-09.pdf','993 KB','PDF']
+          ].map(([f,size,kind])=>`
+            <li class="item">
+              <div class="mark" style="width:32px;height:32px;border-radius:6px;background:var(--panel2);display:grid;place-items:center;font-size:10px;color:var(--ink3)">${kind}</div>
+              <div class="item-main"><p class="item-title">${f}</p><p class="item-sub">${size} · 点下载会转成可读的书籍</p></div>
+              <button class="btn">下载</button>
+            </li>`).join('')}
+        </ul>
+        <p class="hint" style="margin-top:24px">支持子目录：填 <code style="font-family:ui-monospace,Menlo,monospace">owner/repo#books</code> 就只列 books/ 下面的文件。私有仓库需要在设置里填 token。</p>
+      `;
+    }
+    return `
+    <h1 style="display:none">广场</h1>
+    ${bar}
+    <div class="srch">
+      <div class="field"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="6"/><path d="M15.6 15.6 20 20"/></svg>搜书名、作者、关键词</div>
+      <button class="btn primary">搜索</button>
+    </div>
+    <p class="hint">微信读书书城 · 用你登录的账号搜索，搜到的加进书架就能读</p>
+    <ul class="list">
+      ${[
+        {t:'乌合之众：群体心理研究', a:'[法] 古斯塔夫·勒庞', s:'社会学 · 12.4 万字', go:'加入书架'},
+        {t:'社会性动物（第 12 版）', a:'[美] 埃利奥特·阿伦森', s:'心理学 · 38.1 万字', go:'加入书架'},
+        {t:'狂热分子', a:'[美] 埃里克·霍弗', s:'社会学 · 9.8 万字', go:'加入书架'}
+      ].map((b,i)=>`
+        <li class="item">
+          ${cover(BOOKS[i].c,'c-sm','',b.t)}
+          <div class="item-main"><p class="item-title">${b.t}</p><p class="item-sub">${b.a} · ${b.s}</p></div>
+          <button class="btn">${b.go}</button>
+        </li>`).join('')}
+    </ul>
+    <p class="hint" style="margin-top:28px">换个书源看看：古登堡与维基文库是公版书，能直接下载到本地；GitHub 书库填仓库地址即可浏览其中的 PDF / EPUB。</p>
+  `;
+  }
+};
+
+function render(){
+  const params = new URLSearchParams(location.search);
+  const view = params.get('v') || 'home';
+  if (params.get('w') === 'narrow') document.body.dataset.narrow = '1';
+  if (params.get('h') === 'tall') document.body.dataset.tall = '1';
+  if (params.get('ui') === '0') document.body.dataset.clean = '1';
+  if (params.get('theme') === 'light') document.documentElement.dataset.theme = 'light';
+  document.getElementById('tabs').innerHTML = tabs(view);
+  document.getElementById('main').innerHTML = (views[view] || views.home)();
+}
+function toggleTheme(){
+  const root = document.documentElement;
+  root.dataset.theme = root.dataset.theme === 'light' ? 'dark' : 'light';
+}
+render();
+</script>
+</body>
+</html>

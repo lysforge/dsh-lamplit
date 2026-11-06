@@ -39,32 +39,23 @@ window.__ModuleLoader__.load({
 
     const ZH = {
       'app.title': '灯下',
-      'nav.sources': '来源',
       'nav.import': '导入',
       'nav.importFile': '选择文件…',
       'nav.importPath': '从本机路径导入…',
       'nav.importPathHint': '/Users/me/books/春夜.md',
       'nav.importPathGo': '导入',
-      'nav.clear': '清除',
 
       'filter.all': '全部',
       'filter.local': '本地',
       'filter.weread': '微信读书',
-      'filter.fanqie': '番茄小说',
-      'shelf.sourceAll': '全部来源',
-      'shelf.sourceEmptyTitle': '这个来源还没有书',
-      'shelf.sourceEmptyHint': '连上账号，或者同步一次，书就会出现在这里。',
-      'shelf.connectSources': '管理来源',
       'shelf.finished': '读完',
-      'shelf.emptyTitle': '书架还空着',
+      'shelf.emptyTitle': '书架还是空的',
       'shelf.emptyBody': '把 Markdown、TXT 或 PDF 拖进这里，或者先连上你的微信读书、番茄小说。',
       'shelf.noMatch': '没有匹配的书',
       'shelf.noMatchHint': '换个关键词，或者把筛选拨回「全部」。',
       'shelf.dropTitle': '松手导入',
       'shelf.dropHint': '一次一本，按扩展名自动分派',
-      'shelf.importing': '正在导入 {name}…',
       'shelf.imported': '已导入《{title}》',
-      'shelf.errorTitle': '书架没读出来',
       'shelf.retry': '重试',
       'shelf.remove': '移除',
 
@@ -81,7 +72,6 @@ window.__ModuleLoader__.load({
       'source.cookiePlaceholder': '把请求头里的整条 Cookie 粘贴到这里',
       'source.cookieHelp': '只写进本机 ~/.dsh/lamplit，不显示回界面，也不外传。',
       'source.wereadHow': '浏览器打开 weread.qq.com 并登录 → 开发者工具 → Network 里挑一个请求 → 复制请求头中的整条 Cookie。',
-      'source.fanqieHow': '浏览器打开 fanqienovel.com 并登录 → 开发者工具 → Network 里挑一个请求 → 复制请求头中的整条 Cookie。',
       'source.connect': '连接',
       'source.qrLogin': '用微信扫码登录',
       'source.qrHint': '打开微信 → 扫一扫 → 手机上确认。扫完这里会自动把书架同步下来。',
@@ -184,6 +174,119 @@ window.__ModuleLoader__.load({
       'notes.deleted': '笔记已删',
       'notes.saved': '已记下这段',
 
+      'view.home': '首页',
+      'view.plaza': '广场',
+      'view.settings': '设置',
+      'cover.badgeWeread': '微信',
+
+      'home.continue': '继续阅读',
+      'home.wechatLine': '微信读书进度 {percent}% · 累计 {minutes} 分钟',
+      'home.weekCard': '本周阅读',
+      'home.weekdays': '一 二 三 四 五 六 日',
+      'home.shelfCard': '书架',
+      'home.unitBooks': '本',
+      'home.unitNotes': '笔记',
+      'home.booksCount': '{n} 本',
+      'home.account': '账号',
+      'home.notConnected': '未连接',
+      'home.lastSync': '上次同步',
+      'home.totalRead': '累计阅读',
+      'home.hours': '{n} 小时',
+      'home.sync': '同步书架',
+      'home.recentReading': '最近在读',
+      'home.allBooks': '全部',
+      'home.recentNotes': '最近笔记',
+      'home.allNotes': '全部笔记',
+      'home.footer': '笔记 {notes} 条 · 书架 {books} 本 · 微信读书累计 {hours} 小时',
+
+      'shelf.sourceAll': '全部来源',
+      'shelf.footer': '{books} 本 · 微信读书 {weread} · 本地 {local}',
+      'shelf.emptyImport': '导入文件',
+      'shelf.emptyConnect': '连接微信读书',
+      'shelf.emptyPlaza': '去广场看看',
+
+      'plaza.weread': '微信读书',
+      'plaza.github': 'GitHub 书库',
+      'plaza.wereadPlaceholder': '搜书名、作者、关键词',
+      'plaza.search': '搜索',
+      'plaza.searching': '搜索中…',
+      'plaza.wereadHint': '用你登录的微信读书账号搜索，搜到的加入书架就能读。',
+      'plaza.wereadIdle': '搜一本书，看看微信读书里有什么。',
+      'plaza.noResult': '没搜到，换个词试试。',
+      'plaza.error': '没搜成：',
+      'plaza.words': '{n} 字',
+      'plaza.add': '加入书架',
+      'plaza.added': '已加入',
+      'plaza.download': '下载',
+      'plaza.downloading': '处理中…',
+      'plaza.githubPlaceholder': '在已添加的仓库里搜文件名',
+      'plaza.addRepo': '添加仓库',
+      'plaza.repoPlaceholder': 'owner/repo 或 owner/repo#子目录',
+      'plaza.adding': '添加中…',
+      'plaza.githubHint': '你填仓库，我列它里面的 PDF / EPUB / TXT，点一下下载到本地书架。',
+      'plaza.githubFoot': '支持子目录：填 owner/repo#books 就只列 books/ 下面的文件。私有仓库需要在设置里填 token。',
+      'plaza.noRepo': '还没添加仓库。点「添加仓库」，填一个 owner/repo 就行。',
+      'plaza.refresh': '刷新目录',
+      'plaza.loading': '读取中…',
+      'plaza.filesError': '目录没读出来：',
+      'plaza.noFiles': '这个仓库里没有可读的 PDF / EPUB / TXT。',
+
+      'settings.sources': '来源',
+      'settings.sourcesDesc': '账号只存在本机 ~/.dsh/lamplit，不上传。',
+      'settings.connected': '已连接',
+      'settings.disconnected': '未连接',
+      'settings.wereadLine': '账号 {account} · 上次同步 {time} · 书架 {n} 本',
+      'settings.wereadEmpty': '还没有连接微信读书。点「重新扫码」把账号连上。',
+      'settings.rescan': '重新扫码',
+      'settings.disconnect': '断开',
+      'settings.github': 'GitHub 书库',
+      'settings.githubDesc': '填仓库地址，就能在广场里浏览它里面的 PDF / EPUB / TXT。',
+      'settings.removeRepo': '移除',
+      'settings.addRepo': '添加',
+      'settings.tokenSet': 'GitHub token 已保存（留空则不改）',
+      'settings.tokenPlaceholder': 'GitHub token（可选，把读取限额从 60 次/时提到 5000）',
+      'settings.saveToken': '保存',
+      'settings.reading': '阅读',
+      'settings.readingDesc': '这里是默认值，阅读器里改只影响当前这本书。',
+      'settings.paper': '默认纸张',
+      'settings.paperDesc': '打开新书时用哪一套',
+      'settings.font': '字体',
+      'settings.fontDesc': '衬线适合长文，黑体适合屏幕',
+      'settings.metrics': '字号 · 行距 · 每行字数',
+      'settings.metricsValue': '{size}px · {leading} · {measure} 字',
+      'settings.mode': '翻页方式',
+      'settings.modeDesc': '分页像纸书，滚动更自由',
+      'settings.autohide': '工具条自动隐藏',
+      'settings.autohideDesc': '2.5 秒无操作后淡出',
+      'settings.data': '数据',
+      'settings.dataDesc': '都在本机，想搬走随时导出。',
+      'settings.libraryPath': '书库目录',
+      'settings.libraryPathUnknown': '还没建目录',
+      'settings.copyPath': '复制路径',
+      'settings.export': '导出',
+      'settings.exportDesc': '书单与笔记都是 Markdown',
+      'settings.exportShelf': '导出书单',
+      'settings.exportNotes': '导出全部笔记',
+      'settings.backup': '备份',
+      'settings.backupDesc': '书目 + 笔记 + 设置，不含正文缓存',
+      'settings.backupSave': '导出备份',
+      'settings.backupRestore': '从备份恢复',
+      'settings.pending': '等 host 提供接口',
+      'settings.cache': '章节缓存',
+      'settings.cacheDesc': '在线书的正文缓存',
+      'settings.cacheClear': '清空缓存',
+      'settings.about': '关于',
+      'settings.version': '版本 {version}',
+      'settings.aboutDesc': 'MIT · github.com/lysforge/lamplit',
+      'settings.repo': '打开仓库',
+      'settings.checkUpdate': '检查更新',
+      'settings.upToDate': '已是最新（{version}）',
+      'settings.updateReady': '有新版本 {version}',
+
+      'toast.backupSaved': '备份已导出',
+      'time.today': '今天',
+      'time.yesterday': '昨天',
+
       'nav.back': '返回',
       'shelf.continue': '继续阅读',
       'shelf.reread': '再读一遍',
@@ -198,15 +301,8 @@ window.__ModuleLoader__.load({
       'duration.minutes': '{n} 分',
       'duration.hours': '{n} 小时',
       'duration.hoursMinutes': '{hours} 小时 {minutes} 分',
-
-      'rail.week': '本周阅读',
       'rail.streak': '连续 {n} 天',
-      'rail.recentNotes': '最近笔记',
-      'rail.noNotes': '还没有笔记',
       'rail.noteMeta': '{book} · 第 {n} 章',
-      'rail.allNotes': '全部笔记',
-      'rail.stats': '统计',
-      'rail.exportShelf': '导出书单',
 
       'notes.scopeAll': '全部',
       'notes.scopeBook': '本书',
@@ -220,23 +316,9 @@ window.__ModuleLoader__.load({
       'stats.booksValue': '{n} 本',
       'stats.footer': '笔记 {n} 条 · 书架 {books} 本',
       'stats.wechatTime': '微信读书累计 {time}',
-      'shelf.fromWechat': '进度来自微信读书',
 
       'view.shelf': '书架',
       'view.discover': '发现',
-      'discover.placeholder': '搜微信读书书城：书名、作者',
-      'discover.empty': '搜一本书，看看微信读书里有什么。',
-      'discover.noResult': '没搜到，换个词试试。',
-      'discover.add': '加入书架',
-      'discover.added': '已加入',
-      'discover.error': '书城没打开：',
-      'discover.search': '搜索',
-      'discover.download': '下载到书架',
-      'discover.downloading': '下载中…',
-      'discover.gutenberg': '古登堡',
-      'discover.gutenbergNote': 'Project Gutenberg · 公版书，直接下 EPUB / 纯文本，不需要账号。',
-      'discover.wikisource': '维基文库',
-      'discover.wikisourceNote': '中文公版书与古籍，按条目下载成章节，不需要账号。',
       'view.notes': '笔记',
       'view.stats': '统计',
       'view.label': '视图',
@@ -285,32 +367,23 @@ window.__ModuleLoader__.load({
 
     const EN = {
       'app.title': 'Lamplit',
-      'nav.sources': 'Sources',
       'nav.import': 'Import',
       'nav.importFile': 'Choose a file…',
       'nav.importPath': 'Import from a path…',
       'nav.importPathHint': '/Users/me/books/spring.md',
       'nav.importPathGo': 'Import',
-      'nav.clear': 'Clear',
 
       'filter.all': 'All',
       'filter.local': 'Local',
-      'shelf.sourceAll': 'All sources',
-      'shelf.sourceEmptyTitle': 'Nothing from this source yet',
-      'shelf.sourceEmptyHint': 'Connect the account, or run a sync once, and the books land here.',
-      'shelf.connectSources': 'Manage sources',
       'filter.weread': 'WeRead',
-      'filter.fanqie': 'Fanqie',
       'shelf.finished': 'Finished',
-      'shelf.emptyTitle': 'Nothing on the shelf yet',
+      'shelf.emptyTitle': 'Your shelf is empty',
       'shelf.emptyBody': 'Drop a Markdown, TXT or PDF file here, or connect WeRead and Fanqie first.',
       'shelf.noMatch': 'No book matches',
       'shelf.noMatchHint': 'Try another keyword, or switch the filter back to All.',
       'shelf.dropTitle': 'Drop to import',
       'shelf.dropHint': 'One file at a time, dispatched by extension',
-      'shelf.importing': 'Importing {name}…',
       'shelf.imported': 'Imported “{title}”',
-      'shelf.errorTitle': 'The shelf did not load',
       'shelf.retry': 'Retry',
       'shelf.remove': 'Remove',
 
@@ -327,7 +400,6 @@ window.__ModuleLoader__.load({
       'source.cookiePlaceholder': 'Paste the whole Cookie header here',
       'source.cookieHelp': 'Stored only in ~/.dsh/lamplit on this machine, never shown back, never sent anywhere else.',
       'source.wereadHow': 'Open weread.qq.com in a browser and sign in → DevTools → pick a request in Network → copy the whole Cookie request header.',
-      'source.fanqieHow': 'Open fanqienovel.com in a browser and sign in → DevTools → pick a request in Network → copy the whole Cookie request header.',
       'source.connect': 'Connect',
       'source.qrLogin': 'Sign in with WeChat QR',
       'source.qrHint': 'Open WeChat → Scan → confirm on your phone. The shelf syncs by itself afterwards.',
@@ -430,6 +502,119 @@ window.__ModuleLoader__.load({
       'notes.deleted': 'Note deleted',
       'notes.saved': 'Saved this passage',
 
+      'view.home': 'Home',
+      'view.plaza': 'Plaza',
+      'view.settings': 'Settings',
+      'cover.badgeWeread': 'WeRead',
+
+      'home.continue': 'Continue reading',
+      'home.wechatLine': 'WeRead {percent}% · {minutes} min so far',
+      'home.weekCard': 'This week',
+      'home.weekdays': 'M T W T F S S',
+      'home.shelfCard': 'Shelf',
+      'home.unitBooks': 'books',
+      'home.unitNotes': 'notes',
+      'home.booksCount': '{n}',
+      'home.account': 'Account',
+      'home.notConnected': 'Not connected',
+      'home.lastSync': 'Last sync',
+      'home.totalRead': 'Total read',
+      'home.hours': '{n} h',
+      'home.sync': 'Sync shelf',
+      'home.recentReading': 'Recently read',
+      'home.allBooks': 'All',
+      'home.recentNotes': 'Recent notes',
+      'home.allNotes': 'All notes',
+      'home.footer': '{notes} notes · {books} books · {hours} h on WeRead',
+
+      'shelf.sourceAll': 'All sources',
+      'shelf.footer': '{books} books · {weread} WeRead · {local} local',
+      'shelf.emptyImport': 'Import files',
+      'shelf.emptyConnect': 'Connect WeRead',
+      'shelf.emptyPlaza': 'Browse plaza',
+
+      'plaza.weread': 'WeRead',
+      'plaza.github': 'GitHub library',
+      'plaza.wereadPlaceholder': 'Search title, author, keyword',
+      'plaza.search': 'Search',
+      'plaza.searching': 'Searching…',
+      'plaza.wereadHint': 'Searches with your signed-in WeRead account. Add a result and it lands on your shelf.',
+      'plaza.wereadIdle': 'Search a book to see what WeRead has.',
+      'plaza.noResult': 'Nothing found. Try another word.',
+      'plaza.error': 'Search failed: ',
+      'plaza.words': '{n} chars',
+      'plaza.add': 'Add to shelf',
+      'plaza.added': 'Added',
+      'plaza.download': 'Download',
+      'plaza.downloading': 'Working…',
+      'plaza.githubPlaceholder': 'Filter files in added repos',
+      'plaza.addRepo': 'Add repo',
+      'plaza.repoPlaceholder': 'owner/repo or owner/repo#subpath',
+      'plaza.adding': 'Adding…',
+      'plaza.githubHint': 'Give me a repo and I list its PDF / EPUB / TXT files; one click imports it to your shelf.',
+      'plaza.githubFoot': 'Subpaths work: owner/repo#books lists only files under books/. Private repos need a token in Settings.',
+      'plaza.noRepo': 'No repos yet. Hit “Add repo” and paste owner/repo.',
+      'plaza.refresh': 'Refresh',
+      'plaza.loading': 'Loading…',
+      'plaza.filesError': 'Could not read the listing: ',
+      'plaza.noFiles': 'No readable PDF / EPUB / TXT in this repo.',
+
+      'settings.sources': 'Sources',
+      'settings.sourcesDesc': 'Accounts stay in ~/.dsh/lamplit on this machine.',
+      'settings.connected': 'Connected',
+      'settings.disconnected': 'Not connected',
+      'settings.wereadLine': 'Account {account} · synced {time} · {n} books',
+      'settings.wereadEmpty': 'WeRead is not connected yet. Hit “Re-scan” to link it.',
+      'settings.rescan': 'Re-scan',
+      'settings.disconnect': 'Disconnect',
+      'settings.github': 'GitHub library',
+      'settings.githubDesc': 'Add a repo and browse its PDF / EPUB / TXT from the plaza.',
+      'settings.removeRepo': 'Remove',
+      'settings.addRepo': 'Add',
+      'settings.tokenSet': 'Token saved (leave blank to keep it)',
+      'settings.tokenPlaceholder': 'GitHub token (optional, 60 → 5000 requests/hour)',
+      'settings.saveToken': 'Save',
+      'settings.reading': 'Reading',
+      'settings.readingDesc': 'These are defaults; changes inside the reader apply to that book only.',
+      'settings.paper': 'Default paper',
+      'settings.paperDesc': 'What a new book opens with',
+      'settings.font': 'Typeface',
+      'settings.fontDesc': 'Serif for long text, sans for screens',
+      'settings.metrics': 'Size · leading · characters',
+      'settings.metricsValue': '{size}px · {leading} · {measure} chars',
+      'settings.mode': 'Paging',
+      'settings.modeDesc': 'Paged reads like paper, scroll is freer',
+      'settings.autohide': 'Auto-hide toolbar',
+      'settings.autohideDesc': 'Fades out after 2.5s idle',
+      'settings.data': 'Data',
+      'settings.dataDesc': 'All local. Export anytime.',
+      'settings.libraryPath': 'Library folder',
+      'settings.libraryPathUnknown': 'Not created yet',
+      'settings.copyPath': 'Copy path',
+      'settings.export': 'Export',
+      'settings.exportDesc': 'Shelf and notes as Markdown',
+      'settings.exportShelf': 'Export shelf',
+      'settings.exportNotes': 'Export all notes',
+      'settings.backup': 'Backup',
+      'settings.backupDesc': 'Books, notes, settings — no text cache',
+      'settings.backupSave': 'Export backup',
+      'settings.backupRestore': 'Restore backup',
+      'settings.pending': 'Waiting on a host endpoint',
+      'settings.cache': 'Chapter cache',
+      'settings.cacheDesc': 'Cached text of online books',
+      'settings.cacheClear': 'Clear cache',
+      'settings.about': 'About',
+      'settings.version': 'Version {version}',
+      'settings.aboutDesc': 'MIT · github.com/lysforge/lamplit',
+      'settings.repo': 'Open repo',
+      'settings.checkUpdate': 'Check for updates',
+      'settings.upToDate': 'Up to date ({version})',
+      'settings.updateReady': 'Version {version} is available',
+
+      'toast.backupSaved': 'Backup exported',
+      'time.today': 'Today',
+      'time.yesterday': 'Yesterday',
+
       'nav.back': 'Back',
       'shelf.continue': 'Continue',
       'shelf.reread': 'Read again',
@@ -444,15 +629,8 @@ window.__ModuleLoader__.load({
       'duration.minutes': '{n} min',
       'duration.hours': '{n} h',
       'duration.hoursMinutes': '{hours} h {minutes} min',
-
-      'rail.week': 'This week',
       'rail.streak': '{n}-day streak',
-      'rail.recentNotes': 'Recent notes',
-      'rail.noNotes': 'No notes yet',
       'rail.noteMeta': '{book} · Chapter {n}',
-      'rail.allNotes': 'All notes',
-      'rail.stats': 'Stats',
-      'rail.exportShelf': 'Export shelf',
 
       'notes.scopeAll': 'All',
       'notes.scopeBook': 'This book',
@@ -466,23 +644,9 @@ window.__ModuleLoader__.load({
       'stats.booksValue': '{n} books',
       'stats.footer': '{n} notes · {books} books',
       'stats.wechatTime': 'WeChat Reading total {time}',
-      'shelf.fromWechat': 'Progress from WeChat Reading',
 
       'view.shelf': 'Shelf',
       'view.discover': 'Discover',
-      'discover.placeholder': 'Search the WeRead store',
-      'discover.empty': 'Search WeRead to find something to read.',
-      'discover.noResult': 'Nothing found. Try another word.',
-      'discover.add': 'Add to shelf',
-      'discover.added': 'Added',
-      'discover.error': 'Store unavailable: ',
-      'discover.search': 'Search',
-      'discover.download': 'Download',
-      'discover.downloading': 'Downloading…',
-      'discover.gutenberg': 'Gutenberg',
-      'discover.gutenbergNote': 'Project Gutenberg: public-domain EPUB and plain text, no account needed.',
-      'discover.wikisource': 'Wikisource',
-      'discover.wikisourceNote': 'Chinese public-domain texts and classics, imported chapter by chapter.',
       'view.notes': 'Notes',
       'view.stats': 'Stats',
       'view.label': 'Views',
@@ -538,162 +702,253 @@ window.__ModuleLoader__.load({
       '.pb-root{position:relative;height:100%;min-height:0;display:flex;flex-direction:column;overflow:hidden;',
       'background:var(--dsw-alias-bg-base);color:var(--dsw-alias-label-primary);',
       'font-family:var(--dsw-font-family,-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif);',
-      'font-size:13px;line-height:1.5;box-sizing:border-box;',
+      'font-size:13px;line-height:1.5;box-sizing:border-box;padding-top:var(--pb-frame-pad,0px);',
       '--pb-line:var(--dsw-alias-border-l1);--pb-line-strong:var(--dsw-alias-border-l2);',
       '--pb-accent:var(--dsw-alias-brand-primary);--pb-mute:var(--dsw-alias-label-tertiary);',
-      '--pb-cover-shadow:0 1px 3px rgba(0,0,0,.12);--pb-r-btn:8px;--pb-r-card:8px;--pb-r-chip:999px;',
+      '--pb-ink2:var(--dsw-alias-label-secondary);',
+      '--pb-panel:var(--dsw-alias-bg-layer-1);--pb-panel2:var(--dsw-alias-bg-layer-2);',
+      '--pb-cover-shadow:0 1px 3px rgba(0,0,0,.18);--pb-r-btn:8px;--pb-r-card:10px;--pb-r-chip:999px;',
       '-webkit-font-smoothing:antialiased}',
+      '[data-platform="darwin"] .pb-root{--pb-frame-pad:var(--dsh-frame-top-clearance,0px)}',
       '.pb-root *,.pb-root *::before,.pb-root *::after{box-sizing:border-box}',
       '.pb-num{font-variant-numeric:tabular-nums}',
 
       /* ---------- 控件 ---------- */
-      '.pb-btn{border:1px solid var(--pb-line-strong);background:var(--dsw-alias-bg-layer-1);color:var(--dsw-alias-label-primary);',
+      '.pb-btn{border:1px solid var(--pb-line);background:transparent;color:var(--dsw-alias-label-primary);',
       'border-radius:8px;height:32px;padding:0 12px;font:inherit;font-size:13px;line-height:1;cursor:pointer;',
       'display:inline-flex;align-items:center;gap:6px;white-space:nowrap;transition:background .15s ease,border-color .15s ease,color .15s ease}',
       '.pb-btn:hover{background:var(--dsw-alias-interactive-bg-hover)}',
       '.pb-btn:disabled{opacity:.45;cursor:default}',
-      '.pb-btn-primary{background:var(--dsw-alias-button-primary-fill);border-color:transparent;color:var(--dsw-alias-label-primary-foreground)}',
-      '.pb-btn-primary:hover{background:var(--dsw-alias-button-primary-hover)}',
-      '.pb-btn-quiet{background:transparent;border-color:transparent;color:var(--dsw-alias-label-secondary);padding:0 8px}',
+      '.pb-btn-primary{background:var(--pb-accent);border-color:transparent;color:var(--dsw-alias-label-primary-foreground);font-weight:600}',
+      '.pb-btn-primary:hover{background:var(--pb-accent);opacity:.9}',
+      '.pb-btn-quiet{border-color:transparent;color:var(--pb-ink2);padding:0 8px}',
       '.pb-btn-quiet:hover{background:var(--dsw-alias-interactive-bg-hover);color:var(--dsw-alias-label-primary)}',
       '.pb-iconbtn{width:32px;height:32px;padding:0;justify-content:center;border-radius:8px;border:1px solid transparent;',
-      'background:transparent;color:var(--dsw-alias-label-secondary);display:inline-flex;align-items:center;cursor:pointer;font:inherit}',
+      'background:transparent;color:var(--pb-ink2);display:inline-flex;align-items:center;cursor:pointer;font:inherit}',
       '.pb-iconbtn:hover{background:var(--dsw-alias-interactive-bg-hover);color:var(--dsw-alias-label-primary)}',
       '.pb-iconbtn[data-on="1"]{color:var(--dsw-alias-label-primary);background:var(--dsw-alias-interactive-bg-hover)}',
-      '.pb-btn:focus-visible,.pb-iconbtn:focus-visible,.pb-tab:focus-visible,.pb-book:focus-visible,.pb-scope:focus-visible,',
-      '.pb-textlink:focus-visible,.pb-more:focus-visible,.pb-note-del:focus-visible,.pb-book-menu:focus-visible,',
-      '.pb-note-item:focus-within,.pb-sortbtn:focus-visible,.pb-pop-item:focus-visible,.pb-rail-note:focus-visible,',
-      '.pb-continue:focus-visible,.pb-note-quote:focus-visible{outline:2px solid var(--dsw-focus-ring-color,var(--pb-accent));outline-offset:2px}',
-      '.pb-icon-btn{width:28px;height:28px;padding:0;justify-content:center;border-radius:8px;border:1px solid transparent;',
-      'background:transparent;color:var(--dsw-alias-label-secondary);display:inline-flex;align-items:center;cursor:pointer}',
-      '.pb-icon-btn:hover{background:var(--dsw-alias-interactive-bg-hover);color:var(--dsw-alias-label-primary)}',
-      '.pb-icon-btn[data-on="1"]{color:var(--dsw-alias-label-primary);background:var(--dsw-alias-interactive-bg-hover)}',
-      '.pb-input{height:32px;border:1px solid var(--pb-line-strong);border-radius:8px;background:var(--dsw-alias-bg-layer-2);',
+      '.pb-btn:focus-visible,.pb-iconbtn:focus-visible,.pb-tab:focus-visible,.pb-book:focus-visible,.pb-chip:focus-visible,',
+      '.pb-scope:focus-visible,.pb-textlink:focus-visible,.pb-more:focus-visible,.pb-note-del:focus-visible,',
+      '.pb-book-menu:focus-visible,.pb-sortbtn:focus-visible,.pb-pop-item:focus-visible,.pb-note-quote:focus-visible,',
+      '.pb-continue:focus-visible,.pb-cfg-swatch:focus-visible,.pb-cfg-seg-opt:focus-visible,.pb-cfg-switch:focus-visible,',
+      '.pb-srcchip:focus-visible,.pb-repo:focus-visible{outline:2px solid var(--dsw-focus-ring-color,var(--pb-accent));outline-offset:2px}',
+      '.pb-input{height:32px;border:1px solid transparent;border-radius:8px;background:var(--pb-panel2);',
       'color:var(--dsw-alias-label-primary);font:inherit;font-size:13px;padding:0 10px;outline:none;min-width:0}',
-      '.pb-input:focus{border-color:var(--pb-accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--pb-accent) 16%,transparent)}',
+      '.pb-input:focus{border-color:var(--pb-accent)}',
       '.pb-input::placeholder{color:var(--pb-mute)}',
 
       /* ---------- 顶栏 ---------- */
-      '.pb-appbar{flex:none;height:56px;display:flex;align-items:center;padding:0 clamp(20px,3vw,40px);',
+      '.pb-appbar{flex:none;height:56px;display:flex;align-items:center;gap:20px;padding:0 32px;',
       'border-bottom:1px solid var(--pb-line);background:var(--dsw-alias-bg-base);position:relative;z-index:6}',
-      '.pb-appbar-inner{width:100%;max-width:1120px;margin:0 auto;display:flex;align-items:center;gap:20px;min-width:0;height:100%}',
-      '.pb-headline{display:flex;align-items:center;gap:20px;min-width:0;height:100%}',
-      '.pb-wordmark{font-family:' + SERIF + ';font-size:13px;letter-spacing:.16em;color:var(--pb-mute);white-space:nowrap}',
-      '.pb-wordmark-rule{width:1px;height:12px;background:var(--pb-line-strong);flex:none}',
-      '.pb-headline h1{margin:0;font-size:20px;font-weight:600;line-height:1.4;white-space:nowrap;letter-spacing:.01em}',
-      '.pb-back{width:24px;height:24px;flex:none;display:grid;place-items:center;border:0;background:none;color:var(--pb-mute);',
-      'cursor:pointer;border-radius:4px;padding:0;margin-left:-4px}',
-      '.pb-back:hover{color:var(--dsw-alias-label-primary);background:var(--dsw-alias-interactive-bg-hover)}',
-      '.pb-tabs{display:flex;align-items:center;gap:20px;height:100%}',
-      '.pb-tab{position:relative;border:0;background:none;padding:0;height:100%;cursor:pointer;font:inherit;font-size:14px;',
-      'color:var(--dsw-alias-label-secondary);display:inline-flex;align-items:center;gap:6px;transition:color .15s ease}',
+      '.pb-wordmark{font-family:' + SERIF + ';font-size:13px;letter-spacing:.16em;color:var(--pb-mute);white-space:nowrap;flex:none}',
+      '.pb-wordmark-rule{width:1px;height:12px;background:var(--pb-line);flex:none}',
+      '.pb-tabs{display:flex;align-items:center;gap:22px;height:100%;flex:none}',
+      '.pb-tab{position:relative;display:flex;align-items:center;gap:6px;height:100%;padding:0;border:0;background:none;',
+      'font:inherit;font-size:14px;color:var(--pb-ink2);cursor:pointer;white-space:nowrap;flex:none;transition:color .15s ease}',
       '.pb-tab:hover{color:var(--dsw-alias-label-primary)}',
       '.pb-tab[data-on="1"]{color:var(--pb-accent);font-weight:600}',
-      '.pb-tab[data-on="1"]::after{content:"";position:absolute;left:0;right:0;bottom:16px;height:2px;border-radius:2px;background:var(--pb-accent)}',
-      '.pb-tab i{font-style:normal;font-size:12px;font-weight:400;color:var(--pb-mute)}',
-      '.pb-actions{margin-left:auto;display:flex;align-items:center;gap:6px;min-width:0}',
-      '.pb-narrow-actions{display:flex;align-items:center;gap:2px}',
-      '@media (min-width:1180px){.pb-narrow-actions{display:none}}',
-      '.pb-search{position:relative;display:flex;align-items:center;flex:0 0 auto}',
+      '.pb-tab[data-on="1"]::after{content:"";position:absolute;left:0;right:0;bottom:15px;height:2px;border-radius:2px;background:var(--pb-accent)}',
+      '.pb-tab i{font-style:normal;font-size:12px;color:var(--pb-mute);font-weight:400}',
+      '.pb-grow{flex:1}',
+      '.pb-actions{margin-left:auto;display:flex;align-items:center;gap:8px;flex:none}',
+      '.pb-search{position:relative;display:flex;align-items:center}',
       '.pb-search svg{position:absolute;left:10px;color:var(--pb-mute);pointer-events:none}',
-      '.pb-search input{width:200px;height:32px;border:0;border-radius:8px;background:var(--dsw-alias-bg-layer-2);',
-      'color:var(--dsw-alias-label-primary);font:inherit;font-size:13px;padding:0 10px 0 30px;outline:none;transition:box-shadow .15s ease}',
-      '.pb-search input:focus{box-shadow:0 0 0 2px color-mix(in srgb,var(--pb-accent) 40%,transparent)}',
+      '.pb-search input{width:200px;height:32px;border:1px solid transparent;border-radius:8px;background:var(--pb-panel2);',
+      'color:var(--dsw-alias-label-primary);font:inherit;font-size:13px;padding:0 10px 0 30px;outline:none;transition:border-color .15s ease}',
+      '.pb-search input:focus{border-color:var(--pb-accent)}',
       '.pb-search input::placeholder{color:var(--pb-mute)}',
-      '.pb-sortbtn{height:32px;padding:0 8px;border:0;background:none;color:var(--dsw-alias-label-secondary);font:inherit;',
-      'font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:4px;border-radius:8px;white-space:nowrap}',
-      '.pb-sortbtn:hover{background:var(--dsw-alias-interactive-bg-hover);color:var(--dsw-alias-label-primary)}',
-      '.pb-pop{position:absolute;z-index:24;background:var(--dsw-alias-bg-layer-1);border:1px solid var(--pb-line-strong);',
+      '.pb-pagehead{display:flex;align-items:center;gap:10px;min-width:0}',
+      '.pb-back{width:24px;height:24px;flex:none;display:grid;place-items:center;border:0;background:none;color:var(--pb-mute);',
+      'cursor:pointer;border-radius:4px;padding:0;margin-left:-6px}',
+      '.pb-back:hover{color:var(--dsw-alias-label-primary);background:var(--dsw-alias-interactive-bg-hover)}',
+      '.pb-pagehead h1{margin:0;font-size:20px;font-weight:600;line-height:1.3;white-space:nowrap}',
+
+      /* ---------- 弹层 ---------- */
+      '.pb-pop{position:absolute;z-index:24;background:var(--pb-panel);border:1px solid var(--pb-line-strong);',
       'border-radius:8px;box-shadow:var(--dsw-elevation-panel);padding:4px;min-width:172px;animation:pb-rise .14s ease}',
       '@keyframes pb-rise{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}',
-      '.pb-pop-item{display:flex;width:100%;align-items:center;gap:8px;height:30px;padding:0 9px;border:0;border-radius:4px;',
+      '.pb-pop-item{display:flex;width:100%;align-items:center;gap:8px;height:30px;padding:0 9px;border:0;border-radius:6px;',
       'background:transparent;color:var(--dsw-alias-label-primary);font:inherit;font-size:13px;cursor:pointer;text-align:left;white-space:nowrap}',
       '.pb-pop-item:hover{background:var(--dsw-alias-interactive-bg-hover)}',
+      '.pb-pop-item[data-on="1"]{color:var(--pb-accent);font-weight:600}',
       '.pb-pop-item[data-danger="1"]{color:var(--dsw-alias-state-error-primary)}',
-      '.pb-pop-path{display:flex;gap:6px;padding:4px 4px 2px}',
+      '.pb-pop-path{display:flex;gap:6px;padding:4px}',
 
-      /* ---------- 骨架 ---------- */
+      /* ---------- 布局 ---------- */
       '.pb-stage{position:relative;flex:1;min-height:0;display:flex;flex-direction:column}',
       '.pb-view{position:relative;flex:1;min-height:0;display:flex;flex-direction:column}',
-      '.pb-scroll{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:24px 0 48px;scrollbar-color:var(--dsw-alias-scrollbar-bg-l2) transparent}',
-      '.pb-shell{max-width:1120px;margin:0 auto;padding:0 clamp(20px,3vw,40px);display:flex;gap:32px;align-items:flex-start}',
+      '.pb-scroll{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:28px 0 48px;scrollbar-color:var(--dsw-alias-scrollbar-bg-l2) transparent}',
+      '.pb-shell{max-width:1120px;margin:0 auto;padding:0 32px;display:flex;gap:32px;align-items:flex-start}',
       '.pb-main{flex:1;min-width:0}',
+      '.pb-h1{margin:0 0 20px;font-size:20px;font-weight:600;letter-spacing:.01em}',
 
       /* ---------- 继续阅读 ---------- */
-      '.pb-continue{display:flex;align-items:center;gap:20px;width:100%;min-height:128px;padding:0 8px;border:0;border-radius:8px;',
-      'background:none;font:inherit;color:inherit;text-align:left;cursor:pointer;transition:background .15s ease}',
-      '.pb-continue:hover{background:var(--dsw-alias-bg-layer-2)}',
-      '.pb-continue-cover{width:96px;height:128px;flex:none;border-radius:4px;overflow:hidden;box-shadow:var(--pb-cover-shadow);position:relative}',
-      '.pb-continue-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px}',
+      '.pb-continue{display:flex;align-items:center;gap:24px;width:100%;padding:18px 0 24px;border:0;border-bottom:1px solid var(--pb-line);',
+      'border-radius:0;background:none;font:inherit;color:inherit;text-align:left;cursor:pointer;margin:0 0 24px}',
+      '.pb-continue:hover{background:transparent}',
+      '.pb-continue:hover .pb-continue-title{color:var(--pb-accent)}',
+      '.pb-continue-cover{width:88px;height:117px;flex:none;border-radius:4px;overflow:hidden;box-shadow:var(--pb-cover-shadow);position:relative}',
+      '.pb-continue-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}',
       '.pb-eyebrow{margin:0;font-size:12px;letter-spacing:.08em;color:var(--pb-mute)}',
-      '.pb-continue-title{margin:0;font-size:18px;font-weight:600;line-height:1.4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}',
-      '.pb-continue-sub{margin:0;font-size:13px;color:var(--dsw-alias-label-secondary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}',
-      '.pb-progress-row{display:flex;align-items:center;gap:10px;max-width:420px;margin-top:3px}',
-      '.pb-progress{flex:1;height:2px;border-radius:2px;background:var(--dsw-alias-border-l2);overflow:hidden}',
+      '.pb-continue-title{margin:0;font-family:' + SERIF + ';font-size:22px;font-weight:600;line-height:1.35;',
+      'overflow:hidden;text-overflow:ellipsis;white-space:nowrap;transition:color .15s ease}',
+      '.pb-continue-sub{margin:0;font-size:13px;color:var(--pb-ink2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}',
+      '.pb-progress-row{display:flex;align-items:center;gap:12px;max-width:420px;margin-top:4px}',
+      '.pb-progress{flex:1;height:3px;border-radius:2px;background:var(--pb-line);overflow:hidden}',
       '.pb-progress i{display:block;height:100%;background:var(--pb-accent);border-radius:2px;transition:width .3s ease}',
-      '.pb-progress-label{font-size:12px;color:var(--pb-mute);font-variant-numeric:tabular-nums;flex:none}',
-      '.pb-divider{height:1px;background:var(--pb-line);margin:4px 0 24px}',
-      '.pb-qr{display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 0 6px}',
-      '.pb-qr-art{width:176px;height:176px;padding:10px;border-radius:8px;background:#fff;border:1px solid var(--pb-line)}',
-      '.pb-qr-art svg{width:100%;height:100%;display:block}',
-      '.pb-qr-note{margin:0;font-size:12px;color:var(--pb-mute);text-align:center;line-height:1.5}',
-      '.pb-btn-wide{width:100%;justify-content:center}',
-      '.pb-prov-linkrow{display:flex;gap:6px;align-items:center}',
-      '.pb-prov-linkrow .pb-input{flex:1;min-width:0}',
-      '.pb-discover{padding-top:8px}',
-      '.pb-discover-search{display:flex;gap:8px;align-items:center;margin:0 0 18px}',
-      '.pb-discover-field{flex:1}',
-      '.pb-discover-field input{width:100%}',
-      '.pb-discover-hint{margin:40px 0;color:var(--pb-mute);font-size:13px;text-align:center}',
-      '.pb-discover-note{margin:0 0 14px;text-align:left;font-size:12px}',
-      '.pb-discover-list{display:flex;flex-direction:column;gap:2px;margin:0;padding:0;list-style:none}',
-      '.pb-discover-item{display:flex;align-items:center;gap:14px;padding:10px 8px;border-radius:8px}',
-      '.pb-discover-item:hover{background:var(--dsw-alias-interactive-bg-hover)}',
-      '.pb-discover-cover{position:relative;width:44px;height:59px;flex:none;border-radius:4px;overflow:hidden;box-shadow:var(--pb-cover-shadow)}',
-      '.pb-discover-main{flex:1;min-width:0}',
-      '.pb-discover-title{margin:0;font-size:14px;line-height:1.4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}',
-      '.pb-discover-author{margin:2px 0 0;font-size:12px;color:var(--pb-mute);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}',
-      '.pb-sourcebar{display:flex;align-items:center;gap:2px;flex-wrap:wrap;margin:0 0 14px}',
-      '.pb-srcchip{height:28px;padding:0 10px;border:0;border-radius:8px;background:none;color:var(--dsw-alias-label-secondary);',
-      'font:inherit;font-size:12px;display:inline-flex;align-items:center;gap:6px;cursor:pointer;transition:background .15s ease,color .15s ease}',
-      '.pb-srcchip:hover{background:var(--dsw-alias-interactive-bg-hover);color:var(--dsw-alias-label-primary)}',
-      '.pb-srcchip[data-on="1"]{background:var(--dsw-alias-bg-layer-2);color:var(--dsw-alias-label-primary);font-weight:600}',
-      '.pb-srcchip i{font-style:normal;font-weight:400;color:var(--pb-mute);font-size:12px;font-variant-numeric:tabular-nums}',
-      '.pb-srcdot{width:5px;height:5px;border-radius:50%;background:var(--pb-mute);opacity:.45}',
-      '.pb-srcdot[data-on="1"]{background:var(--pb-accent);opacity:1}',
+      '.pb-progress-label{font-size:13px;color:var(--pb-ink2);font-variant-numeric:tabular-nums;flex:none}',
+      '.pb-continue-note{margin:0;font-size:12px;color:var(--pb-mute);font-variant-numeric:tabular-nums}',
+      '@media (max-width:760px){.pb-continue{flex-wrap:wrap;gap:16px}}.pb-continue{--x:0}',
 
-      /* ---------- 网格 ---------- */
-      '.pb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:28px 24px;margin:0;padding:0;list-style:none}',
-      '.pb-grid[data-density="list"]{grid-template-columns:1fr;gap:14px}',
+      /* ---------- 首页卡片 ---------- */
+      '.pb-cards{display:grid;grid-template-columns:1.15fr 1fr .95fr;gap:20px;margin:0 0 32px}',
+      '@media (max-width:980px){.pb-cards{grid-template-columns:1fr 1fr}.pb-cards>.pb-card:last-child{grid-column:1/-1}}',
+      '@media (max-width:680px){.pb-cards{grid-template-columns:1fr}.pb-cards>.pb-card:last-child{grid-column:auto}}',
+      '.pb-card{border:1px solid var(--pb-line);border-radius:10px;padding:16px 18px;background:var(--pb-panel);min-width:0}',
+      '.pb-card h3{margin:0 0 12px;font-size:12px;font-weight:400;letter-spacing:.06em;color:var(--pb-mute)}',
+      '.pb-card-click{cursor:pointer;transition:border-color .15s ease,background .15s ease}',
+      '.pb-card-click:hover{border-color:var(--pb-line-strong);background:var(--pb-panel2)}',
+      '.pb-big{font-size:26px;font-weight:600;line-height:1.2;font-variant-numeric:tabular-nums;margin:0}',
+      '.pb-big small{font-size:13px;font-weight:400;color:var(--pb-mute);margin-left:4px}',
+      '.pb-bars{display:flex;align-items:flex-end;gap:8px;height:56px;margin:14px 0 8px}',
+      '.pb-bar{width:10px;flex:none;border-radius:2px 2px 0 0;background:color-mix(in srgb,var(--pb-accent) 22%,transparent);min-height:3px}',
+      '.pb-bar[data-on="1"]{background:var(--pb-accent)}',
+      '.pb-rowline{display:flex;justify-content:space-between;gap:12px;font-size:12px;color:var(--pb-ink2);padding:3px 0}',
+      '.pb-rowline b{font-weight:400;font-variant-numeric:tabular-nums;color:var(--dsw-alias-label-primary)}',
+      '.pb-kv{display:flex;gap:22px;margin-top:2px}',
+      '.pb-kv div{display:flex;flex-direction:column;gap:2px}',
+      '.pb-kv b{font-size:15px;font-weight:600;font-variant-numeric:tabular-nums}',
+      '.pb-kv span{font-size:12px;color:var(--pb-mute)}',
+      '.pb-sec{display:flex;align-items:baseline;justify-content:space-between;margin:0 0 14px}',
+      '.pb-sec h2{margin:0;font-size:15px;font-weight:600}',
+      '.pb-link{border:0;background:none;padding:0;font-size:12px;color:var(--pb-accent);cursor:pointer}',
+      '.pb-link:hover{text-decoration:underline}',
+      '.pb-strip{display:flex;gap:20px;overflow:hidden;margin:0 0 32px}',
+      '.pb-mini{width:76px;flex:none;border:0;background:none;padding:0;font:inherit;color:inherit;text-align:left;cursor:pointer}',
+      '.pb-mini .pb-cover-box{width:76px;height:101px;border-radius:4px;overflow:hidden;position:relative;box-shadow:var(--pb-cover-shadow);background:var(--pb-panel2);transition:transform .18s ease}',
+      '.pb-mini:hover .pb-cover-box{transform:translateY(-2px)}',
+      '.pb-mini p{margin:8px 0 0;font-size:12px;line-height:1.4;color:var(--pb-ink2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}',
+      '.pb-note{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--pb-line);width:100%;text-align:left;border-left:0;border-right:0;border-top:0;background:none;font:inherit;color:inherit;cursor:pointer}',
+      '.pb-note:last-child{border-bottom:0}',
+      '.pb-note:hover .pb-note-line{background:var(--pb-accent)}',
+      '.pb-note-line{width:2px;border-radius:2px;flex:none;background:color-mix(in srgb,var(--pb-accent) 40%,transparent);transition:background .15s ease}',
+      '.pb-note-body{min-width:0}',
+      '.pb-note-body p{margin:0;font-size:13px;line-height:1.6;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}',
+      '.pb-note-body p.pb-note-sub{font-size:12px;color:var(--pb-mute);margin-top:4px}',
+      '.pb-foot{margin:26px 0 0;font-size:12px;color:var(--pb-mute);font-variant-numeric:tabular-nums}',
+
+      /* ---------- 书架 ---------- */
+      '.pb-toolbar{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:0 0 22px}',
+      '.pb-chip{height:28px;padding:0 10px;border-radius:8px;border:0;background:none;color:var(--pb-ink2);font:inherit;font-size:12px;',
+      'display:inline-flex;align-items:center;gap:6px;cursor:pointer;white-space:nowrap}',
+      '.pb-chip:hover{background:var(--dsw-alias-interactive-bg-hover);color:var(--dsw-alias-label-primary)}',
+      '.pb-chip[data-on="1"]{background:var(--pb-panel2);color:var(--dsw-alias-label-primary);font-weight:600}',
+      '.pb-chip i{font-style:normal;color:var(--pb-mute);font-weight:400;font-variant-numeric:tabular-nums}',
+      '.pb-chip-dot{width:5px;height:5px;border-radius:50%;background:var(--pb-accent);flex:none}',
+      '.pb-toolbar .pb-grow{flex:1}',
+      '.pb-sortbtn{height:28px;padding:0 8px;border:0;background:none;color:var(--pb-ink2);font:inherit;font-size:12px;',
+      'cursor:pointer;display:inline-flex;align-items:center;gap:4px;border-radius:8px;white-space:nowrap}',
+      '.pb-sortbtn:hover{background:var(--dsw-alias-interactive-bg-hover);color:var(--dsw-alias-label-primary)}',
+      '.pb-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:28px 22px;margin:0;padding:0;list-style:none}',
+      '@media (max-width:1100px){.pb-grid{grid-template-columns:repeat(4,1fr)}}',
+      '@media (max-width:760px){.pb-grid{grid-template-columns:repeat(3,1fr);gap:20px 14px}}',
+      '@media (max-width:520px){.pb-grid{grid-template-columns:repeat(2,1fr)}}',
+      '.pb-grid[data-density="list"]{grid-template-columns:1fr;gap:12px}',
       '.pb-book{position:relative;display:flex;flex-direction:column;gap:8px;padding:0;border:0;background:none;',
       'font:inherit;color:inherit;text-align:left;cursor:pointer}',
-      '.pb-book-cover{position:relative;width:100%;aspect-ratio:3/4;border-radius:4px;overflow:hidden;background:var(--dsw-alias-bg-layer-2);',
+      '.pb-book-cover{position:relative;width:100%;aspect-ratio:3/4;border-radius:4px;overflow:hidden;background:var(--pb-panel2);',
       'box-shadow:var(--pb-cover-shadow);transition:transform .18s ease}',
       '.pb-book:hover .pb-book-cover{transform:translateY(-2px)}',
-      '.pb-book-body{display:flex;flex-direction:column;gap:4px;min-width:0}',
-      '.pb-book-title{margin:0;font-size:13px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;',
-      'overflow:hidden;overflow-wrap:anywhere}',
-      '.pb-book-meta{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--pb-mute);min-width:0;line-height:1.4}',
+      '.pb-book-title{margin:0;font-size:13px;font-weight:400;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;',
+      '-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}',
+      '.pb-book-meta{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--pb-mute);min-width:0;line-height:1.4;margin:0}',
       '.pb-book-meta em{font-style:normal;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}',
-      '.pb-book-pct{margin-left:auto;flex:none;font-variant-numeric:tabular-nums}',
-      '.pb-done-dot{position:absolute;top:6px;right:6px;width:14px;height:14px;border-radius:50%;background:rgba(0,0,0,.42);',
-      'border:2px solid #fff;display:grid;place-items:center;color:#fff;transition:opacity .15s ease}',
-      '.pb-book:hover .pb-done-dot{opacity:0}',
+      '.pb-book-meta b{margin-left:auto;font-weight:400;font-variant-numeric:tabular-nums;flex:none}',
       '.pb-book-menu{position:absolute;top:6px;right:6px;width:24px;height:24px;border:0;border-radius:4px;background:rgba(0,0,0,.45);',
       'color:#fff;display:grid;place-items:center;opacity:0;cursor:pointer;padding:0;transition:opacity .15s ease}',
       '.pb-book:hover .pb-book-menu,.pb-book-menu[data-open="1"]{opacity:1}',
-      '.pb-cover-progress{position:absolute;left:0;right:0;bottom:0;height:2px;background:rgba(255,255,255,.24);opacity:0;transition:opacity .15s ease}',
-      '.pb-cover-progress i{display:block;height:100%;background:rgba(255,255,255,.92)}',
-      '.pb-book:hover .pb-cover-progress{opacity:1}',
+      '.pb-done-dot{position:absolute;top:6px;left:6px;width:14px;height:14px;border-radius:50%;background:rgba(0,0,0,.42);',
+      'border:2px solid #fff;display:grid;place-items:center;color:#fff}',
       '.pb-grid[data-density="list"] .pb-book{flex-direction:row;align-items:center;gap:14px}',
       '.pb-grid[data-density="list"] .pb-book-cover{width:44px;height:59px;aspect-ratio:auto;flex:none}',
       '.pb-grid[data-density="list"] .pb-book-title{-webkit-line-clamp:1}',
       '.pb-grid[data-density="list"] .pb-book-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}',
+      '.pb-book-body{display:flex;flex-direction:column;gap:4px;min-width:0}',
 
-      /* ---------- 封面 ---------- */
+      /* ---------- 广场 ---------- */
+      '.pb-srcbar{display:flex;gap:4px;margin:0 0 16px}',
+      '.pb-srcchip{height:30px;padding:0 12px;border-radius:8px;border:1px solid transparent;background:none;color:var(--pb-ink2);',
+      'font:inherit;font-size:13px;cursor:pointer}',
+      '.pb-srcchip:hover{color:var(--dsw-alias-label-primary)}',
+      '.pb-srcchip[data-on="1"]{background:var(--pb-panel2);color:var(--dsw-alias-label-primary);font-weight:600}',
+      '.pb-srch{display:flex;gap:8px;margin:0 0 8px}',
+      '.pb-srch .pb-field{flex:1}',
+      '.pb-field{height:36px;border-radius:8px;background:var(--pb-panel2);display:flex;align-items:center;gap:8px;padding:0 12px;min-width:0}',
+      '.pb-field svg{color:var(--pb-mute);flex:none}',
+      '.pb-field input{flex:1;min-width:0;height:100%;border:0;background:none;color:var(--dsw-alias-label-primary);font:inherit;font-size:13px;outline:none}',
+      '.pb-field input::placeholder{color:var(--pb-mute)}',
+      '.pb-hint{margin:10px 0 20px;font-size:12px;color:var(--pb-mute);line-height:1.7}',
+      '.pb-list{margin:0;padding:0;list-style:none}',
+      '.pb-item{display:flex;align-items:center;gap:16px;padding:10px 10px;border-radius:8px}',
+      '.pb-item:hover{background:var(--pb-panel2)}',
+      '.pb-item-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}',
+      '.pb-item-title{margin:0;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}',
+      '.pb-item-sub{margin:0;font-size:12px;color:var(--pb-mute);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}',
+      '.pb-kind{width:32px;height:32px;border-radius:6px;background:var(--pb-panel2);display:grid;place-items:center;',
+      'font-size:10px;color:var(--pb-mute);flex:none;letter-spacing:.02em}',
+      '.pb-plaza-list .pb-mini-cover{width:44px;height:59px;flex:none;border-radius:4px;overflow:hidden;position:relative;box-shadow:var(--pb-cover-shadow)}',
+      '.pb-repo-block{margin:0 0 26px}',
+      '.pb-repo-empty{margin:16px 0;font-size:12px;color:var(--pb-mute)}',
+
+      /* ---------- 设置 ---------- */
+      '.pb-drawer-settings{position:absolute;top:0;right:0;bottom:0;width:min(320px,88%);z-index:19;display:flex;flex-direction:column;',
+      'background:var(--pb-panel);border-left:1px solid var(--pb-line-strong);box-shadow:var(--dsw-elevation-panel);',
+      'animation:pb-slide-in .2s cubic-bezier(.2,.7,.3,1)}',
+      '.pb-drawer-settings-body{flex:1;min-height:0;overflow-y:auto;padding:4px 16px 24px}',
+      '.pb-settings-page{max-width:760px}',
+      '.pb-sect{margin:0 0 34px}',
+      '.pb-sect>h2{margin:0 0 6px;font-size:13px;font-weight:600;letter-spacing:.04em}',
+      '.pb-sect>.pb-desc{margin:0 0 14px;font-size:12px;color:var(--pb-mute);line-height:1.7}',
+      '.pb-srow{display:flex;align-items:center;gap:16px;padding:12px 0;border-bottom:1px solid var(--pb-line)}',
+      '.pb-srow:last-child{border-bottom:0}',
+      '.pb-srow .pb-lbl{flex:1;min-width:0}',
+      '.pb-srow .pb-lbl b{display:block;font-size:13px;font-weight:400}',
+      '.pb-srow .pb-lbl span{display:block;font-size:12px;color:var(--pb-mute);margin-top:2px;line-height:1.6}',
+      '.pb-srow .pb-ctl{display:flex;align-items:center;gap:8px;flex:none;flex-wrap:wrap;justify-content:flex-end}',
+      '.pb-source-row{display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-bottom:1px solid var(--pb-line)}',
+      '.pb-source-row:last-child{border-bottom:0}',
+      '.pb-source-mark{width:32px;height:32px;border-radius:8px;background:var(--pb-panel2);display:grid;place-items:center;',
+      'font-family:' + SERIF + ';font-size:12px;color:var(--pb-ink2);flex:none}',
+      '.pb-source-main{flex:1;min-width:0}',
+      '.pb-source-main b{font-size:13px;font-weight:400;display:flex;align-items:center;gap:8px}',
+      '.pb-source-main p{margin:2px 0 0;font-size:12px;color:var(--pb-mute);line-height:1.6;overflow-wrap:anywhere}',
+      '.pb-state{font-size:11px;padding:1px 6px;border-radius:4px;background:var(--pb-panel2);color:var(--pb-mute)}',
+      '.pb-state[data-on="1"]{background:color-mix(in srgb,var(--pb-accent) 20%,transparent);color:var(--pb-accent)}',
+      '.pb-repo-row{display:flex;align-items:center;gap:10px;padding:8px 0;font-size:12px;border-bottom:1px solid var(--pb-line)}',
+      '.pb-repo-row code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:var(--pb-ink2);overflow-wrap:anywhere}',
+      '.pb-repo-row span{margin-left:auto;color:var(--pb-mute);flex:none}',
+      '.pb-cfg-swatches{display:flex;gap:8px}',
+      '.pb-cfg-swatch{width:56px;height:36px;border-radius:6px;border:1px solid var(--pb-line);position:relative;cursor:pointer;padding:0}',
+      '.pb-cfg-swatch[data-on="1"]{outline:2px solid var(--pb-accent);outline-offset:2px}',
+      '.pb-cfg-swatch em{position:absolute;left:0;right:0;bottom:3px;text-align:center;font-style:normal;font-size:10px;color:rgba(0,0,0,.55)}',
+      '.pb-cfg-seg{display:flex;gap:2px;background:var(--pb-panel2);border-radius:8px;padding:2px}',
+      '.pb-cfg-seg-opt{border:0;background:none;font:inherit;font-size:12px;padding:4px 10px;border-radius:6px;color:var(--pb-mute);cursor:pointer}',
+      '.pb-cfg-seg-opt[data-on="1"]{background:var(--dsw-alias-bg-base);color:var(--dsw-alias-label-primary)}',
+      '.pb-cfg-switch{width:34px;height:20px;border-radius:999px;background:var(--pb-panel2);position:relative;cursor:pointer;border:0;padding:0;flex:none}',
+      '.pb-cfg-switch::after{content:"";position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:var(--pb-mute);transition:left .15s ease,background .15s ease}',
+      '.pb-cfg-switch[data-on="1"]{background:color-mix(in srgb,var(--pb-accent) 45%,transparent)}',
+      '.pb-cfg-switch[data-on="1"]::after{left:17px;background:var(--pb-accent)}',
+      '.pb-cfg-range{width:120px;accent-color:var(--pb-accent)}',
+
+      /* ---------- 空态 ---------- */
+      '.pb-empty{min-height:52vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;padding:40px 0}',
+      '.pb-empty svg{color:var(--pb-mute);opacity:.55}',
+      '.pb-empty h2{margin:6px 0 0;font-size:17px;font-weight:600}',
+      '.pb-empty p{margin:0;max-width:420px;font-size:13px;line-height:1.7;color:var(--pb-mute)}',
+      '.pb-empty-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;justify-content:center}',
+
       '.pb-cover{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:14px 14px 26px;overflow:hidden}',
       '.pb-cover img{width:100%;height:100%;object-fit:cover;display:block}',
-      '.pb-cover-frame{position:absolute;top:7px;right:7px;width:9px;height:9px;border-top:1px solid currentColor;',
       'border-right:1px solid currentColor;opacity:.3}',
       '.pb-cover-title{margin:0;font-family:' + SERIF + ';font-size:13px;line-height:1.1;letter-spacing:.06em;text-align:center;',
       'max-height:100%;overflow:hidden}',
@@ -701,30 +956,15 @@ window.__ModuleLoader__.load({
       'text-overflow:ellipsis;letter-spacing:.1em}',
       '.pb-cover-title[data-vertical="0"]{font-size:12px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;',
       '-webkit-box-orient:vertical;overflow:hidden}',
-      '.pb-cover-author{position:absolute;left:12px;right:12px;bottom:9px;font-size:10px;line-height:1.2;text-align:center;',
       'opacity:.7;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}',
-      '.pb-cover-spine{position:absolute;left:0;right:0;bottom:0;height:24px;background:linear-gradient(to top,rgba(0,0,0,.26),rgba(0,0,0,0))}',
-      '.pb-cover-mini{padding:0}',
       '.pb-cover-mini .pb-cover-title,.pb-cover-mini .pb-cover-author,.pb-cover-mini .pb-cover-frame{display:none}',
 
       /* ---------- 右栏 ---------- */
-      '.pb-rail{display:none;width:260px;flex:none;position:sticky;top:0}',
-      '@media (min-width:1180px){.pb-rail{display:block}}',
-      '.pb-rail-block{padding:0 0 18px;margin:0 0 18px;border-bottom:1px solid var(--pb-line)}',
-      '.pb-rail-block:last-child{border-bottom:0}',
-      '.pb-rail-label{margin:0 0 10px;font-size:12px;color:var(--pb-mute);letter-spacing:.04em}',
-      '.pb-duration{font-size:22px;font-weight:600;line-height:1.3;font-variant-numeric:tabular-nums}',
       '.pb-bars{display:flex;align-items:flex-end;gap:8px;height:56px;margin:12px 0 8px}',
       '.pb-bar{width:10px;flex:none;border-radius:2px 2px 0 0;background:color-mix(in srgb,var(--pb-accent) 20%,transparent);min-height:2px}',
       '.pb-bar[data-today="1"]{background:var(--pb-accent)}',
-      '.pb-rail-streak{margin:0;font-size:12px;color:var(--pb-mute);font-variant-numeric:tabular-nums}',
-      '.pb-rail-note{display:block;width:100%;padding:8px 0;border:0;background:none;font:inherit;color:inherit;text-align:left;cursor:pointer}',
-      '.pb-rail-note:hover .pb-rail-quote{color:var(--pb-accent)}',
-      '.pb-rail-quote{margin:0;font-size:13px;line-height:1.5;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--dsw-alias-label-primary)}',
-      '.pb-rail-meta{margin:2px 0 0;font-size:12px;color:var(--pb-mute);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}',
       '.pb-textlink{border:0;background:none;padding:0;color:var(--pb-accent);font:inherit;font-size:12px;cursor:pointer}',
       '.pb-textlink:hover{text-decoration:underline}',
-      '.pb-rail-links{display:flex;gap:14px;align-items:center;margin-top:2px}',
 
       /* ---------- 笔记页 ---------- */
       '.pb-page{padding-bottom:48px}',
@@ -774,7 +1014,6 @@ window.__ModuleLoader__.load({
       '.pb-chart-day[data-zero="1"] .pb-chart-bar{background:var(--dsw-alias-bg-skeleton)}',
       '.pb-chart-label{font-size:12px;color:var(--pb-mute)}',
       '.pb-chart-day[data-today="1"] .pb-chart-label{color:var(--pb-accent);font-weight:600}',
-      '.pb-page-foot-sep{color:var(--pb-mute)}',
       '.pb-page-foot{margin:24px 0 0;font-size:12px;color:var(--pb-mute);font-variant-numeric:tabular-nums}',
 
       /* ---------- 空态 / 加载 / 错误 ---------- */
@@ -841,6 +1080,23 @@ window.__ModuleLoader__.load({
       'box-shadow:var(--dsw-elevation-panel);animation:pb-toast-in .18s ease;max-width:80%;text-align:center}',
       '@keyframes pb-toast-in{from{opacity:0;transform:translate(-50%,6px)}to{opacity:1;transform:translate(-50%,0)}}',
 
+      /* ---------- 封面（覆盖早期规则） ---------- */
+      '.pb-cover{position:absolute;inset:0;display:block;padding:0;overflow:hidden;background:var(--pb-panel2)}',
+      '.pb-cover img{width:100%;height:100%;object-fit:cover;display:block}',
+      '.pb-cover-t{position:absolute;inset:12px 10px 22px;display:flex;align-items:center;justify-content:center;',
+      'font-family:' + SERIF + ';font-size:12px;line-height:1.15;letter-spacing:.1em;color:rgba(255,255,255,.92);',
+      'writing-mode:vertical-rl;text-orientation:upright;overflow:hidden;text-shadow:0 1px 2px rgba(0,0,0,.22)}',
+      '.pb-cover-t[data-h="1"]{writing-mode:horizontal-tb;text-orientation:initial;letter-spacing:.01em;font-size:10.5px;',
+      'line-height:1.45;text-align:center;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;padding:2px}',
+      '.pb-cover[data-size="xs"] .pb-cover-t{font-size:8px;inset:5px 3px 9px;letter-spacing:.02em}',
+      '.pb-cover[data-size="xs"] .pb-cover-badge{display:none}',
+      '.pb-cover[data-size="sm"] .pb-cover-t{font-size:9px;inset:7px 5px 12px}',
+      '.pb-cover[data-size="sm"] .pb-cover-badge{font-size:9px;padding:1px 4px}',
+      '.pb-cover[data-size="md"] .pb-cover-t{font-size:11px;inset:10px 8px 18px}',
+      '.pb-cover[data-size="lg"] .pb-cover-t{font-size:12px;inset:12px 9px 20px}',
+      '.pb-cover[data-size="xxs"] .pb-cover-t,.pb-cover[data-size="xxs"] .pb-cover-badge{display:none}',
+      '.pb-cover-badge{position:absolute;bottom:6px;right:6px;font-size:10px;line-height:1;padding:2px 5px;border-radius:4px;',
+      'background:rgba(0,0,0,.5);color:#fff;letter-spacing:.02em}',
       '.pb-reader{position:absolute;inset:0;display:flex;flex-direction:column;overflow:hidden;',
       '--pb-paper:#fbfaf6;--pb-ink:#191713;--pb-font-size:19px;--pb-line-height:1.9;--pb-measure:34;',
       '--pb-font:' + SERIF + ';background:var(--pb-paper);color:var(--pb-ink);z-index:3}',
@@ -977,7 +1233,7 @@ window.__ModuleLoader__.load({
       'background:color-mix(in srgb,var(--dsw-alias-bg-layer-1) 97%,transparent);border-left:1px solid var(--pb-line-strong);',
       'color:var(--dsw-alias-label-primary);backdrop-filter:blur(14px);box-shadow:var(--dsw-elevation-panel);animation:pb-slide-in .2s cubic-bezier(.2,.7,.3,1)}',
       '.pb-note-list{flex:1;min-height:0;overflow-y:auto;padding:8px 12px 24px;display:flex;flex-direction:column;gap:8px}',
-      '.pb-note{border:1px solid var(--pb-line);border-radius:var(--pb-r-btn);background:var(--dsw-alias-bg-layer-2);padding:10px 12px;display:flex;flex-direction:column;gap:6px}',
+      '.pb-notes .pb-note{border:1px solid var(--pb-line);border-radius:var(--pb-r-btn);background:var(--dsw-alias-bg-layer-2);padding:10px 12px;display:flex;flex-direction:column;gap:6px}',
       '.pb-notes .pb-note-quote{margin:0;font-family:' + SERIF + ';font-size:12.5px;line-height:1.7;color:var(--dsw-alias-label-primary);white-space:pre-wrap;',
       'overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;cursor:pointer}',
       '.pb-notes .pb-note-text{margin:0;font-size:12.5px;line-height:1.7;color:var(--dsw-alias-label-secondary);white-space:pre-wrap;overflow-wrap:anywhere}',
@@ -1004,24 +1260,28 @@ window.__ModuleLoader__.load({
       '.pb-scan-hint{margin:0;font-size:11px;line-height:1.5;text-align:center;color:color-mix(in srgb,var(--pb-ink) 58%,var(--pb-paper))}',
 
       /* ---------- 平台适配 ---------- */
-      '@media (max-width:900px){',
-      '.pb-shell{gap:0}',
+      '@media (max-width:980px){',
+      '.pb-appbar{padding:0 20px;gap:14px}',
+      '.pb-tabs{gap:16px}',
+      '.pb-search input{width:150px}',
+      '.pb-shell{padding:0 20px}',
+      '.pb-scroll{padding:20px 0 40px}',
       '}',
       '@media (max-width:680px){',
-      '.pb-appbar{padding:0 20px}',
-      '.pb-headline{gap:14px}',
-      '.pb-headline h1{font-size:18px}',
+      '.pb-appbar{padding:0 16px;gap:12px}',
+      '.pb-wordmark,.pb-wordmark-rule{display:none}',
       '.pb-tabs{gap:14px}',
-      '.pb-search input{width:128px}',
-      '.pb-grid{grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:24px 16px}',
-      '.pb-continue{gap:14px;padding:12px 6px}',
+      '.pb-tab{font-size:13px}',
+      '.pb-search{display:none}',
+      '.pb-shell{padding:0 16px}',
+      '.pb-continue{gap:16px}',
       '.pb-continue-cover{width:72px;height:96px}',
-      '.pb-continue-title{font-size:15px}',
-      '.pb-progress-row{max-width:none}',
-      '.pb-stat-row{gap:20px}',
-      '.pb-chart{gap:8px}',
-      '.pb-scroll{padding:16px 0 40px}',
-      '.pb-note-quote{font-size:14px}',
+      '.pb-continue-title{font-size:18px}',
+      '.pb-cards{gap:14px}',
+      '.pb-strip{gap:14px;overflow-x:auto}',
+      '.pb-settings{max-width:none}',
+      '.pb-srow{flex-wrap:wrap;gap:8px}',
+      '.pb-srow .pb-ctl{width:100%;justify-content:flex-start}',
       '}',
       '@media (prefers-reduced-motion:reduce){',
       '.pb-root *,.pb-root *::before,.pb-root *::after{animation-duration:.001ms!important;transition-duration:.001ms!important}',
@@ -1141,6 +1401,18 @@ window.__ModuleLoader__.load({
       }
     }
 
+    function fmtWhen(ts, t) {
+      if (!ts) return '—';
+      const date = new Date(ts);
+      const now = new Date();
+      const startOf = (value) => new Date(value.getFullYear(), value.getMonth(), value.getDate()).getTime();
+      const days = Math.round((startOf(now) - startOf(date)) / 86400000);
+      const clock = date.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false });
+      if (days === 0) return t('time.today') + ' ' + clock;
+      if (days === 1) return t('time.yesterday') + ' ' + clock;
+      return date.toLocaleDateString(undefined, { month: 'numeric', day: 'numeric' }) + ' ' + clock;
+    }
+
     function fmtTime(ts) {
       if (!ts) return '';
       try {
@@ -1154,7 +1426,6 @@ window.__ModuleLoader__.load({
 
     function sourceLabelKey(source) {
       if (source === 'weread') return 'filter.weread';
-      if (source === 'fanqie') return 'filter.fanqie';
       return 'filter.local';
     }
 
@@ -1201,10 +1472,10 @@ window.__ModuleLoader__.load({
     }
 
     /** 下载走 Blob + 临时 <a download>：只在 body 上挂一帧，不读写宿主界面。 */
-    function saveMarkdown(filename, markdown) {
-      if (typeof document === 'undefined' || typeof Blob === 'function' === false || typeof URL === 'undefined') return false;
+    function saveFile(filename, text, mime) {
+      if (typeof document === 'undefined' || typeof Blob !== 'function' || typeof URL === 'undefined') return false;
       if (typeof URL.createObjectURL !== 'function') return false;
-      const blob = new Blob([String(markdown || '')], { type: 'text/markdown;charset=utf-8' });
+      const blob = new Blob([String(text || '')], { type: mime || 'text/markdown;charset=utf-8' });
       const href = URL.createObjectURL(blob);
       const anchor = document.createElement('a');
       anchor.href = href;
@@ -1222,6 +1493,10 @@ window.__ModuleLoader__.load({
         }
       }, 1500);
       return true;
+    }
+
+    function saveMarkdown(filename, markdown) {
+      return saveFile(filename, markdown, 'text/markdown;charset=utf-8');
     }
 
     async function copyToClipboard(text) {
@@ -1468,6 +1743,13 @@ window.__ModuleLoader__.load({
       return chars.slice(0, 8).join('') + '…';
     }
 
+    function formatBytes(size) {
+      const bytes = Math.max(0, Number(size) || 0);
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / 1024 / 1024).toFixed(1) + ' MB';
+    }
+
     function formatDuration(seconds, t) {
       const total = Math.max(0, Math.round(Number(seconds) || 0));
       if (total < 60) return t('duration.minutes', { n: 0 });
@@ -1479,24 +1761,59 @@ window.__ModuleLoader__.load({
       return t('duration.hoursMinutes', { hours, minutes: rest });
     }
 
+    /* ------------------------------------------------------------------ */
+    /* 封面                                                                */
+    /* ------------------------------------------------------------------ */
+
+    /** 生成封面的画：每条是一对渐变，封面属于「画」而不是容器。 */
+    const COVER_ART = [
+      'linear-gradient(150deg,#e2b04a,#b9602c)',
+      'linear-gradient(150deg,#a3242a,#5d1218)',
+      'linear-gradient(150deg,#2f4a3a,#17251d)',
+      'linear-gradient(150deg,#3c4a63,#1d2534)',
+      'linear-gradient(150deg,#5a4a3a,#2b211a)',
+      'linear-gradient(150deg,#3f5b4a,#1e2c24)',
+      'linear-gradient(150deg,#c9b48c,#8a7350)',
+      'linear-gradient(150deg,#7d5b8e,#3b2a45)',
+      'linear-gradient(150deg,#8f3f3f,#4a1d1d)',
+      'linear-gradient(150deg,#2c4a5a,#142530)',
+      'linear-gradient(150deg,#6a4a2a,#2f2113)',
+      'linear-gradient(150deg,#1f3b52,#0c1822)',
+    ];
+
+    function coverArt(title) {
+      const text = String(title || '');
+      let hash = 0;
+      for (let index = 0; index < text.length; index += 1) hash = (hash * 31 + text.charCodeAt(index)) % 100003;
+      return COVER_ART[hash % COVER_ART.length];
+    }
+
+    /** 中文≥3 字且西文≤2 才算「中文书名」，走竖排；其余横排四行。 */
+    function isVerticalTitle(title) {
+      const text = String(title || '');
+      const cjk = (text.match(/[\u3040-\u30ff\u4e00-\u9fff]/g) || []).length;
+      const ascii = (text.match(/[A-Za-z]/g) || []).length;
+      return cjk >= 3 && ascii <= 2;
+    }
+
+    function verticalLabel(title) {
+      return Array.from(String(title || '').trim()).slice(0, 7).join('');
+    }
+
     function Cover(props) {
       const book = props.book || {};
-      const variant = props.variant || 'grid';
+      const size = props.size || 'md';
+      const maxChars = size === 'xs' ? 3 : size === 'sm' ? 5 : 7;
       const [broken, setBroken] = useState(false);
       const source = book.cover;
       const useImage = typeof source === 'string' && source !== '' && !broken;
-      const tone = coverTone(book.title);
       const title = String(book.title || '');
-      const cjk = isCJK(title);
-      const titleSize = cjk ? coverFit(title) : coverTextSize(title);
+      const vertical = isVerticalTitle(title);
+      const badge = book.source === 'weread' ? props.t('cover.badgeWeread') : '';
 
       return h(
         'div',
-        {
-          className: 'pb-cover' + (variant === 'mini' ? ' pb-cover-mini' : ''),
-          'data-img': useImage ? '1' : '0',
-          style: useImage ? undefined : { background: tone.bg, color: tone.ink },
-        },
+        { className: 'pb-cover', 'data-img': useImage ? '1' : '0', 'data-size': size, style: useImage ? undefined : { background: coverArt(title) } },
         useImage
           ? h('img', {
               src: source,
@@ -1505,21 +1822,12 @@ window.__ModuleLoader__.load({
               referrerPolicy: 'no-referrer',
               onError: () => setBroken(true),
             })
-          : [
-              h('span', { key: 'frame', className: 'pb-cover-frame', 'aria-hidden': true }),
-              h(
-                'p',
-                {
-                  key: 'title',
-                  className: 'pb-cover-title',
-                  'data-vertical': cjk ? '1' : '0',
-                  style: { fontSize: titleSize + 'px' },
-                },
-                cjk ? coverTitle(title) : title,
-              ),
-              book.author ? h('span', { key: 'author', className: 'pb-cover-author' }, book.author) : null,
-              h('span', { key: 'spine', className: 'pb-cover-spine', 'aria-hidden': true }),
-            ],
+          : h(
+              'span',
+              { className: 'pb-cover-t', 'data-h': vertical ? '0' : '1' },
+              vertical ? verticalLabel(title).slice(0, maxChars) : title,
+            ),
+        badge ? h('span', { className: 'pb-cover-badge' }, badge) : null,
       );
     }
 
@@ -1527,274 +1835,153 @@ window.__ModuleLoader__.load({
     /* 顶栏                                                                */
     /* ------------------------------------------------------------------ */
 
+    const TABS = ['home', 'shelf', 'plaza', 'settings'];
+
     function TopBar(props) {
       const { t } = props;
-      const [sortOpen, setSortOpen] = useState(false);
       const [importOpen, setImportOpen] = useState(false);
       const [pathOpen, setPathOpen] = useState(false);
       const [path, setPath] = useState('');
 
       useEffect(() => {
-        if (!sortOpen && !importOpen) return undefined;
+        if (!importOpen) return undefined;
         const onDown = (event) => {
           const node = event.target;
           if (node && typeof node.closest === 'function' && (node.closest('.pb-pop') || node.closest('.pb-menu-anchor'))) return;
-          setSortOpen(false);
           setImportOpen(false);
         };
         window.addEventListener('mousedown', onDown, true);
         return () => window.removeEventListener('mousedown', onDown, true);
-      }, [sortOpen, importOpen]);
+      }, [importOpen]);
 
-      const title =
-        props.view === 'notes'
-          ? t('view.notes')
-          : props.view === 'stats'
-            ? t('view.stats')
-            : props.view === 'discover'
-              ? t('view.discover')
-              : t('view.shelf');
-
-      const shelfActions = [
-        h(
-          'div',
-          { className: 'pb-narrow-actions', key: 'narrow' },
-          h(
-            'button',
-            { type: 'button', className: 'pb-iconbtn', onClick: props.onOpenNotes, title: t('view.notes'), 'aria-label': t('view.notes') },
-            h(IconNote, { size: 15 }),
-          ),
-          h(
-            'button',
-            { type: 'button', className: 'pb-iconbtn', onClick: props.onOpenStats, title: t('view.stats'), 'aria-label': t('view.stats') },
-            h(IconChart, { size: 15 }),
-          ),
-        ),
-        h(
-          'label',
-          { className: 'pb-search', key: 'search' },
-          h(IconSearch, { size: 13 }),
-          h('input', {
-            ref: props.searchRef,
-            type: 'search',
-            value: props.query,
-            placeholder: t('nav.searchShelf'),
-            'aria-label': t('nav.searchShelf'),
-            onChange: (event) => props.onQuery(event.target.value),
-          }),
-        ),
-        h(
-          'button',
-          {
-            key: 'density',
-            type: 'button',
-            className: 'pb-iconbtn',
-            onClick: () => props.onDensity(props.density === 'grid' ? 'list' : 'grid'),
-            title: t(props.density === 'grid' ? 'density.list' : 'density.grid'),
-            'aria-label': t(props.density === 'grid' ? 'density.list' : 'density.grid'),
-          },
-          props.density === 'grid' ? h(IconGrid, { size: 15 }) : h(IconRows, { size: 15 }),
-        ),
-        h(
-          'div',
-          { key: 'sort', className: 'pb-menu-anchor', style: { position: 'relative' } },
-          h(
-            'button',
-            {
-              type: 'button',
-              className: 'pb-sortbtn',
-              onClick: () => setSortOpen((open) => !open),
-              'aria-expanded': sortOpen ? 'true' : 'false',
-            },
-            t('sort.' + props.sort),
-            h(IconChevron, { size: 12 }),
-          ),
-          sortOpen
-            ? h(
-                'div',
-                { className: 'pb-pop', style: { right: 0, top: 36 } },
-                ['recent', 'added', 'title'].map((key) =>
-                  h(
-                    'button',
-                    {
-                      key,
-                      type: 'button',
-                      className: 'pb-pop-item',
-                      'data-on': props.sort === key ? '1' : '0',
-                      onClick: () => {
-                        props.onSort(key);
-                        setSortOpen(false);
-                      },
-                    },
-                    t('sort.' + key),
-                  ),
-                ),
-              )
-            : null,
-        ),
-        h(
-          'div',
-          { key: 'import', className: 'pb-menu-anchor', style: { position: 'relative' } },
-          h(
-            'button',
-            {
-              type: 'button',
-              className: 'pb-btn pb-btn-primary',
-              onClick: () => setImportOpen((open) => !open),
-              'aria-expanded': importOpen ? 'true' : 'false',
-            },
-            h(IconUpload, { size: 13 }),
-            t('nav.import'),
-          ),
-          importOpen
-            ? h(
-                'div',
-                { className: 'pb-pop', style: { right: 0, top: 38 } },
-                h(
-                  'button',
-                  {
-                    type: 'button',
-                    className: 'pb-pop-item',
-                    onClick: () => {
-                      setImportOpen(false);
-                      props.onImport();
-                    },
-                  },
-                  h(IconUpload, { size: 13 }),
-                  t('nav.importFile'),
-                ),
-                h(
-                  'button',
-                  {
-                    type: 'button',
-                    className: 'pb-pop-item',
-                    onClick: () => setPathOpen((open) => !open),
-                  },
-                  h(IconFolder, { size: 13 }),
-                  t('nav.importPath'),
-                ),
-                pathOpen
-                  ? h(
-                      'div',
-                      { className: 'pb-pop-path' },
-                      h('input', {
-                        className: 'pb-input',
-                        style: { flex: 1, width: 200 },
-                        value: path,
-                        placeholder: t('nav.importPathHint'),
-                        'aria-label': t('nav.importPathHint'),
-                        onChange: (event) => setPath(event.target.value),
-                        onKeyDown: (event) => {
-                          if (event.key === 'Enter') {
-                            props.onImportPath(path);
-                            setPath('');
-                            setPathOpen(false);
-                            setImportOpen(false);
-                          }
-                        },
-                      }),
-                      h(
-                        'button',
-                        {
-                          type: 'button',
-                          className: 'pb-btn',
-                          onClick: () => {
-                            props.onImportPath(path);
-                            setPath('');
-                            setPathOpen(false);
-                            setImportOpen(false);
-                          },
-                        },
-                        t('nav.importPathGo'),
-                      ),
-                    )
-                  : null,
-              )
-            : null,
-        ),
-      ];
-
-      shelfActions.unshift(
-        h(
-          'button',
-          {
-            key: 'discover',
-            type: 'button',
-            className: 'pb-btn pb-btn-quiet',
-            onClick: props.onDiscover,
-          },
-          t('view.discover'),
-        ),
-      );
-
-      shelfActions.unshift(
-        h(
-          'button',
-          {
-            key: 'sources',
-            type: 'button',
-            className: 'pb-btn pb-btn-quiet',
-            onClick: props.onSources,
-            title: t('source.title'),
-          },
-          t('source.title'),
-        ),
-      );
-
-      const notesActions = [
-        h(
-          'button',
-          { key: 'export', type: 'button', className: 'pb-btn pb-btn-quiet', onClick: props.onExportAll, disabled: props.counts.notes === 0 },
-          t('notes.exportAll'),
-        ),
-        h(
-          'button',
-          { key: 'copy', type: 'button', className: 'pb-btn pb-btn-quiet', onClick: props.onCopy, disabled: props.counts.notes === 0 },
-          t('notes.copy'),
-        ),
-      ];
+      const secondary = props.view === 'notes' || props.view === 'stats';
 
       return h(
         'header',
         { className: 'pb-appbar' },
+        h('span', { className: 'pb-wordmark' }, t('app.title')),
+        h('span', { className: 'pb-wordmark-rule', 'aria-hidden': true }),
+        secondary
+          ? h(
+              'div',
+              { className: 'pb-pagehead' },
+              h(
+                'button',
+                { type: 'button', className: 'pb-back', onClick: props.onBack, 'aria-label': t('nav.back'), title: t('nav.back') },
+                h(IconBack, { size: 14 }),
+              ),
+              h('h1', null, props.view === 'notes' ? t('view.notes') : t('view.stats')),
+            )
+          : h(
+              'nav',
+              { className: 'pb-tabs', 'aria-label': t('view.label') },
+              TABS.map((key) =>
+                h(
+                  'button',
+                  {
+                    key,
+                    type: 'button',
+                    className: 'pb-tab',
+                    'data-on': props.view === key ? '1' : '0',
+                    onClick: () => props.onView(key),
+                  },
+                  t('view.' + key),
+                ),
+              ),
+            ),
         h(
           'div',
-          { className: 'pb-appbar-inner' },
+          { className: 'pb-actions' },
+          secondary || props.view === 'plaza' || props.view === 'settings'
+            ? null
+            : h(
+                'label',
+                { className: 'pb-search' },
+                h(IconSearch, { size: 14 }),
+                h('input', {
+                  ref: props.searchRef,
+                  type: 'search',
+                  value: props.query,
+                  placeholder: t('nav.searchShelf'),
+                  'aria-label': t('nav.searchShelf'),
+                  onChange: (event) => props.onQuery(event.target.value),
+                }),
+              ),
           h(
             'div',
-            { className: 'pb-headline' },
-            props.view === 'shelf'
-              ? null
-              : h(
-                  'button',
-                  { type: 'button', className: 'pb-back', onClick: props.onBack, 'aria-label': t('nav.back'), title: t('nav.back') },
-                  h(IconBack, { size: 14 }),
-                ),
-            h('span', { className: 'pb-wordmark' }, t('app.title')),
-            h('span', { className: 'pb-wordmark-rule', 'aria-hidden': true }),
-            h('h1', null, title),
-            props.view === 'shelf'
+            { className: 'pb-menu-anchor', style: { position: 'relative' } },
+            h(
+              'button',
+              {
+                type: 'button',
+                className: 'pb-btn pb-btn-primary',
+                onClick: () => setImportOpen((open) => !open),
+                'aria-expanded': importOpen ? 'true' : 'false',
+              },
+              t('nav.import'),
+            ),
+            importOpen
               ? h(
-                  'nav',
-                  { className: 'pb-tabs', 'aria-label': t('view.label') },
-                  ['all', 'reading', 'finished'].map((key) =>
-                    h(
-                      'button',
-                      {
-                        key,
-                        type: 'button',
-                        className: 'pb-tab',
-                        'data-on': props.filter === key ? '1' : '0',
-                        onClick: () => props.onFilter(key),
+                  'div',
+                  { className: 'pb-pop', style: { right: 0, top: 38 } },
+                  h(
+                    'button',
+                    {
+                      type: 'button',
+                      className: 'pb-pop-item',
+                      onClick: () => {
+                        setImportOpen(false);
+                        props.onImport();
                       },
-                      t('filter.' + key),
-                      h('i', { className: 'pb-num' }, fmtNumber(props.counts[key] || 0)),
-                    ),
+                    },
+                    h(IconUpload, { size: 13 }),
+                    t('nav.importFile'),
                   ),
+                  h(
+                    'button',
+                    { type: 'button', className: 'pb-pop-item', onClick: () => setPathOpen((open) => !open) },
+                    h(IconFolder, { size: 13 }),
+                    t('nav.importPath'),
+                  ),
+                  pathOpen
+                    ? h(
+                        'div',
+                        { className: 'pb-pop-path' },
+                        h('input', {
+                          className: 'pb-input',
+                          style: { flex: 1, width: 220 },
+                          value: path,
+                          placeholder: t('nav.importPathHint'),
+                          'aria-label': t('nav.importPathHint'),
+                          onChange: (event) => setPath(event.target.value),
+                          onKeyDown: (event) => {
+                            if (event.key === 'Enter') {
+                              props.onImportPath(path);
+                              setPath('');
+                              setPathOpen(false);
+                              setImportOpen(false);
+                            }
+                          },
+                        }),
+                        h(
+                          'button',
+                          {
+                            type: 'button',
+                            className: 'pb-btn',
+                            onClick: () => {
+                              props.onImportPath(path);
+                              setPath('');
+                              setPathOpen(false);
+                              setImportOpen(false);
+                            },
+                          },
+                          t('nav.importPathGo'),
+                        ),
+                      )
+                    : null,
                 )
               : null,
           ),
-          h('div', { className: 'pb-actions' }, props.view === 'shelf' ? shelfActions : props.view === 'notes' ? notesActions : null),
         ),
       );
     }
@@ -1802,39 +1989,6 @@ window.__ModuleLoader__.load({
     /* ------------------------------------------------------------------ */
     /* 继续阅读 / 书卡 / 空态                                                */
     /* ------------------------------------------------------------------ */
-
-    function SourceBar(props) {
-      const { t, counts, value, onPick, providers } = props;
-      const connected = {};
-      for (const provider of providers || []) connected[provider.id] = !!provider.connected;
-      const items = [
-        { key: 'all', label: t('shelf.sourceAll'), count: counts.all },
-        { key: 'weread', label: t('filter.weread'), count: counts.weread, online: 'weread' },
-        { key: 'fanqie', label: t('filter.fanqie'), count: counts.fanqie, online: 'fanqie' },
-        { key: 'local', label: t('filter.local'), count: counts.local },
-      ];
-      return h(
-        'div',
-        { className: 'pb-sourcebar', role: 'group', 'aria-label': t('source.title') },
-        items.map((item) =>
-          h(
-            'button',
-            {
-              key: item.key,
-              type: 'button',
-              className: 'pb-srcchip',
-              'data-on': value === item.key ? '1' : '0',
-              onClick: () => onPick(item.key, item.online),
-            },
-            item.online
-              ? h('span', { className: 'pb-srcdot', 'data-on': connected[item.online] ? '1' : '0', 'aria-hidden': true })
-              : null,
-            item.label,
-            h('i', { className: 'pb-num' }, fmtNumber(item.count)),
-          ),
-        ),
-      );
-    }
 
     function ContinueBar(props) {
       const { t, book } = props;
@@ -1847,16 +2001,20 @@ window.__ModuleLoader__.load({
       const chapter = props.chapterTitle
         ? t('shelf.chapterWithTitle', { n: index + 1, title: props.chapterTitle })
         : t('shelf.chapterOnly', { n: index + 1 });
+      const remote = book.remote || {};
+      const rawRemote = Number(remote.progress) || 0;
+      const remotePercent = Math.round(rawRemote > 1 ? clamp(rawRemote, 0, 100) : clamp(rawRemote, 0, 1) * 100);
+      const minutes = Math.round((Number(remote.seconds) || 0) / 60);
 
       return h(
         'button',
         { type: 'button', className: 'pb-continue', onClick: () => props.onOpen(book) },
-        h('div', { className: 'pb-continue-cover' }, h(Cover, { book, variant: 'bar' })),
+        h('div', { className: 'pb-continue-cover' }, h(Cover, { book, t, size: 'lg' })),
         h(
           'div',
           { className: 'pb-continue-body' },
-          h('p', { className: 'pb-eyebrow' }, t('shelf.continue')),
-          h('h2', { className: 'pb-continue-title', title: book.title }, book.title),
+          h('p', { className: 'pb-eyebrow' }, t('home.continue')),
+          h('p', { className: 'pb-continue-title', title: book.title }, book.title),
           h('p', { className: 'pb-continue-sub' }, chapter),
           h(
             'div',
@@ -1864,8 +2022,11 @@ window.__ModuleLoader__.load({
             h('div', { className: 'pb-progress' }, h('i', { style: { width: percent + '%' } })),
             h('span', { className: 'pb-progress-label' }, t('shelf.readPercent', { n: percent })),
           ),
+          remote.progress !== undefined && remote.progress !== null
+            ? h('p', { className: 'pb-continue-note' }, t('home.wechatLine', { percent: remotePercent, minutes }))
+            : null,
         ),
-        h('span', { className: 'pb-btn pb-btn-primary' }, t('shelf.continue')),
+        h('span', { className: 'pb-btn pb-btn-primary' }, t('home.continue')),
       );
     }
 
@@ -1907,13 +2068,8 @@ window.__ModuleLoader__.load({
           h(
             'div',
             { className: 'pb-book-cover' },
-            h(Cover, { book, variant: 'grid' }),
-            book.finished
-              ? h('span', { className: 'pb-done-dot', 'aria-hidden': true }, h(IconCheck, { size: 8 }))
-              : null,
-            percent > 0 && !book.finished
-              ? h('div', { className: 'pb-cover-progress', 'aria-hidden': true }, h('i', { style: { width: percent + '%' } }))
-              : null,
+            h(Cover, { book, t, size: 'md' }),
+            book.finished ? h('span', { className: 'pb-done-dot', 'aria-hidden': true }, h(IconCheck, { size: 8 })) : null,
           ),
           h(
             'div',
@@ -1923,14 +2079,7 @@ window.__ModuleLoader__.load({
               'p',
               { className: 'pb-book-meta' },
               h('em', null, subtitle),
-              h(
-                'span',
-                {
-                  className: 'pb-book-pct pb-num',
-                  title: percentFromWechat(book) ? t('shelf.fromWechat') : undefined,
-                },
-                book.finished ? t('shelf.finished') : t('shelf.percent', { n: percent }),
-              ),
+              h('b', { className: 'pb-num' }, book.finished ? t('shelf.finished') : t('shelf.percent', { n: percent })),
             ),
           ),
           h(
@@ -1951,7 +2100,7 @@ window.__ModuleLoader__.load({
           menu
             ? h(
                 'div',
-                { className: 'pb-pop', style: { right: 0, top: 34 }, onClick: (event) => event.stopPropagation() },
+                { className: 'pb-pop', style: { right: 0, top: 30 }, onClick: (event) => event.stopPropagation() },
                 h(
                   'button',
                   { type: 'button', className: 'pb-pop-item', onClick: () => { setMenu(false); props.onOpen(book); } },
@@ -1998,84 +2147,406 @@ window.__ModuleLoader__.load({
         { className: 'pb-empty' },
         h(
           'svg',
-          { width: 44, height: 44, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.1, strokeLinejoin: 'round', 'aria-hidden': true },
-          h('path', { d: 'M6 3.5h9.5L19 7v13.5H6z' }),
-          h('path', { d: 'M9 12h6M9 15h4' }),
+          { width: 96, height: 96, viewBox: '0 0 96 96', fill: 'none', stroke: 'currentColor', strokeWidth: 1.4, strokeLinecap: 'round', strokeLinejoin: 'round', 'aria-hidden': true },
+          h('path', { d: 'M20 26h22c4 0 7 3 7 7v38c-4-3-9-4-14-4H20z' }),
+          h('path', { d: 'M76 26H54c-4 0-7 3-7 7v38c4-3 9-4 14-4h15z' }),
+          h('path', { d: 'M47 33v30' }),
+          h('path', { d: 'M26 38h12M26 47h12' }),
         ),
         h('h2', null, t('shelf.emptyTitle')),
         h('p', null, t('shelf.emptyBody')),
         h(
           'div',
           { className: 'pb-empty-actions' },
-          h('button', { type: 'button', className: 'pb-btn pb-btn-primary', onClick: props.onImport }, h(IconUpload, { size: 13 }), t('nav.import')),
-          h('button', { type: 'button', className: 'pb-btn', onClick: props.onSources }, t('nav.sources')),
+          h('button', { type: 'button', className: 'pb-btn pb-btn-primary', onClick: props.onImport }, t('shelf.emptyImport')),
+          h('button', { type: 'button', className: 'pb-btn', onClick: props.onConnect }, t('shelf.emptyConnect')),
+          h('button', { type: 'button', className: 'pb-btn pb-btn-quiet', onClick: props.onPlaza }, t('shelf.emptyPlaza')),
         ),
       );
     }
 
     /* ------------------------------------------------------------------ */
-    /* 右栏                                                                */
+    /* 首页                                                                */
     /* ------------------------------------------------------------------ */
 
-    function Rail(props) {
-      const { t, stats } = props;
+    function HomePage(props) {
+      const { t } = props;
+      const shelf = props.shelf || [];
+      const stats = props.stats || {};
       const days = lastSevenDays(stats.days);
       const max = Math.max(1, days.reduce((top, day) => Math.max(top, day.seconds), 0));
-      const recent = (props.notes || []).slice(0, 3);
+      const counts = props.counts || {};
+      const weread = (props.providers || []).find((item) => item.id === 'weread') || null;
+      const recent = props.recent || [];
+      const recentNotes = props.recentNotes || [];
+      const wereadMinutes = Math.round((Number(props.wereadSeconds) || 0) / 60);
+      const wereadHours = Math.round((Number(props.wereadSeconds) || 0) / 3600);
 
       return h(
-        'aside',
-        { className: 'pb-rail' },
+        'section',
+        { className: 'pb-view' },
         h(
-          'section',
-          { className: 'pb-rail-block' },
-          h('p', { className: 'pb-rail-label' }, t('rail.week')),
-          h('p', { className: 'pb-duration' }, formatDuration(stats.week, t)),
+          'div',
+          { className: 'pb-scroll' },
           h(
             'div',
-            { className: 'pb-bars', 'aria-hidden': true },
-            days.map((day) =>
-              h('span', {
-                key: day.key,
-                className: 'pb-bar',
-                'data-today': day.isToday ? '1' : '0',
-                style: { height: Math.max(3, Math.round((day.seconds / max) * 100)) + '%' },
-              }),
-            ),
-          ),
-          h('p', { className: 'pb-rail-streak' }, t('rail.streak', { n: Math.max(0, stats.streak || 0) })),
-        ),
-        h(
-          'section',
-          { className: 'pb-rail-block' },
-          h('p', { className: 'pb-rail-label' }, t('rail.recentNotes')),
-          recent.length === 0
-            ? h('p', { className: 'pb-rail-meta' }, t('rail.noNotes'))
-            : recent.map((note) =>
+            { className: 'pb-shell' },
+            h(
+              'div',
+              { className: 'pb-main' },
+              props.continueBook
+                ? h(ContinueBar, {
+                    t,
+                    book: props.continueBook,
+                    chapterTitle: props.chapterTitle,
+                    onOpen: props.onOpen,
+                  })
+                : null,
+
+              h(
+                'div',
+                { className: 'pb-cards' },
                 h(
-                  'button',
-                  { key: String(note.id), type: 'button', className: 'pb-rail-note', onClick: () => props.onOpenNote(note) },
-                  h('p', { className: 'pb-rail-quote' }, note.quote),
+                  'div',
+                  { className: 'pb-card pb-card-click', role: 'button', tabIndex: 0, onClick: props.onOpenStats },
+                  h('h3', null, t('home.weekCard')),
+                  h('p', { className: 'pb-big' }, formatDuration(stats.week, t)),
                   h(
-                    'p',
-                    { className: 'pb-rail-meta' },
-                    t('rail.noteMeta', { book: note.bookTitle || t('notes.untitled'), n: (Number(note.chapterIndex) || 0) + 1 }),
+                    'div',
+                    { className: 'pb-bars', 'aria-hidden': true },
+                    days.map((day) =>
+                      h('span', {
+                        key: day.key,
+                        className: 'pb-bar',
+                        'data-on': day.isToday ? '1' : '0',
+                        style: { height: Math.max(3, Math.round((day.seconds / max) * 56)) + 'px' },
+                      }),
+                    ),
+                  ),
+                  h(
+                    'div',
+                    { className: 'pb-rowline' },
+                    h('span', null, t('home.weekdays')),
+                    h('span', { className: 'pb-num' }, t('rail.streak', { n: Math.max(0, stats.streak || 0) })),
+                  ),
+                ),
+                h(
+                  'div',
+                  { className: 'pb-card pb-card-click', role: 'button', tabIndex: 0, onClick: () => props.onView('shelf') },
+                  h('h3', null, t('home.shelfCard')),
+                  h(
+                    'div',
+                    { className: 'pb-kv' },
+                    h('div', null, h('b', { className: 'pb-num' }, fmtNumber(counts.all)), h('span', null, t('home.unitBooks'))),
+                    h('div', null, h('b', { className: 'pb-num' }, fmtNumber(counts.reading)), h('span', null, t('filter.reading'))),
+                    h('div', null, h('b', { className: 'pb-num' }, fmtNumber(counts.finished)), h('span', null, t('filter.finished'))),
+                    h('div', null, h('b', { className: 'pb-num' }, fmtNumber(counts.notes)), h('span', null, t('home.unitNotes'))),
+                  ),
+                  h(
+                    'div',
+                    { style: { marginTop: 14 } },
+                    h('div', { className: 'pb-rowline' }, h('span', null, t('filter.weread')), h('b', { className: 'pb-num' }, t('home.booksCount', { n: counts.weread }))),
+                    h('div', { className: 'pb-rowline' }, h('span', null, t('filter.local')), h('b', { className: 'pb-num' }, t('home.booksCount', { n: counts.local }))),
+                  ),
+                ),
+                h(
+                  'div',
+                  { className: 'pb-card' },
+                  h('h3', null, t('filter.weread')),
+                  h(
+                    'div',
+                    { className: 'pb-rowline' },
+                    h('span', null, t('home.account')),
+                    h('b', { className: 'pb-num' }, weread && weread.connected ? weread.account || '—' : t('home.notConnected')),
+                  ),
+                  h(
+                    'div',
+                    { className: 'pb-rowline' },
+                    h('span', null, t('home.lastSync')),
+                    h('b', { className: 'pb-num' }, weread && weread.lastSyncAt ? fmtWhen(weread.lastSyncAt, t) : '—'),
+                  ),
+                  h(
+                    'div',
+                    { className: 'pb-rowline' },
+                    h('span', null, t('home.totalRead')),
+                    h('b', { className: 'pb-num' }, t('home.hours', { n: wereadHours })),
+                  ),
+                  h(
+                    'button',
+                    {
+                      type: 'button',
+                      className: 'pb-btn',
+                      style: { marginTop: 12, width: '100%', justifyContent: 'center' },
+                      onClick: props.onSync,
+                      disabled: !weread || !weread.connected,
+                    },
+                    t('home.sync'),
                   ),
                 ),
               ),
-          h(
-            'div',
-            { className: 'pb-rail-links' },
-            h('button', { type: 'button', className: 'pb-textlink', onClick: props.onAllNotes }, t('rail.allNotes') + ' →'),
-            h('button', { type: 'button', className: 'pb-textlink', onClick: props.onStats }, t('rail.stats') + ' →'),
-            h('button', { type: 'button', className: 'pb-textlink', onClick: props.onExportShelf }, t('rail.exportShelf')),
+
+              recent.length > 0
+                ? h(
+                    'div',
+                    null,
+                    h(
+                      'div',
+                      { className: 'pb-sec' },
+                      h('h2', null, t('home.recentReading')),
+                      h('button', { type: 'button', className: 'pb-link', onClick: () => props.onView('shelf') }, t('home.allBooks') + ' →'),
+                    ),
+                    h(
+                      'div',
+                      { className: 'pb-strip' },
+                      recent.slice(0, 5).map((book) =>
+                        h(
+                          'button',
+                          { key: book.id, type: 'button', className: 'pb-mini', onClick: () => props.onOpen(book), title: book.title },
+                          h('div', { className: 'pb-cover-box' }, h(Cover, { book, t, size: 'sm' })),
+                          h('p', null, book.title),
+                        ),
+                      ),
+                    ),
+                  )
+                : null,
+
+              recentNotes.length > 0
+                ? h(
+                    'div',
+                    null,
+                    h(
+                      'div',
+                      { className: 'pb-sec' },
+                      h('h2', null, t('home.recentNotes')),
+                      h('button', { type: 'button', className: 'pb-link', onClick: () => props.onOpenNotes() }, t('home.allNotes') + ' →'),
+                    ),
+                    h(
+                      'div',
+                      null,
+                      recentNotes.slice(0, 3).map((note) =>
+                        h(
+                          'button',
+                          { key: String(note.id), type: 'button', className: 'pb-note', onClick: () => props.onOpenNote(note) },
+                          h('span', { className: 'pb-note-line', 'aria-hidden': true }),
+                          h(
+                            'span',
+                            { className: 'pb-note-body' },
+                            h('p', null, note.quote),
+                            h(
+                              'p',
+                              { className: 'pb-note-sub' },
+                              t('rail.noteMeta', { book: note.bookTitle || t('notes.untitled'), n: (Number(note.chapterIndex) || 0) + 1 }),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                : null,
+
+              h(
+                'p',
+                { className: 'pb-foot' },
+                t('home.footer', {
+                  notes: counts.notes || 0,
+                  books: counts.all || 0,
+                  hours: wereadHours,
+                }),
+              ),
+            ),
           ),
         ),
       );
     }
 
     /* ------------------------------------------------------------------ */
-    /* 笔记页                                                              */
+    /* 书架                                                                */
+    /* ------------------------------------------------------------------ */
+
+    function ShelfPage(props) {
+      const { t } = props;
+      const [sortOpen, setSortOpen] = useState(false);
+
+      useEffect(() => {
+        if (!sortOpen) return undefined;
+        const onDown = (event) => {
+          const node = event.target;
+          if (node && typeof node.closest === 'function' && node.closest('.pb-menu-anchor')) return;
+          setSortOpen(false);
+        };
+        window.addEventListener('mousedown', onDown, true);
+        return () => window.removeEventListener('mousedown', onDown, true);
+      }, [sortOpen]);
+
+      const counts = props.counts;
+
+      return h(
+        'section',
+        { className: 'pb-view' },
+        h(
+          'div',
+          { className: 'pb-scroll' },
+          h(
+            'div',
+            { className: 'pb-shell' },
+            h(
+              'div',
+              { className: 'pb-main' },
+              props.shelf.length > 0
+                ? h(
+                    'div',
+                    { className: 'pb-toolbar' },
+                    [
+                      ['all', counts.all],
+                      ['weread', counts.weread],
+                      ['local', counts.local],
+                    ].map(([key, count]) =>
+                      h(
+                        'button',
+                        {
+                          key,
+                          type: 'button',
+                          className: 'pb-chip',
+                          'data-on': props.sourceFilter === key ? '1' : '0',
+                          onClick: () => props.onSource(key),
+                        },
+                        key === 'weread' ? h('span', { className: 'pb-chip-dot', 'aria-hidden': true }) : null,
+                        key === 'all' ? t('shelf.sourceAll') : t('filter.' + key),
+                        h('i', { className: 'pb-num' }, fmtNumber(count || 0)),
+                      ),
+                    ),
+                    h('span', { className: 'pb-grow' }),
+                    h(
+                      'button',
+                      {
+                        type: 'button',
+                        className: 'pb-chip',
+                        'data-on': props.filter === 'reading' ? '1' : '0',
+                        onClick: () => props.onFilter(props.filter === 'reading' ? 'all' : 'reading'),
+                      },
+                      t('filter.reading'),
+                      h('i', { className: 'pb-num' }, fmtNumber(counts.reading || 0)),
+                    ),
+                    h(
+                      'button',
+                      {
+                        type: 'button',
+                        className: 'pb-chip',
+                        'data-on': props.filter === 'finished' ? '1' : '0',
+                        onClick: () => props.onFilter(props.filter === 'finished' ? 'all' : 'finished'),
+                      },
+                      t('filter.finished'),
+                      h('i', { className: 'pb-num' }, fmtNumber(counts.finished || 0)),
+                    ),
+                    h(
+                      'div',
+                      { className: 'pb-menu-anchor', style: { position: 'relative' } },
+                      h(
+                        'button',
+                        { type: 'button', className: 'pb-sortbtn', onClick: () => setSortOpen((open) => !open) },
+                        t('sort.' + props.sort),
+                        h(IconChevron, { size: 12 }),
+                      ),
+                      sortOpen
+                        ? h(
+                            'div',
+                            { className: 'pb-pop', style: { right: 0, top: 32 } },
+                            ['recent', 'added', 'title'].map((key) =>
+                              h(
+                                'button',
+                                {
+                                  key,
+                                  type: 'button',
+                                  className: 'pb-pop-item',
+                                  'data-on': props.sort === key ? '1' : '0',
+                                  onClick: () => {
+                                    props.onSort(key);
+                                    setSortOpen(false);
+                                  },
+                                },
+                                t('sort.' + key),
+                              ),
+                            ),
+                          )
+                        : null,
+                    ),
+                    h(
+                      'button',
+                      {
+                        type: 'button',
+                        className: 'pb-chip',
+                        onClick: () => props.onDensity(props.density === 'grid' ? 'list' : 'grid'),
+                      },
+                      props.density === 'grid' ? t('density.grid') : t('density.list'),
+                    ),
+                  )
+                : null,
+
+              props.shelf.length === 0
+                ? h(EmptyShelf, {
+                    t,
+                    onImport: props.onImport,
+                    onConnect: props.onConnect,
+                    onPlaza: () => props.onView('plaza'),
+                  })
+                : props.books.length === 0
+                  ? h(
+                      'div',
+                      { className: 'pb-empty' },
+                      h('h2', null, t('shelf.noMatch')),
+                      h('p', null, t('shelf.noMatchHint')),
+                      h(
+                        'div',
+                        { className: 'pb-empty-actions' },
+                        h(
+                          'button',
+                          {
+                            type: 'button',
+                            className: 'pb-btn',
+                            onClick: () => {
+                              props.onQuery('');
+                              props.onFilter('all');
+                              props.onSource('all');
+                            },
+                          },
+                          t('filter.all'),
+                        ),
+                      ),
+                    )
+                  : h(
+                      'ul',
+                      { className: 'pb-grid', 'data-density': props.density },
+                      props.books.map((book) =>
+                        h(BookCard, {
+                          key: book.id,
+                          t,
+                          book,
+                          onOpen: props.onOpen,
+                          onDelete: props.onDelete,
+                          onFinish: props.onFinish,
+                        }),
+                      ),
+                    ),
+
+              props.shelf.length > 0
+                ? h(
+                    'p',
+                    { className: 'pb-foot' },
+                    t('shelf.footer', {
+                      books: counts.all || 0,
+                      weread: counts.weread || 0,
+                      local: counts.local || 0,
+                    }),
+                  )
+                : null,
+            ),
+          ),
+        ),
+      );
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* 笔记页（二级）                                                        */
     /* ------------------------------------------------------------------ */
 
     function NoteEntry(props) {
@@ -2098,27 +2569,12 @@ window.__ModuleLoader__.load({
           { className: 'pb-note-main' },
           h(
             'p',
-            {
-              className: 'pb-note-quote',
-              'data-open': open ? '1' : '0',
-              onClick: () => props.onOpen(note),
-              title: t('notes.jump'),
-            },
+            { className: 'pb-note-quote', 'data-open': open ? '1' : '0', onClick: () => props.onOpen(note), title: t('notes.jump') },
             note.quote,
           ),
-          open
-            ? null
-            : h(
-                'button',
-                { type: 'button', className: 'pb-more', onClick: () => setOpen(true) },
-                t('notes.expand'),
-              ),
+          open ? null : h('button', { type: 'button', className: 'pb-more', onClick: () => setOpen(true) }, t('notes.expand')),
           note.note ? h('p', { className: 'pb-note-text' }, note.note) : null,
-          h(
-            'p',
-            { className: 'pb-note-meta' },
-            t('notes.meta', { n: (Number(note.chapterIndex) || 0) + 1, time: fmtTime(note.createdAt) }),
-          ),
+          h('p', { className: 'pb-note-meta' }, t('notes.meta', { n: (Number(note.chapterIndex) || 0) + 1, time: fmtTime(note.createdAt) })),
         ),
         h(
           'button',
@@ -2149,56 +2605,46 @@ window.__ModuleLoader__.load({
         const map = new Map();
         (notes || []).forEach((note) => {
           const key = note.bookId || 'unknown';
-          if (!map.has(key)) {
-            map.set(key, { id: key, title: note.bookTitle || t('notes.untitled'), notes: [] });
-          }
+          if (!map.has(key)) map.set(key, { id: key, title: note.bookTitle || t('notes.untitled'), notes: [] });
           map.get(key).notes.push(note);
         });
         return Array.from(map.values());
       }, [notes, t]);
 
-      if (status === 'loading') {
-        return h(
-          'section',
-          { className: 'pb-view' },
-          h(
-            'div',
-            { className: 'pb-scroll' },
-            h('div', { className: 'pb-shell' }, h('div', { className: 'pb-main' }, [0, 1, 2].map((index) => h('div', { key: index, className: 'pb-skel', style: { height: 96, marginBottom: 12 } })))),
-          ),
-        );
-      }
-
-      if (status === 'error') {
-        return h(
-          'section',
-          { className: 'pb-view' },
-          h(
-            'div',
-            { className: 'pb-scroll' },
-            h(
-              'div',
-              { className: 'pb-shell' },
-              h(
+      const body =
+        status === 'loading'
+          ? [0, 1, 2].map((index) => h('div', { key: index, className: 'pb-skel', style: { height: 96, marginBottom: 12 } }))
+          : status === 'error'
+            ? h(
                 'div',
-                { className: 'pb-main' },
+                { className: 'pb-error' },
+                h(IconAlert, { size: 16 }),
                 h(
                   'div',
-                  { className: 'pb-error' },
-                  h(IconAlert, { size: 16 }),
-                  h(
-                    'div',
-                    null,
-                    h('h3', null, t('notes.error')),
-                    h('p', null, error),
-                    h('button', { type: 'button', className: 'pb-btn', style: { marginTop: 8 }, onClick: props.onReload }, t('shelf.retry')),
-                  ),
+                  null,
+                  h('h3', null, t('notes.error')),
+                  h('p', null, error),
+                  h('button', { type: 'button', className: 'pb-btn', style: { marginTop: 8 }, onClick: props.onReload }, t('shelf.retry')),
                 ),
-              ),
-            ),
-          ),
-        );
-      }
+              )
+            : (notes || []).length === 0
+              ? h('div', { className: 'pb-empty-note' }, t('notes.empty'))
+              : groups.map((group) =>
+                  h(
+                    'section',
+                    { className: 'pb-group', key: group.id },
+                    h(
+                      'div',
+                      { className: 'pb-group-head' },
+                      h('span', { className: 'pb-group-cover' }, h(Cover, { book: props.bookOf(group.id, group.title), t, size: 'xxs' })),
+                      h('h2', { className: 'pb-group-title', title: group.title }, group.title),
+                      h('span', { className: 'pb-group-count' }, t('notes.count', { n: group.notes.length })),
+                      h('span', { className: 'pb-grow' }),
+                      h('button', { type: 'button', className: 'pb-textlink', onClick: () => props.onExportBook(group.id) }, t('notes.exportBook')),
+                    ),
+                    group.notes.map((note) => h(NoteEntry, { key: String(note.id), t, note, onOpen: props.onOpen, onDelete: props.onDelete })),
+                  ),
+                );
 
       return h(
         'section',
@@ -2215,11 +2661,7 @@ window.__ModuleLoader__.load({
               h(
                 'div',
                 { className: 'pb-filterbar' },
-                h(
-                  'button',
-                  { type: 'button', className: 'pb-scope', 'data-on': props.scope === 'all' ? '1' : '0', onClick: () => props.onScope('all') },
-                  t('notes.scopeAll'),
-                ),
+                h('button', { type: 'button', className: 'pb-scope', 'data-on': props.scope === 'all' ? '1' : '0', onClick: () => props.onScope('all') }, t('notes.scopeAll')),
                 h(
                   'button',
                   {
@@ -2241,32 +2683,10 @@ window.__ModuleLoader__.load({
                   onChange: (event) => props.onQuery(event.target.value),
                   style: { width: 220 },
                 }),
+                h('button', { type: 'button', className: 'pb-btn pb-btn-quiet', onClick: props.onExportAll, disabled: (notes || []).length === 0 }, t('notes.exportAll')),
+                h('button', { type: 'button', className: 'pb-btn pb-btn-quiet', onClick: props.onCopy, disabled: (notes || []).length === 0 }, t('notes.copy')),
               ),
-              (notes || []).length === 0
-                ? h('div', { className: 'pb-empty-note' }, t('notes.empty'))
-                : groups.map((group) => {
-                    const book = props.bookOf(group.id, group.title);
-                    return h(
-                      'section',
-                      { className: 'pb-group', key: group.id },
-                      h(
-                        'div',
-                        { className: 'pb-group-head' },
-                        h('span', { className: 'pb-group-cover' }, h(Cover, { book, variant: 'mini' })),
-                        h('h2', { className: 'pb-group-title', title: group.title }, group.title),
-                        h('span', { className: 'pb-group-count' }, t('notes.count', { n: group.notes.length })),
-                        h('span', { className: 'pb-grow' }),
-                        h(
-                          'button',
-                          { type: 'button', className: 'pb-textlink', onClick: () => props.onExportBook(group.id) },
-                          t('notes.exportBook'),
-                        ),
-                      ),
-                      group.notes.map((note) =>
-                        h(NoteEntry, { key: String(note.id), t, note, onOpen: props.onOpen, onDelete: props.onDelete }),
-                      ),
-                    );
-                  }),
+              body,
             ),
           ),
         ),
@@ -2274,11 +2694,12 @@ window.__ModuleLoader__.load({
     }
 
     /* ------------------------------------------------------------------ */
-    /* 统计页                                                              */
+    /* 统计页（二级）                                                        */
     /* ------------------------------------------------------------------ */
 
     function StatsPage(props) {
-      const { t, stats } = props;
+      const { t } = props;
+      const stats = props.stats || {};
       const days = useMemo(() => lastSevenDays(stats.days), [stats.days]);
       const max = Math.max(1, days.reduce((top, day) => Math.max(top, day.seconds), 0));
       const goal = clamp(Math.round(((stats.today || 0) / 1800) * 100), 0, 100);
@@ -2304,9 +2725,7 @@ window.__ModuleLoader__.load({
               h(
                 'div',
                 { className: 'pb-stat-row' },
-                cells.map((cell) =>
-                  h('div', { className: 'pb-stat', key: cell.key }, h('b', null, cell.value), h('span', null, cell.label)),
-                ),
+                cells.map((cell) => h('div', { className: 'pb-stat', key: cell.key }, h('b', null, cell.value), h('span', null, cell.label))),
                 h(
                   'div',
                   { className: 'pb-stat-goal' },
@@ -2337,14 +2756,7 @@ window.__ModuleLoader__.load({
                   ),
                 ),
               ),
-              h(
-                'p',
-                { className: 'pb-page-foot' },
-                t('stats.footer', { notes: props.noteCount || 0, books: props.bookCount || 0 }),
-                props.wechatSeconds > 0
-                  ? h('span', { className: 'pb-page-foot-sep' }, ' · ', t('stats.wechatTime', { time: formatDuration(props.wechatSeconds, t) }))
-                  : null,
-              ),
+              h('p', { className: 'pb-page-foot' }, t('stats.footer', { notes: props.noteCount || 0, books: props.bookCount || 0 })),
             ),
           ),
         ),
@@ -2365,8 +2777,8 @@ window.__ModuleLoader__.load({
       const [qrState, setQrState] = useState('');
       const [notice, setNotice] = useState('');
 
-      const label = t(provider.id === 'weread' ? 'filter.weread' : 'filter.fanqie');
-      const howKey = provider.id === 'weread' ? 'source.wereadHow' : 'source.fanqieHow';
+      const label = t('filter.weread');
+      const howKey = 'source.wereadHow';
 
       const run = async (kind, action) => {
         setBusy(kind);
@@ -2533,29 +2945,6 @@ window.__ModuleLoader__.load({
                 busy === 'logout' ? t('source.disconnecting') : t('source.disconnect'),
               ),
             ),
-            provider.id === 'fanqie'
-              ? h(
-                  'div',
-                  { className: 'pb-prov-field', style: { marginTop: 12 } },
-                  h('label', { className: 'pb-prov-label', htmlFor: 'pb-link-' + provider.id }, t('source.addByLink')),
-                  h(
-                    'div',
-                    { className: 'pb-prov-linkrow' },
-                    h('input', {
-                      id: 'pb-link-' + provider.id,
-                      className: 'pb-input',
-                      type: 'url',
-                      value: link,
-                      placeholder: t('source.addByLinkPlaceholder'),
-                      onChange: (event) => setLink(event.target.value),
-                      onKeyDown: (event) => {
-                        if (event.key === 'Enter') addByLink();
-                      },
-                    }),
-                    h('button', { type: 'button', className: 'pb-btn', disabled: !!busy || link.trim() === '', onClick: addByLink }, t('source.add')),
-                  ),
-                )
-              : null,
             provider.id === 'weread'
               ? h(
                   'div',
@@ -2707,11 +3096,8 @@ window.__ModuleLoader__.load({
     function SourceSheet(props) {
       const { t, providers } = props;
       const list = Array.isArray(providers) && providers.length > 0
-        ? providers
-        : [
-            { id: 'weread', connected: false, account: '', shelfCount: 0, lastSyncAt: 0, error: null },
-            { id: 'fanqie', connected: false, account: '', shelfCount: 0, lastSyncAt: 0, error: null },
-          ];
+        ? providers.filter((item) => item.id === 'weread')
+        : [{ id: 'weread', connected: false, account: '', shelfCount: 0, lastSyncAt: 0, error: null }];
       return h(
         'div',
         { className: 'pb-sheet', role: 'dialog', 'aria-modal': 'true', 'aria-label': t('source.title') },
@@ -2752,14 +3138,94 @@ window.__ModuleLoader__.load({
     /* 发现（微信读书书城）                                                  */
     /* ------------------------------------------------------------------ */
 
-    function DiscoverView(props) {
+    /* ------------------------------------------------------------------ */
+    /* 广场                                                                */
+    /* ------------------------------------------------------------------ */
+
+    function GithubFiles(props) {
+      const { t, repo } = props;
+      const [status, setStatus] = useState('idle');
+      const [files, setFiles] = useState([]);
+      const [error, setError] = useState('');
+      const [busy, setBusy] = useState('');
+
+      const load = useCallback(async () => {
+        setStatus('loading');
+        setError('');
+        try {
+          const res = await call('/discover/github/files?repo=' + encodeURIComponent(repo.spec) + '&path=' + encodeURIComponent(repo.path || ''));
+          setFiles(Array.isArray(res.files) ? res.files : []);
+          setStatus('ready');
+        } catch (err) {
+          setError(errorText(err));
+          setStatus('error');
+        }
+      }, [repo.spec, repo.path]);
+
+      useEffect(() => {
+        load();
+      }, [load]);
+
+      const grab = async (file) => {
+        setBusy(file.path);
+        setError('');
+        try {
+          await post('/discover/github/grab', { repo: repo.spec, path: file.path });
+          if (props.onAdded) await props.onAdded();
+        } catch (err) {
+          setError(errorText(err));
+        } finally {
+          setBusy('');
+        }
+      };
+
+      const keyword = String(props.filter || '').trim().toLowerCase();
+      const shown = keyword === '' ? files : files.filter((file) => String(file.path || '').toLowerCase().indexOf(keyword) >= 0);
+
+      return h(
+        'section',
+        { className: 'pb-repo-block' },
+        h(
+          'div',
+          { className: 'pb-sec' },
+          h('h2', null, repo.owner + ' / ' + repo.repo + (repo.path ? ' · ' + repo.path : '')),
+          h('button', { type: 'button', className: 'pb-link', onClick: load }, t('plaza.refresh')),
+        ),
+        status === 'loading' ? h('p', { className: 'pb-repo-empty' }, t('plaza.loading')) : null,
+        status === 'error' ? h('p', { className: 'pb-repo-empty' }, t('plaza.filesError') + error) : null,
+        status === 'ready' && shown.length === 0 ? h('p', { className: 'pb-repo-empty' }, t('plaza.noFiles')) : null,
+        status === 'ready' && shown.length > 0
+          ? h(
+              'ul',
+              { className: 'pb-list' },
+              shown.slice(0, 200).map((file) =>
+                h(
+                  'li',
+                  { className: 'pb-item', key: file.path },
+                  h('span', { className: 'pb-kind' }, String(file.kind || '').toUpperCase()),
+                  h(
+                    'div',
+                    { className: 'pb-item-main' },
+                    h('p', { className: 'pb-item-title', title: file.path }, file.name || file.path),
+                    h('p', { className: 'pb-item-sub' }, file.path + ' · ' + formatBytes(file.size)),
+                  ),
+                  h(
+                    'button',
+                    { type: 'button', className: 'pb-btn', onClick: () => grab(file), disabled: busy === file.path },
+                    busy === file.path ? t('plaza.downloading') : t('plaza.download'),
+                  ),
+                ),
+              ),
+            )
+          : null,
+        error && status === 'ready' ? h('p', { className: 'pb-repo-empty' }, error) : null,
+      );
+    }
+
+    function PlazaPage(props) {
       const { t } = props;
-      const sources = [
-        { id: 'weread', label: t('filter.weread'), note: '' },
-        { id: 'gutenberg', label: t('discover.gutenberg'), note: t('discover.gutenbergNote') },
-        { id: 'wikisource', label: t('discover.wikisource'), note: t('discover.wikisourceNote') },
-      ];
       const [source, setSource] = useState('weread');
+
       const [query, setQuery] = useState('');
       const [status, setStatus] = useState('idle');
       const [results, setResults] = useState([]);
@@ -2767,7 +3233,30 @@ window.__ModuleLoader__.load({
       const [busy, setBusy] = useState('');
       const [done, setDone] = useState({});
 
-      const active = sources.find((item) => item.id === source) || sources[0];
+      const [repos, setRepos] = useState(null);
+      const [repoStatus, setRepoStatus] = useState('idle');
+      const [repoError, setRepoError] = useState('');
+      const [filter, setFilter] = useState('');
+      const [addOpen, setAddOpen] = useState(false);
+      const [spec, setSpec] = useState('');
+      const [adding, setAdding] = useState(false);
+
+      const loadRepos = useCallback(async () => {
+        setRepoStatus('loading');
+        setRepoError('');
+        try {
+          const res = await call('/discover/github/repos');
+          setRepos(Array.isArray(res.repos) ? res.repos : []);
+          setRepoStatus('ready');
+        } catch (err) {
+          setRepoError(errorText(err));
+          setRepoStatus('error');
+        }
+      }, []);
+
+      useEffect(() => {
+        if (source === 'github' && repos === null) loadRepos();
+      }, [source, repos, loadRepos]);
 
       const search = async () => {
         const value = query.trim();
@@ -2776,12 +3265,14 @@ window.__ModuleLoader__.load({
         setError('');
         setResults([]);
         try {
-          const path =
-            source === 'weread'
-              ? '/provider/weread/store?q=' + encodeURIComponent(value)
-              : '/discover/' + source + '?q=' + encodeURIComponent(value);
-          const res = await call(path);
-          setResults(res.results || []);
+          let res;
+          try {
+            res = await call('/provider/weread/store?q=' + encodeURIComponent(value));
+          } catch (err) {
+            if (err && err.code === 'NOTFOUND') res = await call('/provider/weread/search?q=' + encodeURIComponent(value));
+            else throw err;
+          }
+          setResults(Array.isArray(res.results) ? res.results : []);
           setStatus('ready');
         } catch (err) {
           setError(errorText(err));
@@ -2789,24 +3280,148 @@ window.__ModuleLoader__.load({
         }
       };
 
-      const grab = async (item) => {
+      const add = async (item) => {
         const id = item.bookId || item.id;
-        setBusy(id);
+        setBusy(String(id));
         setError('');
         try {
-          if (source === 'weread') {
-            await post('/provider/weread/open', { bookId: id });
-          } else {
-            await post('/discover/' + source + '/grab', { id: String(id) });
-          }
+          await post('/provider/weread/open', { bookId: id, title: item.title, author: item.author });
           setDone((current) => Object.assign({}, current, { [id]: true }));
-          if (props.onRefresh) await props.onRefresh();
+          if (props.onAdded) await props.onAdded();
         } catch (err) {
           setError(errorText(err));
         } finally {
           setBusy('');
         }
       };
+
+      const addRepo = async () => {
+        const value = spec.trim();
+        if (value === '') return;
+        setAdding(true);
+        setRepoError('');
+        try {
+          const res = await post('/discover/github/repos', { spec: value });
+          setRepos(Array.isArray(res.repos) ? res.repos : []);
+          setSpec('');
+          setAddOpen(false);
+        } catch (err) {
+          setRepoError(errorText(err));
+        } finally {
+          setAdding(false);
+        }
+      };
+
+      const weread = h(
+        'div',
+        null,
+        h(
+          'div',
+          { className: 'pb-srch' },
+          h(
+            'label',
+            { className: 'pb-field' },
+            h(IconSearch, { size: 14 }),
+            h('input', {
+              value: query,
+              placeholder: t('plaza.wereadPlaceholder'),
+              'aria-label': t('plaza.wereadPlaceholder'),
+              onChange: (event) => setQuery(event.target.value),
+              onKeyDown: (event) => {
+                if (event.key === 'Enter') search();
+              },
+            }),
+          ),
+          h('button', { type: 'button', className: 'pb-btn pb-btn-primary', onClick: search }, t('plaza.search')),
+        ),
+        h('p', { className: 'pb-hint' }, t('plaza.wereadHint')),
+        error ? h('p', { className: 'pb-repo-empty' }, t('plaza.error') + error) : null,
+        status === 'idle' ? h('p', { className: 'pb-repo-empty' }, t('plaza.wereadIdle')) : null,
+        status === 'loading' ? h('p', { className: 'pb-repo-empty' }, t('plaza.searching')) : null,
+        status === 'ready' && results.length === 0 ? h('p', { className: 'pb-repo-empty' }, t('plaza.noResult')) : null,
+        results.length > 0
+          ? h(
+              'ul',
+              { className: 'pb-list pb-plaza-list' },
+              results.map((item) => {
+                const id = String(item.bookId || item.id || item.title);
+                return h(
+                  'li',
+                  { className: 'pb-item', key: id },
+                  h('span', { className: 'pb-mini-cover' }, h(Cover, { book: { title: item.title, author: item.author, cover: item.cover }, t, size: 'xs' })),
+                  h(
+                    'div',
+                    { className: 'pb-item-main' },
+                    h('p', { className: 'pb-item-title' }, item.title),
+                    h('p', { className: 'pb-item-sub' }, [item.author, item.words ? t('plaza.words', { n: fmtNumber(item.words) }) : ''].filter(Boolean).join(' · ')),
+                  ),
+                  h(
+                    'button',
+                    { type: 'button', className: 'pb-btn', onClick: () => add(item), disabled: busy === id || done[id] },
+                    done[id] ? t('plaza.added') : busy === id ? t('plaza.downloading') : t('plaza.add'),
+                  ),
+                );
+              }),
+            )
+          : null,
+      );
+
+      const github = h(
+        'div',
+        null,
+        h(
+          'div',
+          { className: 'pb-srch' },
+          h(
+            'label',
+            { className: 'pb-field' },
+            h(IconSearch, { size: 14 }),
+            h('input', {
+              value: filter,
+              placeholder: t('plaza.githubPlaceholder'),
+              'aria-label': t('plaza.githubPlaceholder'),
+              onChange: (event) => setFilter(event.target.value),
+            }),
+          ),
+          h('button', { type: 'button', className: 'pb-btn', onClick: () => setAddOpen((open) => !open) }, t('plaza.addRepo')),
+        ),
+        addOpen
+          ? h(
+              'div',
+              { className: 'pb-srch' },
+              h(
+                'label',
+                { className: 'pb-field' },
+                h(IconFolder, { size: 14 }),
+                h('input', {
+                  value: spec,
+                  placeholder: t('plaza.repoPlaceholder'),
+                  'aria-label': t('plaza.repoPlaceholder'),
+                  onChange: (event) => setSpec(event.target.value),
+                  onKeyDown: (event) => {
+                    if (event.key === 'Enter') addRepo();
+                  },
+                }),
+              ),
+              h('button', { type: 'button', className: 'pb-btn pb-btn-primary', onClick: addRepo, disabled: adding }, adding ? t('plaza.adding') : t('plaza.add')),
+            )
+          : null,
+        h('p', { className: 'pb-hint' }, t('plaza.githubHint')),
+        repoError ? h('p', { className: 'pb-repo-empty' }, repoError) : null,
+        repoStatus === 'loading' ? h('p', { className: 'pb-repo-empty' }, t('plaza.loading')) : null,
+        repoStatus === 'ready' && (repos || []).length === 0
+          ? h('p', { className: 'pb-repo-empty' }, t('plaza.noRepo'))
+          : (repos || []).map((repo) =>
+              h(GithubFiles, {
+                key: repo.spec + (repo.path || ''),
+                t,
+                repo,
+                filter,
+                onAdded: props.onAdded,
+              }),
+            ),
+        h('p', { className: 'pb-hint', style: { marginTop: 24 } }, t('plaza.githubFoot')),
+      );
 
       return h(
         'section',
@@ -2819,138 +3434,433 @@ window.__ModuleLoader__.load({
             { className: 'pb-shell' },
             h(
               'div',
-              { className: 'pb-main pb-discover' },
+              { className: 'pb-main' },
               h(
                 'div',
-                { className: 'pb-sourcebar' },
-                sources.map((item) =>
+                { className: 'pb-srcbar' },
+                [
+                  ['weread', t('plaza.weread')],
+                  ['github', t('plaza.github')],
+                ].map(([key, label]) =>
                   h(
                     'button',
-                    {
-                      key: item.id,
-                      type: 'button',
-                      className: 'pb-srcchip',
-                      'data-on': source === item.id ? '1' : '0',
-                      onClick: () => {
-                        setSource(item.id);
-                        setResults([]);
-                        setStatus('idle');
-                        setError('');
-                      },
-                    },
-                    item.label,
+                    { key, type: 'button', className: 'pb-srcchip', 'data-on': source === key ? '1' : '0', onClick: () => setSource(key) },
+                    label,
                   ),
                 ),
               ),
-              active.note ? h('p', { className: 'pb-discover-hint pb-discover-note' }, active.note) : null,
-              h(
-                'div',
-                { className: 'pb-discover-search' },
-                h(
-                  'div',
-                  { className: 'pb-search pb-discover-field' },
-                  h(IconSearch, { size: 14 }),
-                  h('input', {
-                    type: 'search',
-                    value: query,
-                    placeholder: t('discover.placeholder'),
-                    'aria-label': t('discover.placeholder'),
-                    onChange: (event) => setQuery(event.target.value),
-                    onKeyDown: (event) => {
-                      if (event.key === 'Enter') search();
-                    },
-                  }),
-                ),
-                h(
-                  'button',
-                  {
-                    type: 'button',
-                    className: 'pb-btn pb-btn-primary',
-                    disabled: status === 'loading' || query.trim() === '',
-                    onClick: search,
-                  },
-                  status === 'loading' ? t('reader.loading') : t('discover.search'),
-                ),
-              ),
-              status === 'idle' ? h('p', { className: 'pb-discover-hint' }, t('discover.empty')) : null,
-              status === 'ready' && results.length === 0
-                ? h('p', { className: 'pb-discover-hint' }, t('discover.noResult'))
-                : null,
-              status === 'error' ? h('p', { className: 'pb-note-msg' }, t('discover.error') + error) : null,
-              error !== '' && status !== 'error' ? h('p', { className: 'pb-note-msg' }, error) : null,
-              results.length > 0
-                ? h(
-                    'ul',
-                    { className: 'pb-discover-list' },
-                    results.map((item) => {
-                      const id = item.bookId || item.id;
-                      return h(
-                        'li',
-                        { className: 'pb-discover-item', key: String(id) },
-                        h(
-                          'div',
-                          { className: 'pb-discover-cover' },
-                          h(Cover, {
-                            book: { title: item.title, cover: item.cover, author: item.author },
-                            variant: 'grid',
-                          }),
-                        ),
-                        h(
-                          'div',
-                          { className: 'pb-discover-main' },
-                          h('p', { className: 'pb-discover-title' }, item.title || String(id)),
-                          h('p', { className: 'pb-discover-author' }, item.author || item.snippet || ''),
-                        ),
-                        h(
-                          'button',
-                          {
-                            type: 'button',
-                            className: 'pb-btn',
-                            disabled: busy === id || done[id] === true,
-                            onClick: () => grab(item),
-                          },
-                          done[id]
-                            ? t('discover.added')
-                            : busy === id
-                              ? t('discover.downloading')
-                              : source === 'weread'
-                                ? t('discover.add')
-                                : t('discover.download'),
-                        ),
-                      );
-                    }),
-                  )
-                : null,
+              source === 'weread' ? weread : github,
             ),
           ),
         ),
       );
     }
 
-
     /* ------------------------------------------------------------------ */
-    /* 阅读器                                                              */
+    /* 设置                                                                */
     /* ------------------------------------------------------------------ */
 
+    function SettingsPage(props) {
+      const { t, settings } = props;
+      const set = props.onSettings;
+      const weread = (props.providers || []).find((item) => item.id === 'weread') || null;
+
+      const [repos, setRepos] = useState(null);
+      const [repoError, setRepoError] = useState('');
+      const [spec, setSpec] = useState('');
+      const [adding, setAdding] = useState(false);
+      const [token, setToken] = useState('');
+      const [hasToken, setHasToken] = useState(false);
+      const [savingToken, setSavingToken] = useState(false);
+
+      const loadGithub = useCallback(async () => {
+        setRepoError('');
+        try {
+          const res = await call('/discover/github/repos');
+          setRepos(Array.isArray(res.repos) ? res.repos : []);
+        } catch (err) {
+          setRepoError(errorText(err));
+        }
+        try {
+          const info = await call('/discover/github/token');
+          setHasToken(!!info.hasToken);
+        } catch (err) {
+          /* token 读不到不致命 */
+        }
+      }, []);
+
+      useEffect(() => {
+        loadGithub();
+      }, [loadGithub]);
+
+      const addRepo = async () => {
+        const value = spec.trim();
+        if (value === '') return;
+        setAdding(true);
+        setRepoError('');
+        try {
+          const res = await post('/discover/github/repos', { spec: value });
+          setRepos(Array.isArray(res.repos) ? res.repos : []);
+          setSpec('');
+        } catch (err) {
+          setRepoError(errorText(err));
+        } finally {
+          setAdding(false);
+        }
+      };
+
+      const removeRepo = async (repo) => {
+        setRepoError('');
+        try {
+          const res = await del('/discover/github/repos?spec=' + encodeURIComponent(repo.spec));
+          setRepos(Array.isArray(res.repos) ? res.repos : []);
+        } catch (err) {
+          setRepoError(errorText(err));
+        }
+      };
+
+      const saveToken = async () => {
+        setSavingToken(true);
+        setRepoError('');
+        try {
+          const res = await post('/discover/github/token', { token: token.trim() });
+          setHasToken(!!res.hasToken);
+          setToken('');
+        } catch (err) {
+          setRepoError(errorText(err));
+        } finally {
+          setSavingToken(false);
+        }
+      };
+
+      const row = (key, label, desc, control) =>
+        h(
+          'div',
+          { className: 'pb-srow', key },
+          h('div', { className: 'pb-lbl' }, h('b', null, label), desc ? h('span', null, desc) : null),
+          h('div', { className: 'pb-ctl' }, control),
+        );
+
+      const seg = (key, options, value, onPick) =>
+        h(
+          'div',
+          { className: 'pb-cfg-seg', key },
+          options.map((option) =>
+            h(
+              'button',
+              {
+                key: option.value,
+                type: 'button',
+                className: 'pb-cfg-seg-opt',
+                'data-on': value === option.value ? '1' : '0',
+                onClick: () => onPick(option.value),
+              },
+              option.label,
+            ),
+          ),
+        );
+
+      return h(
+        'section',
+        { className: 'pb-view' },
+        h(
+          'div',
+          { className: 'pb-scroll' },
+          h(
+            'div',
+            { className: 'pb-shell' },
+            h(
+              'div',
+              { className: 'pb-main pb-settings-page' },
+
+              h(
+                'section',
+                { className: 'pb-sect' },
+                h('h2', null, t('settings.sources')),
+                h('p', { className: 'pb-desc' }, t('settings.sourcesDesc')),
+                h(
+                  'div',
+                  { className: 'pb-source-row' },
+                  h('span', { className: 'pb-source-mark' }, '微'),
+                  h(
+                    'div',
+                    { className: 'pb-source-main' },
+                    h(
+                      'b',
+                      null,
+                      t('filter.weread'),
+                      h('span', { className: 'pb-state', 'data-on': weread && weread.connected ? '1' : '0' }, weread && weread.connected ? t('settings.connected') : t('settings.disconnected')),
+                    ),
+                    h(
+                      'p',
+                      null,
+                      weread && weread.connected
+                        ? t('settings.wereadLine', {
+                            account: weread.account || '—',
+                            time: weread.lastSyncAt ? fmtWhen(weread.lastSyncAt, t) : '—',
+                            n: weread.shelfCount || 0,
+                          })
+                        : t('settings.wereadEmpty'),
+                    ),
+                  ),
+                  h(
+                    'div',
+                    { className: 'pb-ctl' },
+                    h('button', { type: 'button', className: 'pb-btn', onClick: props.onSync, disabled: !weread || !weread.connected }, t('home.sync')),
+                    h('button', { type: 'button', className: 'pb-btn pb-btn-quiet', onClick: props.onConnect }, t('settings.rescan')),
+                    h(
+                      'button',
+                      { type: 'button', className: 'pb-btn pb-btn-quiet', onClick: props.onDisconnect, disabled: !weread || !weread.connected },
+                      t('settings.disconnect'),
+                    ),
+                  ),
+                ),
+                h(
+                  'div',
+                  { className: 'pb-source-row' },
+                  h('span', { className: 'pb-source-mark' }, 'GH'),
+                  h(
+                    'div',
+                    { className: 'pb-source-main' },
+                    h('b', null, t('settings.github')),
+                    h('p', null, t('settings.githubDesc')),
+                    (repos || []).map((repo) =>
+                      h(
+                        'div',
+                        { className: 'pb-repo-row', key: repo.spec + (repo.path || '') },
+                        h('code', null, repo.spec + (repo.path ? '#' + repo.path : '')),
+                        h('button', { type: 'button', className: 'pb-textlink', style: { marginLeft: 'auto' }, onClick: () => removeRepo(repo) }, t('settings.removeRepo')),
+                      ),
+                    ),
+                    h(
+                      'div',
+                      { style: { display: 'flex', gap: 8, marginTop: 10, flexWrap: 'wrap' } },
+                      h('input', {
+                        className: 'pb-input',
+                        style: { minWidth: 240, flex: 1 },
+                        value: spec,
+                        placeholder: t('plaza.repoPlaceholder'),
+                        'aria-label': t('plaza.repoPlaceholder'),
+                        onChange: (event) => setSpec(event.target.value),
+                        onKeyDown: (event) => {
+                          if (event.key === 'Enter') addRepo();
+                        },
+                      }),
+                      h('button', { type: 'button', className: 'pb-btn', onClick: addRepo, disabled: adding }, adding ? t('plaza.adding') : t('settings.addRepo')),
+                    ),
+                    h(
+                      'div',
+                      { style: { display: 'flex', gap: 8, marginTop: 8, flexWrap: 'wrap', alignItems: 'center' } },
+                      h('input', {
+                        className: 'pb-input',
+                        type: 'password',
+                        autoComplete: 'off',
+                        style: { minWidth: 240, flex: 1 },
+                        value: token,
+                        placeholder: hasToken ? t('settings.tokenSet') : t('settings.tokenPlaceholder'),
+                        'aria-label': t('settings.tokenPlaceholder'),
+                        onChange: (event) => setToken(event.target.value),
+                      }),
+                      h('button', { type: 'button', className: 'pb-btn pb-btn-quiet', onClick: saveToken, disabled: savingToken }, t('settings.saveToken')),
+                    ),
+                    repoError ? h('p', { className: 'pb-note-msg' }, repoError) : null,
+                  ),
+                ),
+              ),
+
+              h(
+                'section',
+                { className: 'pb-sect' },
+                h('h2', null, t('settings.reading')),
+                h('p', { className: 'pb-desc' }, t('settings.readingDesc')),
+                row(
+                  'theme',
+                  t('settings.paper'),
+                  t('settings.paperDesc'),
+                  h(
+                    'div',
+                    { className: 'pb-cfg-swatches' },
+                    THEMES.map((theme) =>
+                      h(
+                        'button',
+                        {
+                          key: theme,
+                          type: 'button',
+                          className: 'pb-cfg-swatch',
+                          'data-on': settings.theme === theme ? '1' : '0',
+                          onClick: () => set({ theme }),
+                          title: t('reader.theme' + theme.charAt(0).toUpperCase() + theme.slice(1)),
+                          style: {
+                            background:
+                              theme === 'paper' ? '#fbfaf6' : theme === 'sepia' ? '#f2e5cc' : theme === 'ink' ? '#15171b' : '#e6ecdb',
+                          },
+                        },
+                        h('em', { style: theme === 'ink' ? { color: '#cbc7bc' } : undefined }, t('reader.theme' + theme.charAt(0).toUpperCase() + theme.slice(1))),
+                      ),
+                    ),
+                  ),
+                ),
+                row(
+                  'font',
+                  t('settings.font'),
+                  t('settings.fontDesc'),
+                  seg(
+                    'font',
+                    [
+                      { value: 'serif', label: t('reader.serif') },
+                      { value: 'sans', label: t('reader.sans') },
+                    ],
+                    settings.fontFamily,
+                    (value) => set({ fontFamily: value }),
+                  ),
+                ),
+                row(
+                  'metric',
+                  t('settings.metrics'),
+                  t('settings.metricsValue', { size: settings.fontSize, leading: settings.lineHeight.toFixed(1), measure: settings.measure }),
+                  [
+                    h('input', {
+                      key: 'size',
+                      className: 'pb-cfg-range',
+                      type: 'range',
+                      min: 15,
+                      max: 32,
+                      value: settings.fontSize,
+                      'aria-label': t('reader.size'),
+                      onChange: (event) => set({ fontSize: clamp(event.target.value, 15, 32) }),
+                    }),
+                    h('input', {
+                      key: 'leading',
+                      className: 'pb-cfg-range',
+                      type: 'range',
+                      min: 1.4,
+                      max: 2.4,
+                      step: 0.1,
+                      value: settings.lineHeight,
+                      'aria-label': t('reader.leading'),
+                      onChange: (event) => set({ lineHeight: Math.round(clamp(event.target.value, 1.4, 2.4) * 10) / 10 }),
+                    }),
+                    h('input', {
+                      key: 'measure',
+                      className: 'pb-cfg-range',
+                      type: 'range',
+                      min: 24,
+                      max: 52,
+                      value: settings.measure,
+                      'aria-label': t('reader.measure'),
+                      onChange: (event) => set({ measure: Math.round(clamp(event.target.value, 24, 52)) }),
+                    }),
+                  ],
+                ),
+                row(
+                  'mode',
+                  t('settings.mode'),
+                  t('settings.modeDesc'),
+                  seg(
+                    'mode',
+                    [
+                      { value: 'paged', label: t('reader.paged') },
+                      { value: 'scroll', label: t('reader.scroll') },
+                    ],
+                    settings.mode,
+                    (value) => set({ mode: value }),
+                  ),
+                ),
+                row(
+                  'autohide',
+                  t('settings.autohide'),
+                  t('settings.autohideDesc'),
+                  h('button', {
+                    type: 'button',
+                    className: 'pb-cfg-switch',
+                    'data-on': settings.chromeAutoHide ? '1' : '0',
+                    role: 'switch',
+                    'aria-checked': settings.chromeAutoHide ? 'true' : 'false',
+                    onClick: () => set({ chromeAutoHide: !settings.chromeAutoHide }),
+                  }),
+                ),
+              ),
+
+              h(
+                'section',
+                { className: 'pb-sect' },
+                h('h2', null, t('settings.data')),
+                h('p', { className: 'pb-desc' }, t('settings.dataDesc')),
+                row(
+                  'path',
+                  t('settings.libraryPath'),
+                  props.storage || t('settings.libraryPathUnknown'),
+                  [
+                    h('button', { key: 'copy', type: 'button', className: 'pb-btn pb-btn-quiet', onClick: props.onCopyPath, disabled: !props.storage }, t('settings.copyPath')),
+                  ],
+                ),
+                row('export', t('settings.export'), t('settings.exportDesc'), [
+                  h('button', { key: 'shelf', type: 'button', className: 'pb-btn pb-btn-quiet', onClick: props.onExportShelf }, t('settings.exportShelf')),
+                  h('button', { key: 'notes', type: 'button', className: 'pb-btn pb-btn-quiet', onClick: props.onExportNotes }, t('settings.exportNotes')),
+                ]),
+                row('backup', t('settings.backup'), t('settings.backupDesc'), [
+                  h('button', { key: 'save', type: 'button', className: 'pb-btn pb-btn-quiet', onClick: props.onBackup }, t('settings.backupSave')),
+                  h('button', { key: 'restore', type: 'button', className: 'pb-btn pb-btn-quiet', disabled: true, title: t('settings.pending') }, t('settings.backupRestore')),
+                ]),
+                row('cache', t('settings.cache'), t('settings.cacheDesc'), [
+                  h('button', { key: 'clear', type: 'button', className: 'pb-btn pb-btn-quiet', disabled: true, title: t('settings.pending') }, t('settings.cacheClear')),
+                ]),
+              ),
+
+              h(
+                'section',
+                { className: 'pb-sect' },
+                h('h2', null, t('settings.about')),
+                row(
+                  'about',
+                  t('settings.version', { version: props.version || '—' }),
+                  t('settings.aboutDesc'),
+                  [
+                    h(
+                      'button',
+                      { key: 'check', type: 'button', className: 'pb-btn pb-btn-quiet', onClick: props.onCheckUpdate },
+                      t('settings.checkUpdate'),
+                    ),
+                    h(
+                      'a',
+                      {
+                        key: 'repo',
+                        className: 'pb-btn pb-btn-quiet',
+                        href: 'https://github.com/lysforge/lamplit',
+                        target: '_blank',
+                        rel: 'noopener noreferrer',
+                      },
+                      t('settings.repo'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+
+    /** 正文块渲染：标题降两级，段落保留缩进，代码块保留换行。 */
     function blockElement(block, index) {
       const key = 'b' + index;
       if (!block || typeof block !== 'object') return null;
-      const text = typeof block.x === 'string' ? block.x : '';
+      const value = typeof block.x === 'string' ? block.x : '';
       switch (block.t) {
         case 'h': {
           const level = clamp(block.l || 2, 1, 3);
-          return h('h' + (level + 2), { key, className: 'pb-h' + level }, text);
+          return h('h' + (level + 2), { key, className: 'pb-h' + level }, value);
         }
         case 'q':
-          return h('blockquote', { key, className: 'pb-q' }, text);
+          return h('blockquote', { key, className: 'pb-q' }, value);
         case 'li':
-          return h('p', { key, className: 'pb-li' }, text);
+          return h('p', { key, className: 'pb-li' }, value);
         case 'code':
-          return h('pre', { key, className: 'pb-pre' }, h('code', null, text));
+          return h('pre', { key, className: 'pb-pre' }, h('code', null, value));
         case 'hr':
           return h('hr', { key, className: 'pb-hr' });
         default:
-          return h('p', { key, className: 'pb-p' }, text);
+          return h('p', { key, className: 'pb-p' }, value);
       }
     }
 
@@ -3003,13 +3913,14 @@ window.__ModuleLoader__.load({
       const seg = (options, value, onChange) =>
         h(
           'div',
-          { className: 'pb-seg', role: 'group' },
+          { className: 'pb-cfg-seg', role: 'group' },
           options.map((option) =>
             h(
               'button',
               {
                 key: option.value,
                 type: 'button',
+                className: 'pb-cfg-seg-opt',
                 'data-on': option.value === value ? '1' : '0',
                 onClick: () => onChange(option.value),
               },
@@ -3023,7 +3934,7 @@ window.__ModuleLoader__.load({
           'button',
           {
             type: 'button',
-            className: 'pb-switch',
+            className: 'pb-cfg-switch',
             'data-on': value ? '1' : '0',
             role: 'switch',
             'aria-checked': value ? 'true' : 'false',
@@ -3034,7 +3945,7 @@ window.__ModuleLoader__.load({
 
       return h(
         'aside',
-        { className: 'pb-settings', role: 'dialog', 'aria-modal': 'false', 'aria-label': t('reader.settings') },
+        { className: 'pb-drawer-settings', role: 'dialog', 'aria-modal': 'false', 'aria-label': t('reader.settings') },
         h(
           'div',
           { className: 'pb-drawer-head', style: { display: 'flex', alignItems: 'center', gap: 8 } },
@@ -3047,20 +3958,20 @@ window.__ModuleLoader__.load({
         ),
         h(
           'div',
-          { className: 'pb-settings-body' },
+          { className: 'pb-drawer-settings-body' },
           row(
             t('reader.theme'),
             null,
             h(
               'div',
-              { className: 'pb-swatches' },
+              { className: 'pb-cfg-swatches' },
               THEMES.map((theme) =>
                 h(
                   'button',
                   {
                     key: theme,
                     type: 'button',
-                    className: 'pb-swatch',
+                    className: 'pb-cfg-swatch',
                     'data-on': settings.theme === theme ? '1' : '0',
                     onClick: () => set({ theme }),
                     title: t('reader.theme' + theme.charAt(0).toUpperCase() + theme.slice(1)),
@@ -3091,7 +4002,7 @@ window.__ModuleLoader__.load({
             t('reader.size'),
             settings.fontSize + ' px',
             h('input', {
-              className: 'pb-range',
+              className: 'pb-cfg-range',
               type: 'range',
               min: 15,
               max: 32,
@@ -3105,7 +4016,7 @@ window.__ModuleLoader__.load({
             t('reader.leading'),
             settings.lineHeight.toFixed(1),
             h('input', {
-              className: 'pb-range',
+              className: 'pb-cfg-range',
               type: 'range',
               min: 1.4,
               max: 2.4,
@@ -3119,7 +4030,7 @@ window.__ModuleLoader__.load({
             t('reader.measure'),
             String(settings.measure),
             h('input', {
-              className: 'pb-range',
+              className: 'pb-cfg-range',
               type: 'range',
               min: 24,
               max: 52,
@@ -4417,7 +5328,7 @@ window.__ModuleLoader__.load({
         const [boot, setBoot] = useState({ status: 'loading', error: '' });
         const [data, setData] = useState({ shelf: [], providers: [], stats: {}, storage: null });
         const [settings, setSettings] = useState(DEFAULT_SETTINGS);
-        const [view, setView] = useState('shelf');
+        const [view, setView] = useState('home');
         const [filter, setFilter] = useState('all');
         const [sourceFilter, setSourceFilter] = useState('all');
         const [query, setQuery] = useState('');
@@ -4437,6 +5348,7 @@ window.__ModuleLoader__.load({
         const [dragDepth, setDragDepth] = useState(0);
         const [busy, setBusy] = useState('');
         const [chapterTitle, setChapterTitle] = useState('');
+        const [version, setVersion] = useState('0.1.3');
 
         const fileRef = useRef(null);
         const searchRef = useRef(null);
@@ -4502,6 +5414,14 @@ window.__ModuleLoader__.load({
         useEffect(() => {
           loadState();
           loadNotes();
+          (async () => {
+            try {
+              const res = await call('/version');
+              if (aliveRef.current && res && typeof res.current === 'string') setVersion(res.current);
+            } catch (error) {
+              /* 版本拿不到就用内置的 */
+            }
+          })();
         }, [loadState, loadNotes]);
 
         const refreshAfterReading = useCallback(() => {
@@ -4607,7 +5527,7 @@ window.__ModuleLoader__.load({
           if (file) importFile(file);
         };
 
-        /* ---------------- 导出 / 复制 ---------------- */
+        /* ---------------- 导出 / 备份 ---------------- */
 
         const exportPath = useCallback((kind, bookId) => {
           if (kind === 'shelf') return '/shelf/export';
@@ -4646,6 +5566,62 @@ window.__ModuleLoader__.load({
           [exportPath, say, tr],
         );
 
+        const copyLibraryPath = useCallback(async () => {
+          if (!data.storage) return;
+          try {
+            await copyToClipboard(data.storage);
+            say(tr('toast.copied'));
+          } catch (error) {
+            say(errorText(error));
+          }
+        }, [data.storage, say, tr]);
+
+        const checkUpdate = useCallback(async () => {
+          try {
+            const res = await call('/version');
+            const current = res.current || version;
+            const latest = res.latest || current;
+            if (latest && latest !== current) say(tr('settings.updateReady', { version: latest }));
+            else say(tr('settings.upToDate', { version: current }));
+            if (aliveRef.current && res.current) setVersion(res.current);
+          } catch (error) {
+            say(errorText(error));
+          }
+        }, [say, tr, version]);
+
+        const runBackup = useCallback(async () => {
+          setBusy('backup');
+          try {
+            const state = await call('/state');
+            const notesRes = await call('/notes');
+            const payload = {
+              app: 'lamplit',
+              version,
+              exportedAt: Date.now(),
+              settings: state.settings || {},
+              shelf: (state.shelf || []).map((book) => ({
+                id: book.id,
+                title: book.title,
+                author: book.author,
+                source: book.source,
+                format: book.format,
+                chapterCount: book.chapterCount,
+                progress: book.progress,
+                finished: book.finished,
+                addedAt: book.addedAt,
+              })),
+              notes: notesRes.notes || [],
+            };
+            const stamp = new Date().toISOString().slice(0, 10);
+            saveFile('lamplit-backup-' + stamp + '.json', JSON.stringify(payload, null, 2), 'application/json;charset=utf-8');
+            say(tr('toast.backupSaved'));
+          } catch (error) {
+            say(errorText(error));
+          } finally {
+            if (aliveRef.current) setBusy('');
+          }
+        }, [say, tr, version]);
+
         /* ---------------- 书 / 笔记 ---------------- */
 
         const openBook = useCallback((book) => {
@@ -4662,7 +5638,6 @@ window.__ModuleLoader__.load({
               title: fallbackTitle || '',
               author: '',
               source: 'local',
-              sourceId: null,
               format: 'md',
               chapterCount: index + 1,
               chars: 0,
@@ -4732,17 +5707,20 @@ window.__ModuleLoader__.load({
           refreshAfterReading();
         }, [refreshAfterReading]);
 
-        const openNotesPage = useCallback((book) => {
-          if (book && book.id) {
-            setNotesScope('book');
-            setNotesBookId(book.id);
-          } else {
-            setNotesScope('all');
-          }
-          setSession(null);
-          setView('notes');
-          refreshAfterReading();
-        }, [refreshAfterReading]);
+        const openNotesPage = useCallback(
+          (book) => {
+            if (book && book.id) {
+              setNotesScope('book');
+              setNotesBookId(book.id);
+            } else {
+              setNotesScope('all');
+            }
+            setSession(null);
+            setView('notes');
+            refreshAfterReading();
+          },
+          [refreshAfterReading],
+        );
 
         /* ---------------- 来源 ---------------- */
 
@@ -4755,7 +5733,7 @@ window.__ModuleLoader__.load({
                 providers: current.providers.map((item) => (item.id === id ? res.provider : item)),
               }),
             );
-            say(tr('toast.providerConnected', { label: tr(id === 'weread' ? 'filter.weread' : 'filter.fanqie') }));
+            say(tr('toast.providerConnected', { label: tr('filter.weread') }));
           },
           [say, tr],
         );
@@ -4769,18 +5747,22 @@ window.__ModuleLoader__.load({
                 providers: current.providers.map((item) => (item.id === id ? res.provider : item)),
               }),
             );
-            say(tr('toast.providerDisconnected', { label: tr(id === 'weread' ? 'filter.weread' : 'filter.fanqie') }));
+            say(tr('toast.providerDisconnected', { label: tr('filter.weread') }));
           },
           [say, tr],
         );
 
         const syncProvider = useCallback(
-          async (id) => {
-            const res = await post('/provider/' + id + '/sync');
-            if (!aliveRef.current) return;
-            await loadState();
-            if (!aliveRef.current) return;
-            say(tr('source.syncResult', { added: fmtNumber(res.added), updated: fmtNumber(res.updated) }));
+          async () => {
+            try {
+              const res = await post('/provider/weread/sync');
+              if (!aliveRef.current) return;
+              await loadState();
+              if (!aliveRef.current) return;
+              say(tr('source.syncResult', { added: fmtNumber(res.added), updated: fmtNumber(res.updated) }));
+            } catch (error) {
+              say(errorText(error));
+            }
           },
           [loadState, say, tr],
         );
@@ -4808,30 +5790,26 @@ window.__ModuleLoader__.load({
         const stats = data.stats || {};
 
         const counts = useMemo(() => {
-          const finished = shelf.filter((book) => book.finished).length;
-          const reading = shelf.filter((book) => {
-            if (book.finished) return false;
+          const started = (book) => {
             const progress = book.progress || {};
             return (book.lastOpenedAt || 0) > 0 || (progress.chapterIndex || 0) > 0 || (progress.percent || 0) > 0;
-          }).length;
-          return { all: shelf.length, reading, finished, notes: notes.length };
+          };
+          return {
+            all: shelf.length,
+            reading: shelf.filter((book) => !book.finished && started(book)).length,
+            finished: shelf.filter((book) => book.finished).length,
+            weread: shelf.filter((book) => book.source === 'weread').length,
+            local: shelf.filter((book) => book.source !== 'weread').length,
+            notes: notes.length,
+          };
         }, [shelf, notes.length]);
 
-        const sourceCounts = useMemo(() => {
-          const counts = { all: shelf.length, weread: 0, fanqie: 0, local: 0 };
-          for (const book of shelf) {
-            if (book.source === 'weread') counts.weread += 1;
-            else if (book.source === 'fanqie') counts.fanqie += 1;
-            else counts.local += 1;
-          }
-          return counts;
-        }, [shelf]);
-
-        const wechatSeconds = useMemo(
+        const wereadSeconds = useMemo(
           () =>
             shelf.reduce((sum, book) => {
               if (book.source !== 'weread') return sum;
-              return sum + (Number(book.remote && book.remote.readingTime) || 0);
+              const remote = book.remote || {};
+              return sum + (Number(remote.seconds) || 0);
             }, 0),
           [shelf],
         );
@@ -4839,6 +5817,7 @@ window.__ModuleLoader__.load({
         const filteredBooks = useMemo(() => {
           const needle = query.trim().toLowerCase();
           const list = shelf
+            .filter((book) => (sourceFilter === 'all' ? true : sourceFilter === 'local' ? book.source !== 'weread' : book.source === 'weread'))
             .filter((book) => {
               if (filter === 'finished') return !!book.finished;
               if (filter === 'reading') {
@@ -4847,11 +5826,6 @@ window.__ModuleLoader__.load({
                 return (book.lastOpenedAt || 0) > 0 || (progress.chapterIndex || 0) > 0 || (progress.percent || 0) > 0;
               }
               return true;
-            })
-            .filter((book) => {
-              if (sourceFilter === 'all') return true;
-              if (sourceFilter === 'local') return book.source !== 'weread' && book.source !== 'fanqie';
-              return book.source === sourceFilter;
             })
             .filter((book) => {
               if (needle === '') return true;
@@ -4868,13 +5842,23 @@ window.__ModuleLoader__.load({
               (a, b) => Math.max(b.lastOpenedAt || 0, b.addedAt || 0) - Math.max(a.lastOpenedAt || 0, a.addedAt || 0),
             );
           return sorted;
-        }, [shelf, filter, sourceFilter, query, sort]);
+        }, [shelf, sourceFilter, filter, query, sort]);
 
         const continueBook = useMemo(() => {
           const opened = shelf.filter((book) => !book.finished && (book.lastOpenedAt || 0) > 0);
           if (opened.length === 0) return null;
           return opened.slice().sort((a, b) => (b.lastOpenedAt || 0) - (a.lastOpenedAt || 0))[0];
         }, [shelf]);
+
+        const recentBooks = useMemo(
+          () =>
+            shelf
+              .filter((book) => (book.lastOpenedAt || 0) > 0)
+              .slice()
+              .sort((a, b) => (b.lastOpenedAt || 0) - (a.lastOpenedAt || 0))
+              .slice(0, 5),
+          [shelf],
+        );
 
         const continueKey = continueBook
           ? continueBook.id + ':' + String((continueBook.progress && continueBook.progress.chapterIndex) || 0)
@@ -4932,167 +5916,108 @@ window.__ModuleLoader__.load({
           return () => window.removeEventListener('keydown', onKeyDown);
         }, [session, sheet]);
 
-        /* ---------------- 书架 ---------------- */
+        /* ---------------- 组装 ---------------- */
 
         const dragging = dragDepth > 0;
-
-        const shelfBody =
-          boot.status === 'loading'
+        const body =
+          view === 'shelf'
             ? h(
-                'ul',
-                { className: 'pb-grid' },
-                [0, 1, 2, 3, 4, 5, 6, 7].map((index) => h('div', { key: index, className: 'pb-skel' })),
-              )
-            : boot.status === 'error'
-              ? h(
-                  'div',
-                  { className: 'pb-error' },
-                  h(IconAlert, { size: 16 }),
-                  h(
-                    'div',
-                    null,
-                    h('h3', null, tr('shelf.errorTitle')),
-                    h('p', null, boot.error),
-                    h('button', { type: 'button', className: 'pb-btn', style: { marginTop: 8 }, onClick: loadState }, tr('shelf.retry')),
-                  ),
-                )
-              : shelf.length === 0
-                ? h(EmptyShelf, { t: tr, onImport: () => fileRef.current && fileRef.current.click(), onSources: () => setSheet(true) })
-                : [
-                    h(SourceBar, {
-                      key: 'sources',
-                      t: tr,
-                      counts: sourceCounts,
-                      value: sourceFilter,
-                      providers: data.providers,
-                      onPick: (key, online) => {
-                        if (key === 'all' || !online) {
-                          setSourceFilter(key);
-                          return;
-                        }
-                        const provider = (data.providers || []).find((item) => item.id === online);
-                        if (provider && provider.connected && sourceCounts[online] > 0) {
-                          setSourceFilter(key);
-                          return;
-                        }
-                        // 没连、或连了但还没同步出书：先让人去「来源」里处理。
-                        setSourceFilter('all');
-                        setSheet(true);
-                      },
-                    }),
-                    continueBook
-                      ? h(ContinueBar, {
-                          key: 'continue',
-                          t: tr,
-                          book: continueBook,
-                          chapterTitle,
-                          onOpen: openBook,
-                        })
-                      : null,
-                    continueBook ? h('div', { key: 'divider', className: 'pb-divider' }) : null,
-                    filteredBooks.length === 0
-                      ? h(
-                          'div',
-                          { key: 'nomatch', className: 'pb-empty' },
-                          h('h2', null, sourceFilter === 'all' ? tr('shelf.noMatch') : tr('shelf.sourceEmptyTitle')),
-                          h('p', null, sourceFilter === 'all' ? tr('shelf.noMatchHint') : tr('shelf.sourceEmptyHint')),
-                          h(
-                            'div',
-                            { className: 'pb-empty-actions' },
-                            sourceFilter === 'all'
-                              ? h(
-                                  'button',
-                                  { type: 'button', className: 'pb-btn', onClick: () => { setQuery(''); setFilter('all'); } },
-                                  tr('filter.all'),
-                                )
-                              : h(
-                                  'button',
-                                  {
-                                    type: 'button',
-                                    className: 'pb-btn pb-btn-primary',
-                                    onClick: () => setSheet(true),
-                                  },
-                                  tr('shelf.connectSources'),
-                                ),
-                          ),
-                        )
-                      : h(
-                          'ul',
-                          { key: 'grid', className: 'pb-grid', 'data-density': density },
-                          filteredBooks.map((book) =>
-                            h(BookCard, {
-                              key: book.id,
-                              t: tr,
-                              book,
-                              onOpen: openBook,
-                              onDelete: removeBook,
-                              onFinish: toggleFinished,
-                            }),
-                          ),
-                        ),
-                  ];
-
-        const shelfView = h(
-          'section',
-          {
-            className: 'pb-view',
-            onDragEnter: onDragEnter,
-            onDragOver: onDragOver,
-            onDragLeave: onDragLeave,
-            onDrop: onDrop,
-          },
-          h(
-            'div',
-            { className: 'pb-scroll' },
-            h(
-              'div',
-              { className: 'pb-shell' },
-              h(
                 'div',
-                { className: 'pb-main' },
-                importing
-                  ? h(
-                      'div',
-                      { className: 'pb-import-bar' },
-                      h('span', { className: 'pb-spin' }),
-                      tr('shelf.importing', { name: importing.name }),
-                    )
-                  : null,
-                importError
-                  ? h(
-                      'div',
-                      { className: 'pb-error' },
-                      h(IconAlert, { size: 16 }),
-                      h(
-                        'div',
-                        null,
-                        h('h3', null, tr('shelf.errorTitle')),
-                        h('p', null, importError),
-                        h(
-                          'button',
-                          { type: 'button', className: 'pb-btn pb-btn-quiet', style: { marginTop: 6, height: 22, padding: 0 }, onClick: () => setImportError('') },
-                          tr('nav.clear'),
-                        ),
-                      ),
-                    )
-                  : null,
-                shelfBody,
-              ),
-              h(Rail, {
-                t: tr,
-                stats,
-                notes,
-                onOpenNote: openFromNote,
-                onAllNotes: () => openNotesPage(null),
-                onStats: () => setView('stats'),
-                onExportShelf: () => runExport('shelf'),
-              }),
-            ),
-          ),
-          dragging
-            ? h('div', { className: 'pb-drop' }, h('strong', null, tr('shelf.dropTitle')), h('span', null, tr('shelf.dropHint')))
-            : null,
-        );
+                {
+                  style: { display: 'contents' },
+                  onDragEnter,
+                  onDragOver,
+                  onDragLeave,
+                  onDrop,
+                },
+                h(ShelfPage, {
+                  t: tr,
+                  shelf,
+                  books: filteredBooks,
+                  counts,
+                  filter,
+                  onFilter: setFilter,
+                  sourceFilter,
+                  onSource: setSourceFilter,
+                  sort,
+                  onSort: setSort,
+                  density,
+                  onDensity: setDensity,
+                  query,
+                  onQuery: setQuery,
+                  onOpen: openBook,
+                  onDelete: removeBook,
+                  onFinish: toggleFinished,
+                  onImport: () => fileRef.current && fileRef.current.click(),
+                  onConnect: () => setSheet(true),
+                  onView: setView,
+                }),
+                dragging ? h('div', { className: 'pb-drop' }, h('strong', null, tr('shelf.dropTitle')), h('span', null, tr('shelf.dropHint'))) : null,
+              )
+            : view === 'plaza'
+              ? h(PlazaPage, { t: tr, onAdded: loadState })
+              : view === 'settings'
+                ? h(SettingsPage, {
+                    t: tr,
+                    settings,
+                    onSettings: patchSettings,
+                    providers: data.providers,
+                    storage: data.storage,
+                    version,
+                    onSync: syncProvider,
+                    onConnect: () => setSheet(true),
+                    onDisconnect: () => disconnectProvider('weread'),
+                    onCopyPath: copyLibraryPath,
+                    onExportShelf: () => runExport('shelf'),
+                    onExportNotes: () => runExport('notes'),
+                    onBackup: runBackup,
+                    onCheckUpdate: checkUpdate,
+                  })
+                : view === 'notes'
+                  ? h(NotesPage, {
+                      t: tr,
+                      notes: pageNotes,
+                      status: notesStatus,
+                      error: notesError,
+                      scope: notesScope,
+                      scopeBookId: notesBookId,
+                      onScope: setNotesScope,
+                      query: notesQuery,
+                      onQuery: setNotesQuery,
+                      onReload: loadNotes,
+                      onOpen: openFromNote,
+                      onDelete: removeNote,
+                      onExportBook: (bookId) => runExport('notes', bookId),
+                      onExportAll: () => runExport('notes'),
+                      onCopy: () => runCopy('notes'),
+                      bookOf,
+                    })
+                  : view === 'stats'
+                    ? h(StatsPage, {
+                        t: tr,
+                        stats,
+                        finishedCount: counts.finished,
+                        noteCount: counts.notes,
+                        bookCount: counts.all,
+                      })
+                    : h(HomePage, {
+                        t: tr,
+                        shelf,
+                        stats,
+                        providers: data.providers,
+                        counts,
+                        continueBook,
+                        chapterTitle,
+                        recent: recentBooks,
+                        recentNotes: notes,
+                        wereadSeconds,
+                        onOpen: openBook,
+                        onOpenNote: openFromNote,
+                        onOpenNotes: () => openNotesPage(null),
+                        onOpenStats: () => setView('stats'),
+                        onView: setView,
+                        onSync: syncProvider,
+                      });
 
         return h(
           'div',
@@ -5103,58 +6028,21 @@ window.__ModuleLoader__.load({
             : h(TopBar, {
                 t: tr,
                 view,
-                onBack: () => setView('shelf'),
-                filter,
-                onFilter: setFilter,
-                counts,
+                onView: setView,
+                onBack: () => setView('home'),
                 query,
-                onQuery: setQuery,
+                onQuery: (value) => {
+                  setQuery(value);
+                  if (view !== 'shelf' && value !== '') setView('shelf');
+                },
                 searchRef,
-                density,
-                onDensity: setDensity,
-                sort,
-                onSort: setSort,
                 onImport: () => fileRef.current && fileRef.current.click(),
                 onImportPath: importPath,
-                onExportAll: () => runExport('notes'),
-                onCopy: () => runCopy('notes'),
-                onOpenNotes: () => openNotesPage(null),
-                onOpenStats: () => setView('stats'),
-                onSources: () => setSheet(true),
-                onDiscover: () => setView('discover'),
               }),
           h(
             'div',
             { className: 'pb-stage' },
-            view === 'discover'
-              ? h(DiscoverView, { t: tr, onRefresh: loadState })
-              : view === 'notes'
-              ? h(NotesPage, {
-                  t: tr,
-                  notes: pageNotes,
-                  status: notesStatus,
-                  error: notesError,
-                  scope: notesScope,
-                  scopeBookId: notesBookId,
-                  onScope: (scope) => setNotesScope(scope),
-                  query: notesQuery,
-                  onQuery: setNotesQuery,
-                  onReload: loadNotes,
-                  onOpen: openFromNote,
-                  onDelete: removeNote,
-                  onExportBook: (bookId) => runExport('notes', bookId),
-                  bookOf,
-                })
-              : view === 'stats'
-                ? h(StatsPage, {
-                    t: tr,
-                    stats,
-                    finishedCount: counts.finished,
-                    noteCount: counts.notes,
-                    bookCount: counts.all,
-                    wechatSeconds,
-                  })
-                : shelfView,
+            body,
             session
               ? h(MemoReader, {
                   t: tr,
@@ -5178,8 +6066,6 @@ window.__ModuleLoader__.load({
                   h(SourceSheet, {
                     key: 'sheet',
                     t: tr,
-                    onRefresh: loadState,
-                    onSay: say,
                     providers: data.providers,
                     onClose: () => setSheet(false),
                     onConnect: connectProvider,

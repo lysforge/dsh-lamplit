@@ -284,3 +284,36 @@ export function extractPdfText(buffer /* Uint8Array|Buffer */): {
 单位为秒；`today/week` 已取整；`streak` 是连续天数（今天没读也不算断）。
 
 笔记 `POST /api/notes` 缺 `chapterTitle` 时 Host 会按 `chapterIndex` 自动补齐。
+
+---
+
+## 7. 0.2.0 契约变更（番茄下线 / 广场收敛为两个书源）
+
+### 7.1 删掉的东西
+
+- **番茄小说来源整体下线**：`lib/providers/fanqie.js`、`/api/provider/fanqie/*`、`providers` 里的 `fanqie`、
+  界面上所有番茄文案与来源筛选。书架里 `source: 'fanqie'` 的书一次性迁移掉（当前 0 本）。
+- **古登堡 / 维基文库**：`/api/discover/:source`、`/api/discover/:source/grab` 全部删除。
+- `providers` 现在只剩 `weread` 一个。
+
+### 7.2 新增：GitHub 书库
+
+| Method | Path | Body / Query | 响应 |
+|---|---|---|---|
+| GET | `/api/discover/github/repos` | — | `{ok, repos: string[], hasToken}` |
+| POST | `/api/discover/github/repos` | `{spec}` | `{ok, repos, hasToken, files}`（加之前会真列一次，列不到就 400） |
+| DELETE | `/api/discover/github/repos?spec=` | — | `{ok, repos, hasToken}` |
+| GET | `/api/discover/github/files` | `?repo=owner/repo&path=子目录` | `{ok, spec, branch, files:[{path,name,size,kind}], truncated}` |
+| POST | `/api/discover/github/grab` | `{spec, path}` | `{ok, book, toc}` |
+| GET / POST | `/api/discover/github/token` | `{token}` | `{ok, hasToken}` |
+
+- `spec` 形如 `owner/repo` 或 `owner/repo#books/2020`；也接受 `https://github.com/...` 与 `.git` 后缀。
+- `kind` ∈ `pdf | epub | txt | md`；单文件上限 120MB；一次最多列 500 个文件。
+- 目录用 `git/trees/HEAD?recursive=1`；仓库默认分支会单独查一次并缓存 10 分钟。
+- Git LFS 指针（`version https://git-lfs…`）自动换到 `media.githubusercontent.com`。
+- token 存在 `state.github.token`（0600），用于私有仓库和限额（60 → 5000 次/小时）。
+
+### 7.3 界面
+
+四个一级 tab：**首页 / 书架 / 广场 / 设置**；笔记与统计降为首页进入的二级页。
+广场书源：**微信读书 / GitHub 书库**。
