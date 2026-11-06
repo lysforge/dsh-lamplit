@@ -3257,14 +3257,6 @@ window.__ModuleLoader__.load({
       const [busy, setBusy] = useState('');
       const [done, setDone] = useState({});
 
-      const shelfStart = useMemo(() => {
-        const books = Array.isArray(props.shelf) ? props.shelf : [];
-        return books
-          .filter((book) => book.source === 'weread')
-          .sort((left, right) => (right.lastOpenedAt || right.addedAt) - (left.lastOpenedAt || left.addedAt))
-          .slice(0, 6);
-      }, [props.shelf]);
-
       const [menuOpen, setMenuOpen] = useState(false);
       const [activeRepo, setActiveRepo] = useState('');
       const [repos, setRepos] = useState(null);
@@ -3294,20 +3286,35 @@ window.__ModuleLoader__.load({
         if (source === 'github' && repos === null) loadRepos();
       }, [source, repos, loadRepos]);
 
+      const [browse, setBrowse] = useState([]);
+      const [browseStatus, setBrowseStatus] = useState('idle');
+      const [browseError, setBrowseError] = useState('');
+
+      const loadBrowse = useCallback(async () => {
+        setBrowseStatus('loading');
+        setBrowseError('');
+        try {
+          const res = await call('/provider/weread/browse');
+          setBrowse(Array.isArray(res.books) ? res.books : []);
+          setBrowseStatus('ready');
+        } catch (err) {
+          setBrowseError(errorText(err));
+          setBrowseStatus('error');
+        }
+      }, []);
+
+      useEffect(() => {
+        if (source === 'weread' && browseStatus === 'idle') loadBrowse();
+      }, [source, browseStatus, loadBrowse]);
+
       const runSearch = async (input) => {
         const value = String(input ?? '').trim();
-        if (value === '') return;
-        setStatus('loading');
-        setError('');
-        const needle = value.toLowerCase();
-        const books = (Array.isArray(props.shelf) ? props.shelf : []).filter((book) => book.source === 'weread');
-        const hits = books.filter(
-          (book) =>
-            String(book.title || '').toLowerCase().indexOf(needle) >= 0 ||
-            String(book.author || '').toLowerCase().indexOf(needle) >= 0,
-        );
-        setResults(hits);
+        if (value === '') {
+          setStatus('idle');
+          return;
+        }
         setStatus('ready');
+        setError('');
       };
 
       const search = () => runSearch(query);
@@ -3344,6 +3351,17 @@ window.__ModuleLoader__.load({
         }
       };
 
+      const shownBooks = (() => {
+        const needle = query.trim().toLowerCase();
+        const base = browse;
+        if (needle === '') return base;
+        return base.filter(
+          (book) =>
+            String(book.title || '').toLowerCase().indexOf(needle) >= 0 ||
+            String(book.author || '').toLowerCase().indexOf(needle) >= 0,
+        );
+      })();
+
       const weread = h(
         'div',
         null,
@@ -3368,38 +3386,16 @@ window.__ModuleLoader__.load({
         ),
         h('p', { className: 'pb-hint' }, t('plaza.wereadHint')),
         error ? h('p', { className: 'pb-repo-empty' }, t('plaza.error') + error) : null,
-        status === 'idle'
-          ? h(
-              'div',
-              { className: 'pb-plaza-start' },
-              shelfStart.length > 0
-                ? h(
-                    'div',
-                    { className: 'pb-start-block' },
-                    h('p', { className: 'pb-hint' }, t('plaza.fromShelf')),
-                    h(
-                      'div',
-                      { className: 'pb-start-grid' },
-                      shelfStart.map((book) =>
-                        h(
-                          'div',
-                          { className: 'pb-start-item', key: book.id },
-                          h('div', { className: 'pb-start-cover' }, h(Cover, { book, t, size: 'xs' })),
-                          h('p', { className: 'pb-start-title' }, book.title),
-                        ),
-                      ),
-                    ),
-                  )
-                : h('p', { className: 'pb-repo-empty' }, t('plaza.wereadIdle')),
-            )
-          : null,
+        browseStatus === 'loading' ? h('p', { className: 'pb-repo-empty' }, t('plaza.loading')) : null,
+        browseStatus === 'error' ? h('p', { className: 'pb-repo-empty' }, t('plaza.error') + browseError) : null,
+        status === 'ready' && shownBooks.length === 0 ? h('p', { className: 'pb-repo-empty' }, t('plaza.noResult')) : null,
         status === 'loading' ? h('p', { className: 'pb-repo-empty' }, t('plaza.searching')) : null,
         status === 'ready' && results.length === 0 ? h('p', { className: 'pb-repo-empty' }, t('plaza.noResult')) : null,
-        results.length > 0
+        shownBooks.length > 0
           ? h(
               'ul',
               { className: 'pb-list pb-plaza-list' },
-              results.map((item) => {
+              shownBooks.map((item) => {
                 const id = String(item.bookId || item.id || item.title);
                 return h(
                   'li',
@@ -3495,74 +3491,45 @@ window.__ModuleLoader__.load({
               { className: 'pb-main' },
               h(
                 'div',
-                { className: 'pb-srcbar' },
+                { className: 'pb-srcbar pb-srcbar-flat' },
                 h(
-                  'div',
-                  { className: 'pb-menu-anchor', style: { position: 'relative' } },
+                  'button',
+                  {
+                    type: 'button',
+                    className: 'pb-srcchip',
+                    'data-on': source === 'weread' ? '1' : '0',
+                    onClick: () => setSource('weread'),
+                  },
+                  t('plaza.weread'),
+                ),
+                (repos || []).map((repo) =>
                   h(
                     'button',
                     {
+                      key: repo.spec,
                       type: 'button',
-                      className: 'pb-srcbtn',
-                      'aria-expanded': menuOpen ? 'true' : 'false',
+                      className: 'pb-srcchip',
+                      'data-on': source === 'github' && activeRepo === repo.spec ? '1' : '0',
+                      title: repo.spec,
                       onClick: () => {
-                        setMenuOpen((open) => !open);
-                        if (repos === null) loadRepos();
+                        setActiveRepo(repo.spec);
+                        setSource('github');
                       },
                     },
-                    source === 'weread'
-                      ? t('plaza.weread')
-                      : t('plaza.github') + ' · ' + activeRepoLabel(repos, activeRepo),
-                    h(IconChevron, { size: 12 }),
+                    'GitHub · ' + repo.owner + ' / ' + repo.repo,
                   ),
-                  menuOpen
-                    ? h(
-                        'div',
-                        { className: 'pb-pop', style: { left: 0, top: 36, minWidth: 240 } },
-                        h(
-                          'button',
-                          {
-                            type: 'button',
-                            className: 'pb-pop-item',
-                            'data-on': source === 'weread' ? '1' : '0',
-                            onClick: () => {
-                              setSource('weread');
-                              setMenuOpen(false);
-                            },
-                          },
-                          t('plaza.weread'),
-                        ),
-                        (repos || []).map((repo) =>
-                          h(
-                            'button',
-                            {
-                              key: repo.spec,
-                              type: 'button',
-                              className: 'pb-pop-item',
-                              onClick: () => {
-                                setActiveRepo(repo.spec);
-                                setSource('github');
-                                setMenuOpen(false);
-                              },
-                            },
-                            t('plaza.github') + ' · ' + repo.owner + ' / ' + repo.repo + (repo.path ? ' · ' + repo.path : ''),
-                          ),
-                        ),
-                        h(
-                          'button',
-                          {
-                            type: 'button',
-                            className: 'pb-pop-item',
-                            onClick: () => {
-                              setSource('github');
-                              setAddOpen(true);
-                              setMenuOpen(false);
-                            },
-                          },
-                          t('plaza.addRepo'),
-                        ),
-                      )
-                    : null,
+                ),
+                h(
+                  'button',
+                  {
+                    type: 'button',
+                    className: 'pb-srcchip pb-srcchip-add',
+                    onClick: () => {
+                      setSource('github');
+                      setAddOpen(true);
+                    },
+                  },
+                  '＋ ' + t('plaza.addRepo'),
                 ),
               ),
               source === 'weread' ? weread : github,
