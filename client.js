@@ -212,6 +212,8 @@ window.__ModuleLoader__.load({
       'plaza.searching': '搜索中…',
       'plaza.wereadHint': '用你登录的微信读书账号搜索，搜到的加入书架就能读。',
       'plaza.wereadIdle': '搜一本书，看看微信读书里有什么。',
+      'plaza.pickKeyword': '没想好搜什么？试试这些：',
+      'plaza.fromShelf': '或者从你书架里接着读：',
       'plaza.noResult': '没搜到，换个词试试。',
       'plaza.error': '没搜成：',
       'plaza.words': '{n} 字',
@@ -898,6 +900,18 @@ window.__ModuleLoader__.load({
       'font-size:10px;color:var(--pb-mute);flex:none;letter-spacing:.02em}',
       '.pb-plaza-list .pb-mini-cover{width:44px;height:59px;flex:none;border-radius:4px;overflow:hidden;position:relative;box-shadow:var(--pb-cover-shadow)}',
       '.pb-repo-block{margin:0 0 26px}',
+      '.pb-plaza-start{margin-top:6px}',
+      '.pb-chips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 22px}',
+      '.pb-chip{height:28px;padding:0 12px;border-radius:999px;border:1px solid var(--pb-line-strong);background:none;',
+      'color:var(--dsw-alias-label-secondary);font:inherit;font-size:12px;cursor:pointer}',
+      '.pb-chip:hover{background:var(--dsw-alias-interactive-bg-hover);color:var(--dsw-alias-label-primary)}',
+      '.pb-start-block{margin-top:4px}',
+      '.pb-start-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:18px 16px}',
+      '@media (max-width:1100px){.pb-start-grid{grid-template-columns:repeat(4,1fr)}}',
+      '.pb-start-item{min-width:0}',
+      '.pb-start-cover{position:relative;width:100%;aspect-ratio:3/4;border-radius:4px;overflow:hidden;box-shadow:var(--pb-cover-shadow)}',
+      '.pb-start-title{margin:6px 0 0;font-size:12px;line-height:1.4;color:var(--dsw-alias-label-secondary);',
+      'display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}',
       '.pb-repo-empty{margin:16px 0;font-size:12px;color:var(--pb-mute)}',
 
       /* ---------- 设置 ---------- */
@@ -3233,6 +3247,14 @@ window.__ModuleLoader__.load({
       const [busy, setBusy] = useState('');
       const [done, setDone] = useState({});
 
+      const shelfStart = useMemo(() => {
+        const books = Array.isArray(props.shelf) ? props.shelf : [];
+        return books
+          .filter((book) => book.source === 'weread')
+          .sort((left, right) => (right.lastOpenedAt || right.addedAt) - (left.lastOpenedAt || left.addedAt))
+          .slice(0, 6);
+      }, [props.shelf]);
+
       const [repos, setRepos] = useState(null);
       const [repoStatus, setRepoStatus] = useState('idle');
       const [repoError, setRepoError] = useState('');
@@ -3258,8 +3280,8 @@ window.__ModuleLoader__.load({
         if (source === 'github' && repos === null) loadRepos();
       }, [source, repos, loadRepos]);
 
-      const search = async () => {
-        const value = query.trim();
+      const runSearch = async (input) => {
+        const value = String(input ?? '').trim();
         if (value === '') return;
         setStatus('loading');
         setError('');
@@ -3336,7 +3358,51 @@ window.__ModuleLoader__.load({
         ),
         h('p', { className: 'pb-hint' }, t('plaza.wereadHint')),
         error ? h('p', { className: 'pb-repo-empty' }, t('plaza.error') + error) : null,
-        status === 'idle' ? h('p', { className: 'pb-repo-empty' }, t('plaza.wereadIdle')) : null,
+        status === 'idle'
+          ? h(
+              'div',
+              { className: 'pb-plaza-start' },
+              h('p', { className: 'pb-hint' }, t('plaza.pickKeyword')),
+              h(
+                'div',
+                { className: 'pb-chips' },
+                ['小说', '历史', '心理学', '商业', '科普', '文学'].map((word) =>
+                  h(
+                    'button',
+                    {
+                      key: word,
+                      type: 'button',
+                      className: 'pb-chip',
+                      onClick: () => {
+                        setQuery(word);
+                        runSearch(word);
+                      },
+                    },
+                    word,
+                  ),
+                ),
+              ),
+              shelfStart.length > 0
+                ? h(
+                    'div',
+                    { className: 'pb-start-block' },
+                    h('p', { className: 'pb-hint' }, t('plaza.fromShelf')),
+                    h(
+                      'div',
+                      { className: 'pb-start-grid' },
+                      shelfStart.map((book) =>
+                        h(
+                          'div',
+                          { className: 'pb-start-item', key: book.id },
+                          h('div', { className: 'pb-start-cover' }, h(Cover, { book, t, size: 'xs' })),
+                          h('p', { className: 'pb-start-title' }, book.title),
+                        ),
+                      ),
+                    ),
+                  )
+                : h('p', { className: 'pb-repo-empty' }, t('plaza.wereadIdle')),
+            )
+          : null,
         status === 'loading' ? h('p', { className: 'pb-repo-empty' }, t('plaza.searching')) : null,
         status === 'ready' && results.length === 0 ? h('p', { className: 'pb-repo-empty' }, t('plaza.noResult')) : null,
         results.length > 0
@@ -5955,7 +6021,7 @@ window.__ModuleLoader__.load({
                 dragging ? h('div', { className: 'pb-drop' }, h('strong', null, tr('shelf.dropTitle')), h('span', null, tr('shelf.dropHint'))) : null,
               )
             : view === 'plaza'
-              ? h(PlazaPage, { t: tr, onAdded: loadState })
+              ? h(PlazaPage, { t: tr, onAdded: loadState, shelf: data.shelf })
               : view === 'settings'
                 ? h(SettingsPage, {
                     t: tr,
