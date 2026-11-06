@@ -208,10 +208,10 @@ window.__ModuleLoader__.load({
       'plaza.weread': '微信读书',
       'plaza.github': 'GitHub 书库',
       'plaza.open': '打开',
-      'plaza.wereadPlaceholder': '在这批书目里搜书名、作者',
+      'plaza.wereadPlaceholder': '搜书名、作者，例如 基督山伯爵',
       'plaza.search': '搜索',
       'plaza.searching': '搜索中…',
-      'plaza.wereadHint': '下面是微信读书分类页里的书；搜索只在这批书目里筛选。书城全站搜索需要官方 API Key。',
+      'plaza.wereadHint': '搜微信读书书城；搜到的点「加入书架」就能读。没搜的时候下面是分类页里的书。',
       'plaza.wereadIdle': '书架里还没有微信读书的书。',
       'plaza.pickKeyword': '没想好搜什么？试试这些：',
       'plaza.fromShelf': '或者从你书架里接着读：',
@@ -543,7 +543,7 @@ window.__ModuleLoader__.load({
       'plaza.wereadPlaceholder': 'Search title, author, keyword',
       'plaza.search': 'Search',
       'plaza.searching': 'Searching…',
-      'plaza.wereadHint': 'These come from the WeRead category page; search only filters this list. Full-store search needs the official API key.',
+      'plaza.wereadHint': 'Search the WeRead store and add a result to your shelf. Without a query you get the category picks.',
       'plaza.wereadIdle': 'Search a book to see what WeRead has.',
       'plaza.noResult': 'Nothing found. Try another word.',
       'plaza.error': 'Search failed: ',
@@ -3326,10 +3326,19 @@ window.__ModuleLoader__.load({
         const value = String(input ?? '').trim();
         if (value === '') {
           setStatus('idle');
+          setResults([]);
           return;
         }
-        setStatus('ready');
+        setStatus('loading');
         setError('');
+        try {
+          const res = await call('/provider/weread/store?q=' + encodeURIComponent(value));
+          setResults(Array.isArray(res.results) ? res.results : []);
+          setStatus('ready');
+        } catch (err) {
+          setError(errorText(err));
+          setStatus('error');
+        }
       };
 
       const search = () => runSearch(query);
@@ -3366,16 +3375,7 @@ window.__ModuleLoader__.load({
         }
       };
 
-      const shownBooks = (() => {
-        const needle = query.trim().toLowerCase();
-        const base = browse;
-        if (needle === '') return base;
-        return base.filter(
-          (book) =>
-            String(book.title || '').toLowerCase().indexOf(needle) >= 0 ||
-            String(book.author || '').toLowerCase().indexOf(needle) >= 0,
-        );
-      })();
+      const shownBooks = status === 'ready' || status === 'loading' ? results : browse;
 
       const weread = h(
         'div',
@@ -3403,7 +3403,7 @@ window.__ModuleLoader__.load({
         error ? h('p', { className: 'pb-repo-empty' }, t('plaza.error') + error) : null,
         browseStatus === 'loading' ? h('p', { className: 'pb-repo-empty' }, t('plaza.loading')) : null,
         browseStatus === 'error' ? h('p', { className: 'pb-repo-empty' }, t('plaza.error') + browseError) : null,
-        status === 'ready' && shownBooks.length === 0 ? h('p', { className: 'pb-repo-empty' }, t('plaza.noResult')) : null,
+        status === 'ready' && results.length === 0 ? h('p', { className: 'pb-repo-empty' }, t('plaza.noResult')) : null,
         status === 'loading' ? h('p', { className: 'pb-repo-empty' }, t('plaza.searching')) : null,
         shownBooks.length > 0
           ? h(
