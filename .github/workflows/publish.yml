@@ -1,0 +1,29 @@
+name: publish
+
+# 用 npm Trusted Publishing（OIDC）发布：不需要任何长期 token，也不用把 2FA 关掉。
+# 前提：在 npmjs.com → 包 → Settings → Trusted Publisher 里填
+#   Owner: lysforge   Repository: lamplit   Workflow: publish.yml   Environment: 留空
+# 之后打 tag（git tag v0.1.1 && git push --tags）就会自动发布并带 provenance。
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+      - run: node --test test/*.test.mjs
+      - run: npm publish --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ''
