@@ -208,10 +208,10 @@ window.__ModuleLoader__.load({
       'plaza.weread': '微信读书',
       'plaza.github': 'GitHub 书库',
       'plaza.open': '打开',
-      'plaza.wereadPlaceholder': '搜书名、作者、关键词',
+      'plaza.wereadPlaceholder': '在这批书目里搜书名、作者',
       'plaza.search': '搜索',
       'plaza.searching': '搜索中…',
-      'plaza.wereadHint': '用你登录的微信读书账号搜索，搜到的加入书架就能读。',
+      'plaza.wereadHint': '下面是微信读书分类页里的书；搜索只在这批书目里筛选。书城全站搜索需要官方 API Key。',
       'plaza.wereadIdle': '书架里还没有微信读书的书。',
       'plaza.pickKeyword': '没想好搜什么？试试这些：',
       'plaza.fromShelf': '或者从你书架里接着读：',
@@ -230,6 +230,7 @@ window.__ModuleLoader__.load({
       'plaza.githubFoot': '支持子目录：填 owner/repo#books 就只列 books/ 下面的文件。私有仓库需要在设置里填 token。',
       'plaza.noRepo': '还没添加仓库。点「添加仓库」，填一个 owner/repo 就行。',
       'plaza.refresh': '刷新目录',
+      'plaza.loadMore': '再显示 50 个（还剩 {n}）',
       'plaza.loading': '读取中…',
       'plaza.filesError': '目录没读出来：',
       'plaza.noFiles': '这个仓库里没有可读的 PDF / EPUB / TXT。',
@@ -541,7 +542,7 @@ window.__ModuleLoader__.load({
       'plaza.wereadPlaceholder': 'Search title, author, keyword',
       'plaza.search': 'Search',
       'plaza.searching': 'Searching…',
-      'plaza.wereadHint': 'Searches with your signed-in WeRead account. Add a result and it lands on your shelf.',
+      'plaza.wereadHint': 'These come from the WeRead category page; search only filters this list. Full-store search needs the official API key.',
       'plaza.wereadIdle': 'Search a book to see what WeRead has.',
       'plaza.noResult': 'Nothing found. Try another word.',
       'plaza.error': 'Search failed: ',
@@ -558,6 +559,7 @@ window.__ModuleLoader__.load({
       'plaza.githubFoot': 'Subpaths work: owner/repo#books lists only files under books/. Private repos need a token in Settings.',
       'plaza.noRepo': 'No repos yet. Hit “Add repo” and paste owner/repo.',
       'plaza.refresh': 'Refresh',
+      'plaza.loadMore': 'Show 50 more ({n} left)',
       'plaza.loading': 'Loading…',
       'plaza.filesError': 'Could not read the listing: ',
       'plaza.noFiles': 'No readable PDF / EPUB / TXT in this repo.',
@@ -3166,6 +3168,7 @@ window.__ModuleLoader__.load({
       const [files, setFiles] = useState([]);
       const [error, setError] = useState('');
       const [busy, setBusy] = useState('');
+      const [visible, setVisible] = useState(50);
 
       const load = useCallback(async () => {
         setStatus('loading');
@@ -3173,6 +3176,7 @@ window.__ModuleLoader__.load({
         try {
           const res = await call('/discover/github/files?repo=' + encodeURIComponent(repo.spec) + '&path=' + encodeURIComponent(repo.path || ''));
           setFiles(Array.isArray(res.files) ? res.files : []);
+          setVisible(50);
           setStatus('ready');
         } catch (err) {
           setError(errorText(err));
@@ -3198,7 +3202,9 @@ window.__ModuleLoader__.load({
       };
 
       const keyword = String(props.filter || '').trim().toLowerCase();
-      const shown = keyword === '' ? files : files.filter((file) => String(file.path || '').toLowerCase().indexOf(keyword) >= 0);
+      const matched = keyword === '' ? files : files.filter((file) => String(file.path || '').toLowerCase().indexOf(keyword) >= 0);
+      const shown = matched.slice(0, visible);
+      const more = matched.length - shown.length;
 
       return h(
         'section',
@@ -3212,6 +3218,13 @@ window.__ModuleLoader__.load({
         status === 'loading' ? h('p', { className: 'pb-repo-empty' }, t('plaza.loading')) : null,
         status === 'error' ? h('p', { className: 'pb-repo-empty' }, t('plaza.filesError') + error) : null,
         status === 'ready' && shown.length === 0 ? h('p', { className: 'pb-repo-empty' }, t('plaza.noFiles')) : null,
+        more > 0
+          ? h(
+              'button',
+              { type: 'button', className: 'pb-btn pb-btn-quiet', style: { marginTop: 8 }, onClick: () => setVisible((n) => n + 50) },
+              t('plaza.loadMore', { n: fmtNumber(more) }),
+            )
+          : null,
         status === 'ready' && shown.length > 0
           ? h(
               'ul',
@@ -3283,8 +3296,8 @@ window.__ModuleLoader__.load({
       }, []);
 
       useEffect(() => {
-        if (source === 'github' && repos === null) loadRepos();
-      }, [source, repos, loadRepos]);
+        if (repos === null) loadRepos();
+      }, [repos, loadRepos]);
 
       const [browse, setBrowse] = useState([]);
       const [browseStatus, setBrowseStatus] = useState('idle');
@@ -3390,7 +3403,6 @@ window.__ModuleLoader__.load({
         browseStatus === 'error' ? h('p', { className: 'pb-repo-empty' }, t('plaza.error') + browseError) : null,
         status === 'ready' && shownBooks.length === 0 ? h('p', { className: 'pb-repo-empty' }, t('plaza.noResult')) : null,
         status === 'loading' ? h('p', { className: 'pb-repo-empty' }, t('plaza.searching')) : null,
-        status === 'ready' && results.length === 0 ? h('p', { className: 'pb-repo-empty' }, t('plaza.noResult')) : null,
         shownBooks.length > 0
           ? h(
               'ul',
