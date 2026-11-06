@@ -50,7 +50,7 @@ const TXT = `第一章　起风
 `
 
 async function tempHome() {
-  const dir = await fsp.mkdtemp(path.join(os.tmpdir(), 'pillowbook-test-'))
+  const dir = await fsp.mkdtemp(path.join(os.tmpdir(), 'lamplit-test-'))
   return dir
 }
 
@@ -70,7 +70,7 @@ async function readJson(response) {
 test('state 一开始是空的，且带默认设置', async () => {
   const home = await tempHome()
   const api = createApi({ config: { root: home } })
-  const data = await readJson(await api.handle(request('/pillowbook/api/state')))
+  const data = await readJson(await api.handle(request('/lamplit/api/state')))
   assert.equal(data.ok, true)
   assert.equal(data.shelf.length, 0)
   assert.equal(data.settings.fontSize, 19)
@@ -84,7 +84,7 @@ test('导入 Markdown：切章、保留引用与代码块、去掉行内标记',
   const api = createApi({ config: { root: home } })
   const imported = await readJson(
     await api.handle(
-      request('/pillowbook/api/import', {
+      request('/lamplit/api/import', {
         method: 'POST',
         body: { name: '山中一日.md', dataBase64: Buffer.from(MARKDOWN).toString('base64') },
       }),
@@ -98,7 +98,7 @@ test('导入 Markdown：切章、保留引用与代码块、去掉行内标记',
   assert.ok(imported.book.chars > 60)
 
   const chapter = await readJson(
-    await api.handle(request(`/pillowbook/api/book/${imported.book.id}/chapter/0`)),
+    await api.handle(request(`/lamplit/api/book/${imported.book.id}/chapter/0`)),
   )
   assert.equal(chapter.ok, true)
   const kinds = chapter.chapter.blocks.map((block) => block.t)
@@ -118,7 +118,7 @@ test('导入 TXT：按「第 X 章」切章', async () => {
   const api = createApi({ config: { root: home } })
   const imported = await readJson(
     await api.handle(
-      request('/pillowbook/api/import', {
+      request('/lamplit/api/import', {
         method: 'POST',
         body: { name: '风.txt', dataBase64: Buffer.from(TXT).toString('base64') },
       }),
@@ -134,7 +134,7 @@ test('进度写入后能在 state 里读回来', async () => {
   const api = createApi({ config: { root: home } })
   const imported = await readJson(
     await api.handle(
-      request('/pillowbook/api/import', {
+      request('/lamplit/api/import', {
         method: 'POST',
         body: { name: '风.txt', dataBase64: Buffer.from(TXT).toString('base64') },
       }),
@@ -142,7 +142,7 @@ test('进度写入后能在 state 里读回来', async () => {
   )
   const updated = await readJson(
     await api.handle(
-      request('/pillowbook/api/progress', {
+      request('/lamplit/api/progress', {
         method: 'POST',
         body: { bookId: imported.book.id, chapterIndex: 1, percent: 0.5, seconds: 90 },
       }),
@@ -152,7 +152,7 @@ test('进度写入后能在 state 里读回来', async () => {
   assert.equal(updated.book.progress.chapterIndex, 1)
   assert.equal(updated.book.progress.percent, 0.5)
 
-  const state = await readJson(await api.handle(request('/pillowbook/api/state')))
+  const state = await readJson(await api.handle(request('/lamplit/api/state')))
   assert.equal(state.shelf.length, 1)
   assert.equal(state.shelf[0].progress.chapterIndex, 1)
   assert.ok(state.stats.seconds >= 90)
@@ -163,7 +163,7 @@ test('设置越界值会被收敛', async () => {
   const api = createApi({ config: { root: home } })
   const data = await readJson(
     await api.handle(
-      request('/pillowbook/api/settings', {
+      request('/lamplit/api/settings', {
         method: 'POST',
         body: { patch: { fontSize: 99, lineHeight: 0.2, theme: 'neon', mode: 'paged' } },
       }),
@@ -180,7 +180,7 @@ test('不支持的扩展名与空文件都给出明确失败', async () => {
   const api = createApi({ config: { root: home } })
   const bad = await readJson(
     await api.handle(
-      request('/pillowbook/api/import', {
+      request('/lamplit/api/import', {
         method: 'POST',
         body: { name: 'a.epub', dataBase64: Buffer.from('x').toString('base64') },
       }),
@@ -190,7 +190,7 @@ test('不支持的扩展名与空文件都给出明确失败', async () => {
   assert.equal(bad.code, 'FORMAT')
 
   const empty = await readJson(
-    await api.handle(request('/pillowbook/api/import', { method: 'POST', body: { name: 'a.md', dataBase64: '' } })),
+    await api.handle(request('/lamplit/api/import', { method: 'POST', body: { name: 'a.md', dataBase64: '' } })),
   )
   assert.equal(empty.ok, false)
 })
@@ -198,23 +198,23 @@ test('不支持的扩展名与空文件都给出明确失败', async () => {
 test('未登录时来源接口给出 AUTH，删除书后书架为空', async () => {
   const home = await tempHome()
   const api = createApi({ config: { root: home } })
-  const sync = await readJson(await api.handle(request('/pillowbook/api/provider/weread/sync', { method: 'POST' })))
+  const sync = await readJson(await api.handle(request('/lamplit/api/provider/weread/sync', { method: 'POST' })))
   assert.equal(sync.ok, false)
   assert.equal(sync.code, 'AUTH')
 
   const imported = await readJson(
     await api.handle(
-      request('/pillowbook/api/import', {
+      request('/lamplit/api/import', {
         method: 'POST',
         body: { name: '风.txt', dataBase64: Buffer.from(TXT).toString('base64') },
       }),
     ),
   )
   const removed = await readJson(
-    await api.handle(request(`/pillowbook/api/book/${imported.book.id}`, { method: 'DELETE' })),
+    await api.handle(request(`/lamplit/api/book/${imported.book.id}`, { method: 'DELETE' })),
   )
   assert.equal(removed.ok, true)
-  const state = await readJson(await api.handle(request('/pillowbook/api/state')))
+  const state = await readJson(await api.handle(request('/lamplit/api/state')))
   assert.equal(state.shelf.length, 0)
 })
 
@@ -223,7 +223,7 @@ test('粘贴正文可以直接变成一本书', async () => {
   const api = createApi({ config: { root: home } })
   const created = await readJson(
     await api.handle(
-      request('/pillowbook/api/import-text', {
+      request('/lamplit/api/import-text', {
         method: 'POST',
         body: { title: '第十章 空屋', author: '某人', text: '旧钨丝灯的黑线悬在屋子中央。\n\n静谧的气氛像墨汁。' },
       }),
@@ -232,7 +232,7 @@ test('粘贴正文可以直接变成一本书', async () => {
   assert.equal(created.ok, true)
   assert.equal(created.book.title, '第十章 空屋')
   assert.equal(created.toc.length, 1)
-  const chapter = await readJson(await api.handle(request(`/pillowbook/api/book/${created.book.id}/chapter/0`)))
+  const chapter = await readJson(await api.handle(request(`/lamplit/api/book/${created.book.id}/chapter/0`)))
   assert.equal(chapter.chapter.blocks.length, 2)
 })
 
@@ -241,7 +241,7 @@ test('笔记：写入、按书列出、删除', async () => {
   const api = createApi({ config: { root: home } })
   const imported = await readJson(
     await api.handle(
-      request('/pillowbook/api/import', {
+      request('/lamplit/api/import', {
         method: 'POST',
         body: { name: '风.txt', dataBase64: Buffer.from(TXT).toString('base64') },
       }),
@@ -249,7 +249,7 @@ test('笔记：写入、按书列出、删除', async () => {
   )
   const created = await readJson(
     await api.handle(
-      request('/pillowbook/api/notes', {
+      request('/lamplit/api/notes', {
         method: 'POST',
         body: {
           bookId: imported.book.id,
@@ -266,22 +266,22 @@ test('笔记：写入、按书列出、删除', async () => {
   assert.match(created.note.id, /^nt_/)
 
   const listed = await readJson(
-    await api.handle(request(`/pillowbook/api/notes?bookId=${imported.book.id}`)),
+    await api.handle(request(`/lamplit/api/notes?bookId=${imported.book.id}`)),
   )
   assert.equal(listed.notes.length, 1)
   assert.equal(listed.notes[0].bookTitle, imported.book.title)
 
-  const chapter = await readJson(await api.handle(request(`/pillowbook/api/book/${imported.book.id}/chapter/0`)))
+  const chapter = await readJson(await api.handle(request(`/lamplit/api/book/${imported.book.id}/chapter/0`)))
   assert.equal(chapter.notes.length, 1, '章节响应里应该带上该章笔记')
 
-  const state = await readJson(await api.handle(request('/pillowbook/api/state')))
+  const state = await readJson(await api.handle(request('/lamplit/api/state')))
   assert.equal(state.shelf[0].notes, 1)
 
   const removed = await readJson(
-    await api.handle(request(`/pillowbook/api/notes/${created.note.id}`, { method: 'DELETE' })),
+    await api.handle(request(`/lamplit/api/notes/${created.note.id}`, { method: 'DELETE' })),
   )
   assert.equal(removed.ok, true)
-  const after = await readJson(await api.handle(request(`/pillowbook/api/notes?bookId=${imported.book.id}`)))
+  const after = await readJson(await api.handle(request(`/lamplit/api/notes?bookId=${imported.book.id}`)))
   assert.equal(after.notes.length, 0)
 })
 
@@ -310,7 +310,7 @@ test('划词 AI：走宿主 llm 服务，拼好上下文', async () => {
   const api = createApi({ ctx: fakeCtx, config: { root: home } })
   const answer = await readJson(
     await api.handle(
-      request('/pillowbook/api/ai/ask', {
+      request('/lamplit/api/ai/ask', {
         method: 'POST',
         body: {
           text: '风从北边来，带着一点铁锈味。',
@@ -340,7 +340,7 @@ test('没有默认模型时，划词 AI 给出明确失败', async () => {
     config: { root: home },
   })
   const answer = await readJson(
-    await api.handle(request('/pillowbook/api/ai/ask', { method: 'POST', body: { text: '一句', mode: 'explain' } })),
+    await api.handle(request('/lamplit/api/ai/ask', { method: 'POST', body: { text: '一句', mode: 'explain' } })),
   )
   assert.equal(answer.ok, false)
   assert.equal(answer.code, 'AI')
@@ -381,18 +381,18 @@ test('影印 PDF：原始文件可下载，支持 Range', async () => {
   await fsp.writeFile(path.join(home, 'books', 'bk_scan0001.json'), JSON.stringify({ book: {}, chapters: [] }))
 
   const api = createApi({ config: { root: home } })
-  const full = await api.handle(request('/pillowbook/api/book/bk_scan0001/file'))
+  const full = await api.handle(request('/lamplit/api/book/bk_scan0001/file'))
   assert.equal(full.status, 200)
   assert.equal(full.headers.get('content-type'), 'application/pdf')
   assert.equal((await full.arrayBuffer()).byteLength, pdfBytes.byteLength)
 
   const partial = await api.handle(
-    new Request('http://127.0.0.1:1234/pillowbook/api/book/bk_scan0001/file', { headers: { range: 'bytes=0-9' } }),
+    new Request('http://127.0.0.1:1234/lamplit/api/book/bk_scan0001/file', { headers: { range: 'bytes=0-9' } }),
   )
   assert.equal(partial.status, 206)
   assert.equal(partial.headers.get('content-range'), `bytes 0-9/${pdfBytes.byteLength}`)
 
-  const state = await readJson(await api.handle(request('/pillowbook/api/state')))
+  const state = await readJson(await api.handle(request('/lamplit/api/state')))
   assert.equal(state.shelf[0].format, 'pdf-scan')
   assert.equal(state.shelf[0].pages, 3)
 })
@@ -402,36 +402,36 @@ test('导出：书单与笔记都是可直接保存的 Markdown', async () => {
   const api = createApi({ config: { root: home } })
   const imported = await readJson(
     await api.handle(
-      request('/pillowbook/api/import', {
+      request('/lamplit/api/import', {
         method: 'POST',
         body: { name: '风.txt', dataBase64: Buffer.from(TXT).toString('base64') },
       }),
     ),
   )
   await api.handle(
-    request('/pillowbook/api/notes', {
+    request('/lamplit/api/notes', {
       method: 'POST',
       body: { bookId: imported.book.id, chapterIndex: 0, chapterTitle: '第一章　起风', quote: '风从北边来。', note: '风声是警告。', mode: 'explain' },
     }),
   )
   await api.handle(
-    request('/pillowbook/api/progress', { method: 'POST', body: { bookId: imported.book.id, chapterIndex: 1, percent: 0.5, seconds: 600 } }),
+    request('/lamplit/api/progress', { method: 'POST', body: { bookId: imported.book.id, chapterIndex: 1, percent: 0.5, seconds: 600 } }),
   )
 
-  const shelf = await readJson(await api.handle(request('/pillowbook/api/shelf/export')))
+  const shelf = await readJson(await api.handle(request('/lamplit/api/shelf/export')))
   assert.equal(shelf.ok, true)
   assert.match(shelf.filename, /书单-\d{4}-\d{2}-\d{2}\.md$/)
   assert.match(shelf.markdown, /# 我的书架 · /)
   assert.match(shelf.markdown, /风/)
 
-  const notesExport = await readJson(await api.handle(request(`/pillowbook/api/notes/export?bookId=${imported.book.id}`)))
+  const notesExport = await readJson(await api.handle(request(`/lamplit/api/notes/export?bookId=${imported.book.id}`)))
   assert.equal(notesExport.ok, true)
   assert.equal(notesExport.count, 1)
   assert.match(notesExport.markdown, /# .* · 读书笔记/)
   assert.match(notesExport.markdown, /> 风从北边来。/)
   assert.match(notesExport.markdown, /\*\*解释\*\*/)
 
-  const state = await readJson(await api.handle(request('/pillowbook/api/state')))
+  const state = await readJson(await api.handle(request('/lamplit/api/state')))
   assert.equal(state.stats.today, 600)
   assert.equal(state.stats.week, 600)
   assert.ok(state.stats.streak >= 1)
@@ -441,17 +441,17 @@ test('导出：书单与笔记都是可直接保存的 Markdown', async () => {
 test('今日一句取自书架里的正文，不是写死的句子', async () => {
   const home = await tempHome()
   const api = createApi({ config: { root: home } })
-  const empty = await readJson(await api.handle(request('/pillowbook/api/quote')))
+  const empty = await readJson(await api.handle(request('/lamplit/api/quote')))
   assert.equal(empty.ok, true)
   assert.equal(empty.quote, null)
 
   await api.handle(
-    request('/pillowbook/api/import', {
+    request('/lamplit/api/import', {
       method: 'POST',
       body: { name: '风.txt', dataBase64: Buffer.from(TXT).toString('base64') },
     }),
   )
-  const quote = await readJson(await api.handle(request('/pillowbook/api/quote')))
+  const quote = await readJson(await api.handle(request('/lamplit/api/quote')))
   assert.equal(quote.ok, true)
   assert.ok(typeof quote.quote.text === 'string' && quote.quote.text.length > 0)
   assert.match(quote.quote.bookTitle, /风/)

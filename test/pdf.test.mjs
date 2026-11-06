@@ -286,10 +286,10 @@ test('cupsfilter 生成的真实 PDF 能抽出非空文本', (t) => {
     return;
   }
 
-  const dir = mkdtempSync(join(tmpdir(), 'pillowbook-pdf-'));
+  const dir = mkdtempSync(join(tmpdir(), 'lamplit-pdf-'));
   const txt = join(dir, 'hello.txt');
   const maxBuffer = 32 * 1024 * 1024;
-  const sample = 'hello\nworld\npillowbook pdf text extraction smoke test\n';
+  const sample = 'hello\nworld\nlamplit pdf text extraction smoke test\n';
   let pdf = null;
 
   try {
@@ -334,5 +334,5 @@ test('cupsfilter 生成的真实 PDF 能抽出非空文本', (t) => {
   const lower = res.text.toLowerCase();
   assert.match(lower, /hello/);
   assert.match(lower, /world/);
-  assert.match(lower, /pillowbook/);
+  assert.match(lower, /lamplit/);
 });
