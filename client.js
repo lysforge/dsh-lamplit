@@ -1214,6 +1214,95 @@ window.__ModuleLoader__.load({
       );
     }
 
+    const IconBack = (p) => svg(p || {}, h('path', { key: 'a', d: 'M14.5 5.5 8 12l6.5 6.5' }));
+    const IconClose = (p) => svg(p || {}, h('path', { key: 'a', d: 'M6.5 6.5l11 11M17.5 6.5l-11 11' }));
+    const IconCheck = (p) => svg(p || {}, h('path', { key: 'a', d: 'M5 12.5l4.5 4.5L19 7' }));
+    const IconAlert = (p) =>
+      svg(p || {}, h('circle', { key: 'c', cx: 12, cy: 12, r: 8.5 }), h('path', { key: 'a', d: 'M12 8v5M12 16.2v.1' }));
+    const IconUpload = (p) => svg(p || {}, h('path', { key: 'a', d: 'M12 16V4.5M8 8.5 12 4.5l4 4M5 15.5v3h14v-3' }));
+    const IconNote = (p) =>
+      svg(
+        p || {},
+        h('path', { key: 'a', d: 'M6 3.8h8.4L19 8.4v11.8H6z' }),
+        h('path', { key: 'b', d: 'M14 3.8v4.8h4.8M9 12.5h6M9 16h4' }),
+      );
+    const IconChart = (p) =>
+      svg(
+        p || {},
+        h('path', { key: 'a', d: 'M4 19.5h16' }),
+        h('path', { key: 'b', d: 'M7.5 19.5v-6M12 19.5V7.5M16.5 19.5v-9' }),
+      );
+    const IconGrid = (p) =>
+      svg(
+        p || {},
+        h('rect', { key: 'a', x: 4, y: 4, width: 6.4, height: 6.4, rx: 1.4 }),
+        h('rect', { key: 'b', x: 13.6, y: 4, width: 6.4, height: 6.4, rx: 1.4 }),
+        h('rect', { key: 'c', x: 4, y: 13.6, width: 6.4, height: 6.4, rx: 1.4 }),
+        h('rect', { key: 'd', x: 13.6, y: 13.6, width: 6.4, height: 6.4, rx: 1.4 }),
+      );
+    const IconRows = (p) =>
+      svg(p || {}, h('path', { key: 'a', d: 'M4 7h16M4 12h16M4 17h10' }));
+    const IconChevron = (p) => svg(p || {}, h('path', { key: 'a', d: 'M6.5 9.5 12 15l5.5-5.5' }));
+    const IconSearch = (p) =>
+      svg(p || {}, h('circle', { key: 'a', cx: 11, cy: 11, r: 6 }), h('path', { key: 'b', d: 'M15.6 15.6 20 20' }));
+    const IconMore = (p) =>
+      h(
+        'svg',
+        {
+          viewBox: '0 0 24 24',
+          width: (p && p.size) || 16,
+          height: (p && p.size) || 16,
+          fill: 'currentColor',
+          'aria-hidden': true,
+          focusable: false,
+          style: { display: 'block', flex: 'none' },
+        },
+        h('circle', { key: 'a', cx: 6, cy: 12, r: 1.5 }),
+        h('circle', { key: 'b', cx: 12, cy: 12, r: 1.5 }),
+        h('circle', { key: 'c', cx: 18, cy: 12, r: 1.5 }),
+      );
+    const IconTrash = (p) =>
+      svg(
+        p || {},
+        h('path', { key: 'a', d: 'M5 7h14M9.5 7V4.8h5V7M7 7l.9 12.2h8.2L17 7' }),
+        h('path', { key: 'b', d: 'M10.5 10.4v5.6M13.5 10.4v5.6' }),
+      );
+    const IconSync = (p) =>
+      svg(
+        p || {},
+        h('path', { key: 'a', d: 'M19 12a7 7 0 0 1-11.6 5.2M5 12a7 7 0 0 1 11.6-5.2' }),
+        h('path', { key: 'b', d: 'M16.4 3.4v3.6H20M7.6 20.6V17H4' }),
+      );
+    const IconBook = (p) =>
+      svg(
+        p || {},
+        h('path', { key: 'a', d: 'M5 5.5h9.5A2.5 2.5 0 0 1 17 8v11H7.5A2.5 2.5 0 0 1 5 16.5z' }),
+        h('path', { key: 'b', d: 'M8.5 9h5M8.5 12h3.5' }),
+      );
+    const IconType = (p) =>
+      svg(
+        p || {},
+        h('path', { key: 'a', d: 'M5.5 18 11 6.5 16.5 18' }),
+        h('path', { key: 'b', d: 'M7.6 14.2h6.8' }),
+        h('path', { key: 'c', d: 'M19 8.5v9' }),
+      );
+    const IconToc = (p) =>
+      svg(
+        p || {},
+        h('path', { key: 'a', d: 'M4.5 6.5h.1M4.5 12h.1M4.5 17.5h.1' }),
+        h('path', { key: 'b', d: 'M8 6.5h11.5M8 12h11.5M8 17.5h8' }),
+      );
+    const IconSliders = (p) =>
+      svg(
+        p || {},
+        h('path', { key: 'a', d: 'M4 7h16M4 12h16M4 17h16' }),
+        h('circle', { key: 'b', cx: 9, cy: 7, r: 1.7 }),
+        h('circle', { key: 'c', cx: 15, cy: 12, r: 1.7 }),
+        h('circle', { key: 'd', cx: 8, cy: 17, r: 1.7 }),
+      );
+    const IconFolder = (p) =>
+      svg(p || {}, h('path', { key: 'a', d: 'M4 7.5A1.5 1.5 0 0 1 5.5 6H9l2 2.4h7.5A1.5 1.5 0 0 1 20 9.9v7.6A1.5 1.5 0 0 1 18.5 19h-13A1.5 1.5 0 0 1 4 17.5z' }));
+
     /** 侧栏图标：一盏灯压在摊开的书上。 */
     function PanelIcon(props) {
       const size = (props && props.size) || 24;

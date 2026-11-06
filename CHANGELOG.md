@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.2 — 2026-11-06
+
+**修黑屏**：改名「灯下」时重写侧栏图标，误删了紧随其后的一整块 `const IconX = …` 图标定义。
+语法检查不报错，但首屏渲染到 `h(IconNote, …)` 就抛 `ReferenceError`，React 卸载整个面板 → 黑屏。
+
+- 补回 19 个图标组件（统一 24×24、1.6 描边、currentColor）
+- 新增 `test/client.test.mjs`：静态检查「用到的 IconX 必须有定义」、slot 注册、`require` 白名单、`pb-` class 前缀、文案键齐全——这类错以后进不了 CI
+
 ## 0.1.1 — 2026-11-06
 
 npm 首发版本（`dsh-lamplit@0.1.1`，带 SLSA provenance）。
