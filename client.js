@@ -6233,6 +6233,15 @@ window.__ModuleLoader__.load({
           [shelf],
         );
 
+        // 正在读的书如果被同步/删除移出了书架，就退出阅读器，别让人对着 404 干瞪眼。
+        useEffect(() => {
+          if (!session) return;
+          if (!Array.isArray(shelf) || shelf.length === 0) return;
+          if (shelf.some((book) => book.id === session.book.id)) return;
+          setSession(null);
+          say('这本书已经不在书库里了');
+        }, [shelf, session, say]);
+
         const continueKey = continueBook
           ? continueBook.id + ':' + String((continueBook.progress && continueBook.progress.chapterIndex) || 0)
           : '';
