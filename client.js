@@ -6474,8 +6474,30 @@ window.__ModuleLoader__.load({
       effect(() => ctx.locale.register(NS, 'en', EN), 'lamplit: en dictionary');
 
       const t = ctx.locale.bind(NS);
-      const Page = makePage(t);
-      const GuardedPage = (props) => h(PageBoundary, null, h(Page, props));
+      let Page = null;
+      let bootError = '';
+      try {
+        Page = makePage(t);
+      } catch (error) {
+        bootError = String((error && (error.stack || error.message)) || error);
+        if (typeof console !== 'undefined' && console.error) console.error('[lamplit] boot failed:', error);
+      }
+      const GuardedPage = (props) => {
+        if (bootError !== '') {
+          return h(
+            'div',
+            { className: 'pb-root' },
+            h(
+              'div',
+              { className: 'pb-boundary' },
+              h('h2', null, '灯下没能启动'),
+              h('p', null, '把下面这段发给我。'),
+              h('pre', null, bootError.slice(0, 1200)),
+            ),
+          );
+        }
+        return h(PageBoundary, null, h(Page, props));
+      };
 
       ctx.slots.inject('sidebar.panellist', () =>
         ctx.slots.register(
