@@ -116,6 +116,10 @@ window.__ModuleLoader__.load({
       'reader.chapterMissing': '这一章还是空的',
       'reader.retry': '重试',
       'reader.reconnect': '重新连接微信读书',
+      'reader.gone': '这本书已经不在书库里了——多半是同步书架后被移除。',
+      'reader.backToShelf': '回到书架',
+      'reader.expired': '微信读书的登录失效了。',
+      'reader.expiredHint': '扫一次码就行：设置 → 微信读书 → 重新扫码。书架和进度都还在本机。',
       'reader.theme': '纸张',
       'reader.themePaper': '纸白',
       'reader.themeSepia': '米黄',
@@ -181,6 +185,12 @@ window.__ModuleLoader__.load({
       'cover.badgeWeread': '微信',
 
       'home.continue': '继续阅读',
+      'onboard.connectTitle': '还没连接微信读书',
+      'onboard.connectBody': '扫一次码就行：设置 → 微信读书 → 重新扫码。扫码后书架会自动同步，正文直接在这里读。',
+      'onboard.connect': '扫码连接',
+      'onboard.expiredTitle': '微信读书登录已失效',
+      'onboard.expiredBody': '扫一次码就能恢复，书架和阅读进度都还在本机。',
+      'onboard.reconnect': '重新扫码',
       'home.wechatLine': '微信读书进度 {percent}% · 累计 {minutes} 分钟',
       'home.weekCard': '本周阅读',
       'home.weekdays': '一 二 三 四 五 六 日',
@@ -466,6 +476,10 @@ window.__ModuleLoader__.load({
       'reader.chapterMissing': 'This chapter is empty',
       'reader.retry': 'Retry',
       'reader.reconnect': 'Reconnect WeRead',
+      'reader.gone': 'This book is no longer in your library - it was probably removed by a shelf sync.',
+      'reader.backToShelf': 'Back to shelf',
+      'reader.expired': 'Your WeRead session expired.',
+      'reader.expiredHint': 'Scan once: Settings -> WeRead -> Re-scan. Your shelf and progress stay on this machine.',
       'reader.theme': 'Paper',
       'reader.themePaper': 'Paper',
       'reader.themeSepia': 'Sepia',
@@ -531,6 +545,12 @@ window.__ModuleLoader__.load({
       'cover.badgeWeread': 'WeRead',
 
       'home.continue': 'Continue reading',
+      'onboard.connectTitle': 'WeRead is not connected',
+      'onboard.connectBody': 'Scan once: Settings -> WeRead -> Re-scan. The shelf syncs automatically and books open right here.',
+      'onboard.connect': 'Scan to connect',
+      'onboard.expiredTitle': 'Your WeRead session expired',
+      'onboard.expiredBody': 'One scan brings it back. Your shelf and progress stay on this machine.',
+      'onboard.reconnect': 'Re-scan',
       'home.wechatLine': 'WeRead {percent}% · {minutes} min so far',
       'home.weekCard': 'This week',
       'home.weekdays': 'M T W T F S S',
@@ -918,6 +938,11 @@ window.__ModuleLoader__.load({
 
       /* ---------- 广场 ---------- */
       '.pb-srcbar{display:flex;gap:4px;margin:0 0 16px}',
+      '.pb-onboard{display:none;align-items:center;gap:16px;justify-content:space-between;padding:14px 18px;border-radius:10px;',
+      'border:1px solid var(--pb-line-strong);background:var(--pb-panel2);margin:0 0 20px}',
+      '.pb-onboard[data-show="1"]{display:flex}',
+      '.pb-onboard-main b{font-size:13px}',
+      '.pb-onboard-main p{margin:2px 0 0;font-size:12px;color:var(--dsw-alias-label-secondary);max-width:62ch}',
       '.pb-modal{position:fixed;left:50%;top:22%;transform:translateX(-50%);width:min(480px,calc(100vw - 48px));',
       'background:var(--dsw-alias-bg-layer-1);border:1px solid var(--pb-line-strong);border-radius:12px;padding:20px;',
       'box-shadow:var(--dsw-elevation-panel);z-index:40}',
@@ -2273,6 +2298,25 @@ window.__ModuleLoader__.load({
             h(
               'div',
               { className: 'pb-main' },
+              h(
+                'div',
+                { className: 'pb-onboard', 'data-show': weread && weread.connected && !/登录|失效|expired/i.test(String(weread.error || '')) ? '0' : '1' },
+                h(
+                  'div',
+                  { className: 'pb-onboard-main' },
+                  h('b', null, weread && weread.connected ? t('onboard.expiredTitle') : t('onboard.connectTitle')),
+                  h('p', null, weread && weread.connected ? t('onboard.expiredBody') : t('onboard.connectBody')),
+                ),
+                h(
+                  'button',
+                  {
+                    type: 'button',
+                    className: 'pb-btn pb-btn-primary',
+                    onClick: () => props.onConnect && props.onConnect(),
+                  },
+                  weread && weread.connected ? t('onboard.reconnect') : t('onboard.connect'),
+                ),
+              ),
               props.continueBook
                 ? h(ContinueBar, {
                     t,
@@ -2849,6 +2893,7 @@ window.__ModuleLoader__.load({
       const [query, setQuery] = useState('');
       const [busy, setBusy] = useState('');
       const [error, setError] = useState('');
+      const [errorCode, setErrorCode] = useState('');
       const [results, setResults] = useState(null);
       const [advanced, setAdvanced] = useState(false);
       const [link, setLink] = useState('');
@@ -4560,6 +4605,7 @@ window.__ModuleLoader__.load({
           } catch (err) {
             if (!aliveRef.current) return;
             setError(errorText(err));
+            setErrorCode(String(err?.code || ''));
             setStatus('error');
           }
         },
@@ -5439,23 +5485,43 @@ window.__ModuleLoader__.load({
           t('reader.loading'),
         );
       } else if (status === 'error') {
+        const missing = errorCode === 'NOTFOUND';
+        const authIssue = errorCode === 'AUTH' || /登录|Cookie|失效|expired/i.test(String(error));
         body = h(
           'div',
           { className: 'pb-chapter-error' },
-          h('p', null, t('reader.chapterError') + '：' + error),
+          h(
+            'p',
+            null,
+            missing
+              ? t('reader.gone')
+              : authIssue
+                ? t('reader.expired')
+                : t('reader.chapterError') + '：' + error,
+          ),
+          authIssue && !missing ? h('p', { className: 'pb-hint', style: { marginTop: -6 } }, t('reader.expiredHint')) : null,
           h(
             'div',
             { style: { display: 'flex', gap: 8, justifyContent: 'center' } },
-            h(
-              'button',
-              { type: 'button', className: 'pb-btn', onClick: () => loadChapter(chapterIndex, null) },
-              t('reader.retry'),
-            ),
-            /登录|Cookie|失效|expired/i.test(String(error))
+            missing
+              ? null
+              : h(
+                  'button',
+                  { type: 'button', className: 'pb-btn', onClick: () => loadChapter(chapterIndex, null) },
+                  t('reader.retry'),
+                ),
+            authIssue && !missing
               ? h(
                   'button',
                   { type: 'button', className: 'pb-btn pb-btn-primary', onClick: () => props.onReconnect && props.onReconnect() },
                   t('reader.reconnect'),
+                )
+              : null,
+            missing
+              ? h(
+                  'button',
+                  { type: 'button', className: 'pb-btn pb-btn-primary', onClick: () => props.onExit && props.onExit() },
+                  t('reader.backToShelf'),
                 )
               : null,
           ),
