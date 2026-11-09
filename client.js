@@ -115,6 +115,7 @@ window.__ModuleLoader__.load({
       'reader.chapterError': '这一章没打开',
       'reader.chapterMissing': '这一章还是空的',
       'reader.retry': '重试',
+      'reader.reconnect': '重新连接微信读书',
       'reader.theme': '纸张',
       'reader.themePaper': '纸白',
       'reader.themeSepia': '米黄',
@@ -245,6 +246,8 @@ window.__ModuleLoader__.load({
       'settings.disconnected': '未连接',
       'settings.wereadLine': '账号 {account} · 上次同步 {time} · 书架 {n} 本',
       'settings.wereadEmpty': '还没有连接微信读书。点「重新扫码」把账号连上。',
+      'settings.wereadLongSession': '长期会话：票会自动续期，不用再扫。',
+      'settings.wereadShortSession': '短期会话：一两天后要重新扫码。点「重新扫码」会自动补齐长期凭据。',
       'settings.rescan': '重新扫码',
       'settings.disconnect': '断开',
       'settings.github': 'GitHub 书库',
@@ -462,6 +465,7 @@ window.__ModuleLoader__.load({
       'reader.chapterError': 'This chapter did not open',
       'reader.chapterMissing': 'This chapter is empty',
       'reader.retry': 'Retry',
+      'reader.reconnect': 'Reconnect WeRead',
       'reader.theme': 'Paper',
       'reader.themePaper': 'Paper',
       'reader.themeSepia': 'Sepia',
@@ -589,6 +593,8 @@ window.__ModuleLoader__.load({
       'settings.disconnected': 'Not connected',
       'settings.wereadLine': 'Account {account} · synced {time} · {n} books',
       'settings.wereadEmpty': 'WeRead is not connected yet. Hit “Re-scan” to link it.',
+      'settings.wereadLongSession': 'Long-lived session: the ticket renews itself.',
+      'settings.wereadShortSession': 'Short-lived session: you will need to scan again in a day or two. Scanning again picks up the long-lived credential.',
       'settings.rescan': 'Re-scan',
       'settings.disconnect': 'Disconnect',
       'settings.github': 'GitHub library',
@@ -3803,6 +3809,13 @@ window.__ModuleLoader__.load({
                           })
                         : t('settings.wereadEmpty'),
                     ),
+                    weread && weread.connected
+                      ? h(
+                          'p',
+                          { className: 'pb-hint', style: { margin: '2px 0 0' } },
+                          weread.refreshToken ? t('settings.wereadLongSession') : t('settings.wereadShortSession'),
+                        )
+                      : null,
                   ),
                   h(
                     'div',
@@ -5431,9 +5444,20 @@ window.__ModuleLoader__.load({
           { className: 'pb-chapter-error' },
           h('p', null, t('reader.chapterError') + '：' + error),
           h(
-            'button',
-            { type: 'button', className: 'pb-btn', onClick: () => loadChapter(chapterIndex, null) },
-            t('reader.retry'),
+            'div',
+            { style: { display: 'flex', gap: 8, justifyContent: 'center' } },
+            h(
+              'button',
+              { type: 'button', className: 'pb-btn', onClick: () => loadChapter(chapterIndex, null) },
+              t('reader.retry'),
+            ),
+            /登录|Cookie|失效|expired/i.test(String(error))
+              ? h(
+                  'button',
+                  { type: 'button', className: 'pb-btn pb-btn-primary', onClick: () => props.onReconnect && props.onReconnect() },
+                  t('reader.reconnect'),
+                )
+              : null,
           ),
         );
       } else if (blocks.length === 0) {
@@ -6299,6 +6323,7 @@ window.__ModuleLoader__.load({
                   onToast: say,
                   onNotesChanged: refreshAfterReading,
                   onOpenNotes: () => openNotesPage(session ? session.book : null),
+                  onReconnect: () => setSheet(true),
                 })
               : null,
             sheet

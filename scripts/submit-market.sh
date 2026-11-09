@@ -16,7 +16,7 @@ FILE="data/plugins/${OWNER}__${REPO}.yml"
 SRC="$(cd "$(dirname "$0")/.." && pwd)/market/${OWNER}__${REPO}.yml"
 
 command -v gh >/dev/null || { echo "需要 GitHub CLI: https://cli.github.com"; exit 1; }
-gh auth status >/dev/null
+gh auth status --active >/dev/null
 
 work="$(mktemp -d)"
 trap 'rm -rf "$work"' EXIT
