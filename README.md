@@ -2,6 +2,10 @@
 
 <img src="assets/banner.svg" alt="灯下 Lamplit" width="100%">
 
+<img src="assets/demo.gif" alt="灯下 30 秒演示：扫码同步微信读书 → 打开一本书 → 划词问 AI → 存成笔记" width="100%">
+
+<p align="center"><sub>30 秒：扫码同步微信读书 → 打开一本书 → 划词问 AI → 存成笔记（界面示意，按最终实现绘制）</sub></p>
+
 **One quiet shelf for WeChat Reading, GitHub book repos and your own files — inside [DeepSeek Harness](https://github.com/deepseek-ai).**
 
 [![npm](https://img.shields.io/npm/v/dsh-lamplit?color=c9603c)](https://www.npmjs.com/package/dsh-lamplit)

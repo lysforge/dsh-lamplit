@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>灯下 · 演示</title>
+<style>
+  :root{
+    --bg:#141416; --panel:#1b1b1e; --panel2:#212125; --line:#2b2b30; --ink:#e8e4dc; --ink2:#a9a49b; --ink3:#6f6a63;
+    --accent:#c9603c; --accent2:#f2c987;
+    --serif:"Songti SC","Noto Serif SC",Georgia,serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;
+       width:1280px;height:800px;overflow:hidden}
+  .frame{position:absolute;inset:0;padding:28px 56px;display:none}
+  .frame[data-on]{display:block;animation:fade .5s ease both}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .top{display:flex;align-items:center;gap:28px;padding-bottom:18px;border-bottom:1px solid var(--line);margin-bottom:28px}
+  .brand{font-family:var(--serif);font-size:17px;letter-spacing:.08em;color:var(--ink)}
+  .brand:after{content:"";display:inline-block;width:1px;height:14px;background:var(--line);margin:0 0 -2px 14px}
+  .top nav{display:flex;gap:22px;font-size:14px;color:var(--ink2)}
+  .top nav b{color:var(--ink);position:relative}
+  .top nav b:after{content:"";position:absolute;left:0;right:0;bottom:-19px;height:2px;background:var(--accent2)}
+  .spacer{flex:1}
+  .search{width:300px;height:34px;border-radius:8px;background:var(--panel2);border:1px solid var(--line);
+          color:var(--ink3);font-size:13px;display:flex;align-items:center;padding:0 12px}
+  h1{font-family:var(--serif);font-size:26px;font-weight:600;margin:0 0 6px}
+  .sub{color:var(--ink3);font-size:13px;margin:0 0 22px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+  .row{display:flex;align-items:center;gap:16px}
+  .cover{border-radius:4px;background:linear-gradient(150deg,#6b5f4a,#2b2419);display:grid;place-items:center;
+         font-family:var(--serif);color:#e8e4dc;box-shadow:0 6px 18px rgba(0,0,0,.45)}
+  .qr{width:190px;height:190px;background:#f6f3ea;border-radius:10px;display:grid;place-items:center}
+  .qr i{display:block;width:150px;height:150px;background:
+     repeating-conic-gradient(#141416 0 25%, #f6f3ea 0 50%) 0 0/14px 14px;border-radius:3px}
+  .btn{border:1px solid var(--line);background:var(--panel2);color:var(--ink);border-radius:8px;padding:8px 16px;font-size:13px}
+  .btn.primary{background:var(--accent2);border-color:var(--accent2);color:#221a12}
+  .modal{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);width:520px;background:var(--panel);
+         border:1px solid var(--line);border-radius:14px;padding:22px 24px;box-shadow:0 24px 60px rgba(0,0,0,.6)}
+  .scrim{position:absolute;inset:0;background:rgba(8,8,10,.55)}
+  .prose{max-width:640px;margin:32px auto 0;font-family:var(--serif);font-size:18px;line-height:1.95;color:#ded9d0}
+  .prose h2{font-size:20px;margin:0 0 18px;color:var(--ink)}
+  .prose mark{background:rgba(201,96,60,.35);border-radius:3px;padding:1px 2px;color:#fff}
+  .selbar{position:absolute;left:50%;transform:translateX(-50%);bottom:96px;background:var(--panel2);border:1px solid var(--line);
+          border-radius:10px;padding:8px 6px;display:flex;gap:2px;box-shadow:0 12px 30px rgba(0,0,0,.5)}
+  .selbar span{font-size:13px;color:var(--ink2);padding:5px 11px;border-radius:6px}
+  .selbar span.hot{color:var(--accent2)}
+  .ai{position:absolute;right:56px;top:120px;width:430px;background:var(--panel);border:1px solid var(--line);border-radius:12px;
+      padding:16px 18px;box-shadow:0 18px 40px rgba(0,0,0,.55)}
+  .ai h3{margin:0 0 4px;font-size:13px;color:var(--ink2);font-weight:500}
+  .ai p{margin:10px 0;font-size:14px;line-height:1.75;color:#ded9d0}
+  .ai .foot{display:flex;gap:8px;margin-top:12px}
+  .toast{position:absolute;left:50%;transform:translateX(-50%);bottom:40px;background:var(--panel2);border:1px solid var(--line);
+         border-radius:800px;padding:8px 18px;font-size:13px;color:var(--accent2)}
+  .steps{position:absolute;left:56px;bottom:26px;display:flex;gap:8px;font-size:12px;color:var(--ink3)}
+  .steps i{width:22px;height:3px;border-radius:2px;background:var(--line);font-style:normal}
+  .steps i[data-on]{background:var(--accent2)}
+</style>
+</head>
+<body>
+<div class="frame" data-scene="home">
+  <div class="top"><span class="brand">灯下</span><nav><b>首页</b><span>书架</span><span>广场</span><span>设置</span></nav>
+    <span class="spacer"></span><span class="search">搜书名、作者</span></div>
+  <h1>继续阅读</h1><p class="sub">乌合之众（译文经典） · 第 3 章 · 群体的一般特征</p>
+  <div class="card row">
+    <div class="cover" style="width:88px;height:117px;font-size:15px">乌合<br>之众</div>
+    <div style="flex:1">
+      <div style="font-family:var(--serif);font-size:22px;margin-bottom:8px">乌合之众（译文经典）</div>
+      <div style="color:var(--ink3);font-size:13px">第 3 章 · 群体的一般特征</div>
+      <div style="height:3px;background:var(--line);border-radius:2px;margin:14px 0 8px;width:420px">
+        <div style="height:3px;width:34%;background:var(--accent2);border-radius:2px"></div></div>
+      <div style="color:var(--ink3);font-size:12px">已读 34% · 微信读书进度 34% · 累计 312 分钟</div>
+    </div>
+    <button class="btn primary">继续阅读</button>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px">
+    <div class="card"><div style="color:var(--ink3);font-size:12px">本周阅读</div>
+      <div style="font-family:var(--serif);font-size:30px;margin:6px 0">4.2<span style="font-size:14px;color:var(--ink3)"> 小时</span></div>
+      <div style="color:var(--ink3);font-size:12px">连续 9 天</div></div>
+    <div class="card"><div style="color:var(--ink3);font-size:12px">书架</div>
+      <div style="font-family:var(--serif);font-size:30px;margin:6px 0">76<span style="font-size:14px;color:var(--ink3)"> 本</span></div>
+      <div style="color:var(--ink3);font-size:12px">微信读书 74 · 本地 2</div></div>
+    <div class="card"><div style="color:var(--ink3);font-size:12px">微信读书</div>
+      <div style="font-size:14px;margin:8px 0 6px">账号 453009…</div>
+      <div style="color:var(--ink3);font-size:12px">已同步 · 长期会话</div></div>
+  </div>
+</div>
+
+<div class="frame" data-scene="scan">
+  <div class="top"><span class="brand">灯下</span><nav><span>首页</span><span>书架</span><b>广场</b><span>设置</span></nav>
+    <span class="spacer"></span><span class="search">搜书名、作者</span></div>
+  <div class="scrim"></div>
+  <div class="modal">
+    <div style="display:flex;align-items:center;gap:20px">
+      <div class="qr"><i></i></div>
+      <div style="flex:1">
+        <div style="font-family:var(--serif);font-size:19px;margin-bottom:6px">用微信扫码登录</div>
+        <p style="color:var(--ink2);font-size:13px;line-height:1.7;margin:0 0 12px">扫完自动同步书架，不用再复制 Cookie。<br>凭据只存在本机 <code>~/.dsh/lamplit</code>。</p>
+        <div style="display:flex;gap:8px"><button class="btn primary">我已扫码</button><button class="btn">粘贴 Cookie</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="frame" data-scene="reader">
+  <div class="prose">
+    <h2>第三章　群体的一般特征</h2>
+    <p>从平常的含义上说，「群体」一词是指聚集在一起的个人，无论他们属于什么民族、职业或性别，也不管是什么事情让他们走到了一起。</p>
+    <p>但是从心理学的角度看，<mark>「群体」一词却有着完全不同的重要含义。在某些既定的条件下，并且只有在这些条件下，一群人会表现出一些新的特点</mark>，它非常不同于组成这一群体的个人所具有的特点。</p>
+    <p>聚集成群的人，他们的感情和思想全都转到同一个方向，他们自觉的个性消失了，形成了一种集体心理。</p>
+  </div>
+  <div class="selbar"><span>解释</span><span class="hot">补充背景</span><span>记笔记</span><span>复制</span></div>
+</div>
+
+<div class="frame" data-scene="ai">
+  <div class="prose">
+    <h2>第三章　群体的一般特征</h2>
+    <p>从平常的含义上说，「群体」一词是指聚集在一起的个人。</p>
+    <p>但是从心理学的角度看，<mark>「群体」一词却有着完全不同的重要含义……形成了一种集体心理。</mark></p>
+    <p>聚集成群的人，他们的感情和思想全都转到同一个方向。</p>
+  </div>
+  <div class="ai">
+    <h3>解释这段 · 灯下</h3>
+    <p>勒庞在这里做的是一次「定义切换」：日常语义的"群体"只是人的物理聚集，而他要讨论的是**心理群体**——个体在聚集后出现的去个性化与情绪同频。</p>
+    <p style="color:var(--ink2);font-size:13px">关键在他给出的三个前提：数量、共同情绪、可被暗示的方向。缺一个，就只是人群，不是心理群体。</p>
+    <div class="foot"><button class="btn primary">存成笔记</button><button class="btn">插入书里</button></div>
+  </div>
+</div>
+
+<div class="frame" data-scene="note">
+  <div class="top"><span class="brand">灯下</span><nav><span>首页</span><b>书架</b><span>广场</span><span>设置</span></nav>
+    <span class="spacer"></span><span class="search">搜笔记</span></div>
+  <h1>笔记</h1><p class="sub">全部 24 条 · 本书 7 条</p>
+  <div class="card" style="margin-bottom:12px">
+    <div style="border-left:2px solid var(--accent);padding-left:12px;color:var(--ink2);font-size:13px;line-height:1.7">
+      「群体」一词却有着完全不同的重要含义……形成了一种集体心理。</div>
+    <p style="margin:10px 0 0;font-size:14px;line-height:1.75">勒庞做的是一次定义切换：日常语义的"群体"是物理聚集，他要讨论的是心理群体——去个性化与情绪同频。</p>
+    <div style="color:var(--ink3);font-size:12px;margin-top:8px">乌合之众 · 第 3 章 · 今天 14:32</div>
+  </div>
+  <div class="card">
+    <div style="border-left:2px solid var(--accent);padding-left:12px;color:var(--ink2);font-size:13px;line-height:1.7">
+      缺一个，就只是人群，不是心理群体。</div>
+    <p style="margin:10px 0 0;font-size:14px;line-height:1.75">三前提：数量、共同情绪、可被暗示的方向。</p>
+    <div style="color:var(--ink3);font-size:12px;margin-top:8px">乌合之众 · 第 3 章 · 今天 14:33</div>
+  </div>
+  <div class="toast">已存成笔记 · 导出为 Markdown</div>
+</div>
+
+<script>
+  const scenes = ['home','scan','reader','ai','note'];
+  const params = new URLSearchParams(location.search);
+  const only = params.get('scene');
+  if (only) {
+    document.querySelectorAll('.frame').forEach((node) => node.removeAttribute('data-on'));
+    const target = document.querySelector(`.frame[data-scene="${only}"]`);
+    if (target) target.setAttribute('data-on','');
+  } else {
+    let index = 0;
+    const tick = () => {
+      document.querySelectorAll('.frame').forEach((node) => node.removeAttribute('data-on'));
+      const node = document.querySelector(`.frame[data-scene="${scenes[index % scenes.length]}"]`);
+      if (node) node.setAttribute('data-on','');
+      index += 1;
+    };
+    tick();
+    setInterval(tick, 2600);
+  }
+</script>
+</body>
+</html>
