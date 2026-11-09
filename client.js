@@ -5694,8 +5694,6 @@ window.__ModuleLoader__.load({
       }
     }
 
-    const GuardedPage = (props) => h(PageBoundary, null, h(Page, props));
-
     function makePage(t) {
       return function LamplitPage(props) {
         const tr = (props && typeof props.t === 'function' && props.t) || t;
@@ -6477,6 +6475,7 @@ window.__ModuleLoader__.load({
 
       const t = ctx.locale.bind(NS);
       const Page = makePage(t);
+      const GuardedPage = (props) => h(PageBoundary, null, h(Page, props));
 
       ctx.slots.inject('sidebar.panellist', () =>
         ctx.slots.register(
