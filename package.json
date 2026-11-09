@@ -1,6 +1,6 @@
 {
   "name": "dsh-lamplit",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "灯下 Lamplit —— 把微信读书、番茄小说和你自己的 PDF / EPUB 收进同一个书架，用沉浸式阅读器慢慢读。",
   "license": "MIT",
   "author": "lysforge",
