@@ -46,16 +46,40 @@ console.error = (...args) => {
 const state = JSON.parse(fs.readFileSync('/Users/abcerk/Desktop/pillowbook/tools/fixtures/state.json', 'utf8'))
 globalThis.fetch = async (url) => {
   const u = String(url)
-  const payload = u.includes('/api/state')
-    ? state
-    : u.includes('/discover/github/repos')
-      ? { ok: true, repos: [{ spec: 'rpmuller/ePubs', owner: 'rpmuller', repo: 'ePubs', path: '' }], hasToken: false }
-      : u.includes('/discover/github/files')
-        ? { ok: true, files: [{ path: 'a.epub', name: 'a.epub', size: 100, kind: 'epub' }], branch: 'master' }
-        : u.includes('/api/notes')
-          ? { ok: true, notes: [] }
-          : { ok: true }
-  return new Response(JSON.stringify(payload), { headers: { 'content-type': 'application/json' } })
+  const json = (payload) => new Response(JSON.stringify(payload), { headers: { 'content-type': 'application/json' } })
+
+  const chapterMatch = /\/api\/book\/([^/?]+)\/chapter\/(\d+)/.exec(u)
+  if (chapterMatch) {
+    const index = Number(chapterMatch[2])
+    return json({
+      ok: true,
+      chapter: {
+        index,
+        title: '第 ' + (index + 1) + ' 章',
+        blocks: [{ type: 'p', text: '正文内容，用来验证阅读器渲染。' }],
+      },
+      prev: index > 0 ? index - 1 : null,
+      next: index < 2 ? index + 1 : null,
+      total: 3,
+    })
+  }
+
+  const bookMatch = /\/api\/book\/([^/?]+)$/.exec(u)
+  if (bookMatch) {
+    const id = decodeURIComponent(bookMatch[1])
+    const book = (state.shelf || []).find((item) => item.id === id) || (state.shelf || [])[0]
+    return json({ ok: true, book, toc: Array.from({ length: 3 }, (_, index) => ({ index, title: '第 ' + (index + 1) + ' 章' })) })
+  }
+
+  if (u.includes('/api/state')) return json(state)
+  if (u.includes('/discover/github/repos')) {
+    return json({ ok: true, repos: [{ spec: 'rpmuller/ePubs', owner: 'rpmuller', repo: 'ePubs', path: '' }], hasToken: false })
+  }
+  if (u.includes('/discover/github/files')) {
+    return json({ ok: true, files: [{ path: 'a.epub', name: 'a.epub', size: 100, kind: 'epub' }], branch: 'master' })
+  }
+  if (u.includes('/api/notes')) return json({ ok: true, notes: [] })
+  return json({ ok: true })
 }
 
 const modules = new Map()
@@ -110,23 +134,35 @@ for (const label of views) {
 }
 
 // 再点开一本书 —— 阅读器是另一条渲染路径，崩溃只会在那里出现。
-const firstCover = [...container.querySelectorAll('button, [role="button"], .pb-cover, li')].find((node) =>
-  /pb-cover|pb-book|pb-card/.test(String(node.className || '')),
-)
-if (firstCover) {
+const clickStep = async (selector) => {
+  const node = container.querySelector(selector)
+  if (!node) return false
   try {
-    firstCover.dispatchEvent(new window.MouseEvent('click', { bubbles: true }))
+    node.dispatchEvent(new window.MouseEvent('click', { bubbles: true }))
   } catch (error) {
-    errors.push('click-cover: ' + String(error?.stack || error))
+    errors.push('click ' + selector + ': ' + String(error?.stack || error))
   }
   await tick()
   await tick()
-  console.log('reader mounted:', /pb-reader|pb-chapter|pb-prose/.test(container.innerHTML))
+  return true
+}
+
+const shelfTab = [...container.querySelectorAll('button')].find((node) => node.textContent === 'view.shelf')
+if (shelfTab) {
+  shelfTab.dispatchEvent(new window.MouseEvent('click', { bubbles: true }))
+  await tick()
+}
+
+if (await clickStep('.pb-book')) {
+  console.log('reader mounted:', /pb-reader|pb-chapter|pb-prose|pb-chapter-/.test(container.innerHTML))
 } else {
-  console.log('reader: no cover found to click')
+  console.log('reader: .pb-book 没找到')
 }
 
 console.log('rendered nodes:', container.innerHTML.length)
 if (failed) console.log('RENDER_THROW', failed?.stack?.split('\n').slice(0, 6).join('\n'))
 const unique = [...new Set(errors)]
 console.log(unique.length === 0 ? 'NO_ERRORS' : 'ERRORS:\n' + unique.slice(0, 3).join('\n---\n'))
+
+// 阅读器里有计时器，测完直接退出，别让进程挂着。
+process.exit(unique.length === 0 ? 0 : 1)

@@ -2898,7 +2898,6 @@ window.__ModuleLoader__.load({
       const [query, setQuery] = useState('');
       const [busy, setBusy] = useState('');
       const [error, setError] = useState('');
-      const [errorCode, setErrorCode] = useState('');
       const [results, setResults] = useState(null);
       const [advanced, setAdvanced] = useState(false);
       const [link, setLink] = useState('');
@@ -4550,6 +4549,7 @@ window.__ModuleLoader__.load({
       const [chapterIndex, setChapterIndex] = useState(startIndex);
       const [status, setStatus] = useState('loading');
       const [error, setError] = useState('');
+      const [errorCode, setErrorCode] = useState('');
       const [overlay, setOverlay] = useState(null);
       const [chrome, setChrome] = useState(true);
       const [page, setPage] = useState(0);
