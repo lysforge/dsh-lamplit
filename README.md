@@ -92,7 +92,7 @@ Harness 里已经有聊天、终端、文件系统。读书缺的从来不是「
 或者命令行（npm 上是 `dsh-lamplit`，带 SLSA provenance）：
 
 ```bash
-dsh plugin --profile <profile> add dsh-lamplit
+dsh plugin --profile web add dsh-lamplit
 ```
 
 **装不上 npm 时用 Release 附件**
