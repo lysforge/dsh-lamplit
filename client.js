@@ -3550,6 +3550,11 @@ window.__ModuleLoader__.load({
       const catalogue = status === 'ready' || status === 'loading' ? results : browse;
       const shownBooks = status === 'ready' || status === 'loading' ? catalogue : catalogue.slice(shuffleSeed * 10, shuffleSeed * 10 + 10);
 
+      const shelfWeread = new Map(
+        (Array.isArray(props.shelf) ? props.shelf : [])
+          .filter((book) => book.source === 'weread' && book.sourceId)
+          .map((book) => [String(book.sourceId), book]),
+      );
       const wereadProvider = (props.providers || []).find((item) => item.id === 'weread') || null;
       const wereadBroken = wereadProvider && wereadProvider.connected && wereadProvider.sessionValid === false;
 
@@ -3620,6 +3625,7 @@ window.__ModuleLoader__.load({
               { className: 'pb-list pb-plaza-list' },
               shownBooks.map((item) => {
                 const id = String(item.bookId || item.id || item.title);
+                const local = shelfWeread.get(String(item.bookId || '')) || null;
                 return h(
                   'li',
                   { className: 'pb-item', key: id },
@@ -3632,8 +3638,13 @@ window.__ModuleLoader__.load({
                   ),
                   h(
                     'button',
-                    { type: 'button', className: 'pb-btn', onClick: () => props.onOpen && props.onOpen(item) },
-                    t('plaza.open'),
+                    {
+                      type: 'button',
+                      className: local ? 'pb-btn' : 'pb-btn pb-btn-primary',
+                      onClick: () => (local ? props.onOpen && props.onOpen(local) : add(item)),
+                      disabled: !local && busy === id,
+                    },
+                    local ? t('plaza.open') : busy === id ? t('plaza.downloading') : t('plaza.add'),
                   ),
                 );
               }),
