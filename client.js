@@ -219,6 +219,7 @@ window.__ModuleLoader__.load({
       'plaza.weread': '微信读书',
       'plaza.github': 'GitHub 书库',
       'plaza.open': '打开',
+      'plaza.needLogin': '微信读书的登录过期了，重新扫码后这里才有书。',
       'plaza.wereadPlaceholder': '搜书名、作者，例如 基督山伯爵',
       'plaza.search': '搜索',
       'plaza.searching': '搜索中…',
@@ -253,6 +254,7 @@ window.__ModuleLoader__.load({
       'settings.sources': '来源',
       'settings.sourcesDesc': '账号只存在本机 ~/.dsh/lamplit，不上传。',
       'settings.connected': '已连接',
+      'settings.expired': '已过期',
       'settings.disconnected': '未连接',
       'settings.wereadLine': '账号 {account} · 上次同步 {time} · 书架 {n} 本',
       'settings.wereadEmpty': '还没有连接微信读书。点「重新扫码」把账号连上。',
@@ -610,6 +612,7 @@ window.__ModuleLoader__.load({
       'settings.sources': 'Sources',
       'settings.sourcesDesc': 'Accounts stay in ~/.dsh/lamplit on this machine.',
       'settings.connected': 'Connected',
+      'settings.expired': 'Expired',
       'settings.disconnected': 'Not connected',
       'settings.wereadLine': 'Account {account} · synced {time} · {n} books',
       'settings.wereadEmpty': 'WeRead is not connected yet. Hit “Re-scan” to link it.',
@@ -943,6 +946,8 @@ window.__ModuleLoader__.load({
       '.pb-boundary h2{margin:0 0 6px;font-size:15px}',
       '.pb-boundary pre{margin:12px 0;padding:12px;border-radius:8px;background:var(--dsw-alias-bg-layer-1);',
       'font-size:12px;overflow:auto;max-height:40vh;white-space:pre-wrap;word-break:break-word}',
+      '.pb-plaza-broken{padding:36px 0;text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px}',
+      '.pb-plaza-broken p{margin:0;color:var(--dsw-alias-label-secondary);font-size:13px}',
       '.pb-onboard{display:none;align-items:center;gap:16px;justify-content:space-between;padding:14px 18px;border-radius:10px;',
       'border:1px solid var(--pb-line-strong);background:var(--pb-panel2);margin:0 0 20px}',
       '.pb-onboard[data-show="1"]{display:flex}',
@@ -2305,7 +2310,13 @@ window.__ModuleLoader__.load({
               { className: 'pb-main' },
               h(
                 'div',
-                { className: 'pb-onboard', 'data-show': weread && weread.connected && !/登录|失效|expired/i.test(String(weread.error || '')) ? '0' : '1' },
+                {
+                  className: 'pb-onboard',
+                  'data-show':
+                    weread && weread.connected && weread.sessionValid !== false && !/登录|失效|expired/i.test(String(weread.error || ''))
+                      ? '0'
+                      : '1',
+                },
                 h(
                   'div',
                   { className: 'pb-onboard-main' },
@@ -3539,7 +3550,21 @@ window.__ModuleLoader__.load({
       const catalogue = status === 'ready' || status === 'loading' ? results : browse;
       const shownBooks = status === 'ready' || status === 'loading' ? catalogue : catalogue.slice(shuffleSeed * 10, shuffleSeed * 10 + 10);
 
-      const weread = h(
+      const wereadProvider = (props.providers || []).find((item) => item.id === 'weread') || null;
+      const wereadBroken = wereadProvider && wereadProvider.connected && wereadProvider.sessionValid === false;
+
+      const weread = wereadBroken
+        ? h(
+            'div',
+            { className: 'pb-plaza-broken' },
+            h('p', null, t('plaza.needLogin')),
+            h(
+              'button',
+              { type: 'button', className: 'pb-btn pb-btn-primary', onClick: () => props.onReconnect && props.onReconnect() },
+              t('reader.reconnect'),
+            ),
+          )
+        : h(
         'div',
         null,
         h(
@@ -3845,7 +3870,15 @@ window.__ModuleLoader__.load({
                       'b',
                       null,
                       t('filter.weread'),
-                      h('span', { className: 'pb-state', 'data-on': weread && weread.connected ? '1' : '0' }, weread && weread.connected ? t('settings.connected') : t('settings.disconnected')),
+                      h(
+                        'span',
+                        { className: 'pb-state', 'data-on': weread && weread.connected && weread.sessionValid !== false ? '1' : '0' },
+                        weread && weread.connected
+                          ? weread.sessionValid === false
+                            ? t('settings.expired')
+                            : t('settings.connected')
+                          : t('settings.disconnected'),
+                      ),
                     ),
                     h(
                       'p',
@@ -6233,6 +6266,24 @@ window.__ModuleLoader__.load({
           [shelf],
         );
 
+        // 进面板先确认微信读书的会话还能不能用：过期就别再装作已连接。只在挂载时探一次。
+        const probedRef = useRef(false);
+        useEffect(() => {
+          if (probedRef.current) return;
+          const weread = (data.providers || []).find((item) => item.id === 'weread');
+          if (!weread || !weread.connected) return;
+          probedRef.current = true;
+          call('/provider/weread/status')
+            .then((res) => {
+              if (!res || !res.provider) return;
+              setData((current) => ({
+                ...current,
+                providers: (current.providers || []).map((item) => (item.id === 'weread' ? res.provider : item)),
+              }));
+            })
+            .catch(() => {});
+        }, [data.providers]);
+
         // 正在读的书如果被同步/删除移出了书架，就退出阅读器，别让人对着 404 干瞪眼。
         useEffect(() => {
           if (!session) return;
@@ -6337,7 +6388,14 @@ window.__ModuleLoader__.load({
                 dragging ? h('div', { className: 'pb-drop' }, h('strong', null, tr('shelf.dropTitle')), h('span', null, tr('shelf.dropHint'))) : null,
               )
             : view === 'plaza'
-              ? h(PlazaPage, { t: tr, onAdded: loadState, shelf: data.shelf, onOpen: openBook })
+              ? h(PlazaPage, {
+                  t: tr,
+                  onAdded: loadState,
+                  shelf: data.shelf,
+                  providers: data.providers,
+                  onOpen: openBook,
+                  onReconnect: () => setSheet(true),
+                })
               : view === 'settings'
                 ? h(SettingsPage, {
                     t: tr,
