@@ -44,6 +44,11 @@ console.error = (...args) => {
 }
 
 const state = JSON.parse(fs.readFileSync('/Users/abcerk/Desktop/pillowbook/tools/fixtures/state.json', 'utf8'))
+// 让「会话过期」这条路径也参与测试：它决定首页引导条与广场重连卡是否出现。
+for (const provider of state.providers || []) {
+  if (provider.id === 'weread') provider.sessionValid = false
+}
+
 globalThis.fetch = async (url) => {
   const u = String(url)
   const json = (payload) => new Response(JSON.stringify(payload), { headers: { 'content-type': 'application/json' } })
@@ -147,6 +152,33 @@ const clickStep = async (selector) => {
   return true
 }
 
+// 回到首页再看引导条（上面的循环最后停在了广场）
+const homeTab = [...container.querySelectorAll('button')].find((node) => node.textContent === 'view.home')
+if (homeTab) {
+  homeTab.dispatchEvent(new window.MouseEvent('click', { bubbles: true }))
+  await tick()
+}
+
+// 首页引导条：点「重新扫码」必须真的弹出扫码面板（prop 忘了传就是死按钮）
+const onboardNode = container.querySelector('.pb-onboard')
+console.log('onboard node:', Boolean(onboardNode), '| data-show:', onboardNode && onboardNode.getAttribute('data-show'))
+const onboardButton = container.querySelector('.pb-onboard .pb-btn')
+if (onboardButton) {
+  onboardButton.dispatchEvent(new window.MouseEvent('click', { bubbles: true }))
+  await tick()
+  const opened = Boolean(container.querySelector('.pb-sheet'))
+  console.log('onboard click opens sheet:', opened)
+  if (!opened) errors.push('onboard: 点「重新扫码」没有打开面板（HomePage 少了 onConnect）')
+} else {
+  console.log('onboard: 没有出现引导条')
+}
+
+// 关掉面板，切到书架，再点开一本书
+const sheetScrim = container.querySelector('.pb-scrim')
+if (sheetScrim) {
+  sheetScrim.dispatchEvent(new window.MouseEvent('click', { bubbles: true }))
+  await tick()
+}
 const shelfTab = [...container.querySelectorAll('button')].find((node) => node.textContent === 'view.shelf')
 if (shelfTab) {
   shelfTab.dispatchEvent(new window.MouseEvent('click', { bubbles: true }))

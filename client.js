@@ -6457,6 +6457,7 @@ window.__ModuleLoader__.load({
                         onOpenStats: () => setView('stats'),
                         onView: setView,
                         onSync: syncProvider,
+                        onConnect: () => setSheet(true),
                       });
 
         return h(
