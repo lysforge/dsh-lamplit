@@ -71,7 +71,7 @@ const registered = []
 const ctx = {
   locale: {
     register: () => () => {},
-    bind: () => (key, vars) => (vars ? `${key}` : key),
+    bind: () => (key) => String(key),
     getLocale: () => ({ id: 'zh' }),
   },
   slots: {
@@ -107,6 +107,23 @@ for (const label of views) {
     errors.push(String(error?.stack || error))
   }
   await tick()
+}
+
+// 再点开一本书 —— 阅读器是另一条渲染路径，崩溃只会在那里出现。
+const firstCover = [...container.querySelectorAll('button, [role="button"], .pb-cover, li')].find((node) =>
+  /pb-cover|pb-book|pb-card/.test(String(node.className || '')),
+)
+if (firstCover) {
+  try {
+    firstCover.dispatchEvent(new window.MouseEvent('click', { bubbles: true }))
+  } catch (error) {
+    errors.push('click-cover: ' + String(error?.stack || error))
+  }
+  await tick()
+  await tick()
+  console.log('reader mounted:', /pb-reader|pb-chapter|pb-prose/.test(container.innerHTML))
+} else {
+  console.log('reader: no cover found to click')
 }
 
 console.log('rendered nodes:', container.innerHTML.length)

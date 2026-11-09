@@ -938,6 +938,11 @@ window.__ModuleLoader__.load({
 
       /* ---------- 广场 ---------- */
       '.pb-srcbar{display:flex;gap:4px;margin:0 0 16px}',
+      '.pb-boundary{max-width:760px;margin:40px auto;padding:20px 22px;border:1px solid var(--pb-line-strong);border-radius:12px;',
+      'background:var(--pb-panel2);font-size:13px;line-height:1.6}',
+      '.pb-boundary h2{margin:0 0 6px;font-size:15px}',
+      '.pb-boundary pre{margin:12px 0;padding:12px;border-radius:8px;background:var(--dsw-alias-bg-layer-1);',
+      'font-size:12px;overflow:auto;max-height:40vh;white-space:pre-wrap;word-break:break-word}',
       '.pb-onboard{display:none;align-items:center;gap:16px;justify-content:space-between;padding:14px 18px;border-radius:10px;',
       'border:1px solid var(--pb-line-strong);background:var(--pb-panel2);margin:0 0 20px}',
       '.pb-onboard[data-show="1"]{display:flex}',
@@ -5652,6 +5657,45 @@ window.__ModuleLoader__.load({
     /* Page                                                                */
     /* ------------------------------------------------------------------ */
 
+    /** 渲染期崩溃时把错误显示出来，而不是留一块黑屏。 */
+    class PageBoundary extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = { message: '' };
+      }
+
+      static getDerivedStateFromError(error) {
+        return { message: String((error && (error.stack || error.message)) || error) };
+      }
+
+      componentDidCatch(error) {
+        // 让宿主日志里也能看到
+        if (typeof console !== 'undefined' && console.error) console.error('[lamplit] render failed:', error);
+      }
+
+      render() {
+        if (this.state.message === '') return this.props.children;
+        return h(
+          'div',
+          { className: 'pb-root' },
+          h(
+            'div',
+            { className: 'pb-boundary' },
+            h('h2', null, '灯下这一屏出错了'),
+            h('p', null, '把下面这段发给我，我据此修。界面其它部分还能用：刷新一次可回到书架。'),
+            h('pre', null, this.state.message.slice(0, 1200)),
+            h(
+              'button',
+              { type: 'button', className: 'pb-btn pb-btn-primary', onClick: () => location.reload() },
+              '重新加载',
+            ),
+          ),
+        );
+      }
+    }
+
+    const GuardedPage = (props) => h(PageBoundary, null, h(Page, props));
+
     function makePage(t) {
       return function LamplitPage(props) {
         const tr = (props && typeof props.t === 'function' && props.t) || t;
@@ -6454,7 +6498,7 @@ window.__ModuleLoader__.load({
             key: 'lamplit',
             locale: NS,
           },
-          Page,
+          GuardedPage,
         ),
       );
     }
