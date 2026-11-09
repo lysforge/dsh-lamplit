@@ -940,7 +940,10 @@ window.__ModuleLoader__.load({
       '.pb-book-body{display:flex;flex-direction:column;gap:4px;min-width:0}',
 
       /* ---------- 广场 ---------- */
-      '.pb-srcbar{display:flex;gap:4px;margin:0 0 16px}',
+      '.pb-srcbar{display:flex;flex-wrap:nowrap;gap:8px;margin:0 0 16px;overflow-x:auto;overflow-y:hidden;',
+      'padding-bottom:2px;scrollbar-width:none}',
+      '.pb-srcbar::-webkit-scrollbar{display:none}',
+      '.pb-srcchip{white-space:nowrap;flex:none;max-width:280px;overflow:hidden;text-overflow:ellipsis}',
       '.pb-boundary{max-width:760px;margin:40px auto;padding:20px 22px;border:1px solid var(--pb-line-strong);border-radius:12px;',
       'background:var(--pb-panel2);font-size:13px;line-height:1.6}',
       '.pb-boundary h2{margin:0 0 6px;font-size:15px}',
@@ -3735,7 +3738,7 @@ window.__ModuleLoader__.load({
                         setSource('github');
                       },
                     },
-                    'GitHub · ' + repo.owner + ' / ' + repo.repo,
+                    repo.owner + ' / ' + repo.repo,
                   ),
                 ),
               ),
